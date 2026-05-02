@@ -1,0 +1,187 @@
+### Career Intelligence Platform — HTTP Tests
+### Import into Postman OR run with IntelliJ HTTP Client
+
+@base = http://localhost:8080
+@token = {{authToken}}
+
+### ═══════════════════════════════════════
+### 🔐 AUTH — Signup
+### ═══════════════════════════════════════
+POST {{base}}/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Rahul Sharma",
+  "email": "rahul@cip.com",
+  "password": "password123",
+  "role": "STUDENT"
+}
+
+###
+### 🔐 AUTH — Login
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "rahul@cip.com",
+  "password": "password123"
+}
+
+###
+### 🔐 AUTH — Get Current User
+GET {{base}}/auth/me
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 👤 STUDENT — Get Profile
+### ═══════════════════════════════════════
+GET {{base}}/student/profile
+Authorization: Bearer {{token}}
+
+###
+### 👤 STUDENT — Update Profile
+PUT {{base}}/student/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "phone": "+91-9876543210",
+  "institution": "IIT Indore",
+  "department": "Computer Science",
+  "graduationYear": 2025,
+  "skills": [
+    {"name": "Java", "proficiency": "ADVANCED", "yearsExperience": 2},
+    {"name": "Spring Boot", "proficiency": "INTERMEDIATE", "yearsExperience": 1},
+    {"name": "SQL", "proficiency": "INTERMEDIATE", "yearsExperience": 2}
+  ],
+  "academicData": {
+    "cgpa": 8.1,
+    "currentSemester": 7,
+    "totalSemesters": 8,
+    "degree": "B.Tech",
+    "specialization": "Software Engineering",
+    "subjects": ["DSA", "DBMS", "OS", "CN"],
+    "achievements": ["SIH 2023 Winner"]
+  }
+}
+
+###
+### ═══════════════════════════════════════
+### 🧠 SCORE — Get My Score
+### ═══════════════════════════════════════
+GET {{base}}/score
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 📊 ANALYTICS — Get My Analytics
+### ═══════════════════════════════════════
+GET {{base}}/analytics
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 🤖 INTERVIEW — Start
+### ═══════════════════════════════════════
+POST {{base}}/interview/start
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "TECHNICAL",
+  "jobRole": "Backend Engineer",
+  "numberOfQuestions": 5
+}
+
+###
+### 🤖 INTERVIEW — Submit Answer
+POST {{base}}/interview/answer
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "interviewId": 1,
+  "questionIndex": 0,
+  "answer": "A thread is a lightweight unit of execution within a process. Threads share the same memory space but have their own stack, register set, and program counter. Processes are heavyweight with separate memory spaces.",
+  "timeTakenSeconds": 90
+}
+
+###
+### 🤖 INTERVIEW — End Session
+POST {{base}}/interview/end?interviewId=1
+Authorization: Bearer {{token}}
+
+###
+### 🤖 INTERVIEW — Get Result
+GET {{base}}/interview/result/1
+Authorization: Bearer {{token}}
+
+###
+### 🤖 INTERVIEW — History
+GET {{base}}/interview/history
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 🎯 JOBS — All Jobs
+### ═══════════════════════════════════════
+GET {{base}}/jobs?page=0&size=10
+Authorization: Bearer {{token}}
+
+###
+### 🎯 JOBS — Recommended (pass readiness + skills)
+GET {{base}}/jobs/recommended?readiness=68&skills=Java&skills=Spring Boot&skills=SQL
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 🗺 ROADMAP
+### ═══════════════════════════════════════
+GET {{base}}/roadmap?role=backend-engineer&level=Almost+Ready&skills=Java&skills=SQL
+Authorization: Bearer {{token}}
+
+###
+### 🗺 SKILL RECOMMENDATIONS
+GET {{base}}/recommendations/skills?readiness=68&skills=Java&skills=SQL&targetRole=backend-engineer
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### 📄 RESUME — Upload (use multipart in Postman)
+### ═══════════════════════════════════════
+# POST {{base}}/resume/upload
+# Authorization: Bearer {{token}}
+# Content-Type: multipart/form-data; boundary=----FormBoundary
+# (attach file=<your-resume.pdf>)
+
+###
+### 📄 RESUME — Get All Resumes
+GET {{base}}/resume
+Authorization: Bearer {{token}}
+
+###
+### ═══════════════════════════════════════
+### ADMIN — Signup as admin
+### ═══════════════════════════════════════
+POST {{base}}/auth/signup
+Content-Type: application/json
+
+{
+  "name": "Admin User",
+  "email": "admin@cip.com",
+  "password": "adminpass123",
+  "role": "ADMIN"
+}
+
+###
+### ADMIN — Seed Sample Jobs
+###
+### ADMIN — Platform Analytics
+GET {{base}}/analytics/platform
+Authorization: Bearer {{adminToken}}
+
+###
+### ADMIN — Score Leaderboard
+GET {{base}}/score/leaderboard
+Authorization: Bearer {{adminToken}}

@@ -1,0 +1,49 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: resume-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/cip_resumes
+    username: ${DB_USER:cip}
+    password: ${DB_PASSWORD:cip123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: resume-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.cip.common.events"
+
+storage:
+  type: ${STORAGE_TYPE:local}
+  local:
+    path: ${LOCAL_STORAGE_PATH:./uploads}
+  s3:
+    bucket: ${S3_BUCKET:cip-resumes}
+    region: ${AWS_REGION:ap-south-1}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

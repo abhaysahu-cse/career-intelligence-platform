@@ -1,0 +1,140 @@
+version: "3.9"
+
+services:
+  # ─── ML API Service ───────────────────────────────────────────────────────
+  ml-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cip-ml-api
+    ports:
+      - "8000:8000"
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=info
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cip-network
+    volumes:
+      - ./logs:/app/logs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ml-api.rule=PathPrefix(`/ml`)"
+
+  # ─── Kafka Consumer Service (separate worker) ──────────────────────────────
+  ml-kafka-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cip-ml-kafka-worker
+    command: python kafka/consumers.py
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cip-network
+
+  # ─── Zookeeper ────────────────────────────────────────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: cip-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - cip-network
+    volumes:
+      - zookeeper-data:/var/lib/zookeeper/data
+
+  # ─── Kafka Broker ─────────────────────────────────────────────────────────
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: cip-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - cip-network
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+  # ─── Kafka Topic Initializer ───────────────────────────────────────────────
+  kafka-init:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: cip-kafka-init
+    depends_on:
+      kafka:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      "
+      echo 'Creating Kafka topics...'
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic resume-events --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic interview-events --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic student-events --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic score-events --replication-factor 1 --partitions 3
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic recommendation-events --replication-factor 1 --partitions 3
+      echo 'Kafka topics created successfully!'
+      kafka-topics --bootstrap-server kafka:9092 --list
+      "
+    networks:
+      - cip-network
+
+  # ─── Kafka UI (monitoring) ────────────────────────────────────────────────
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: cip-kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - cip-network
+
+  # ─── Redis (for caching ML results) ──────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: cip-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru
+    networks:
+      - cip-network
+    volumes:
+      - redis-data:/data
+
+networks:
+  cip-network:
+    driver: bridge
+
+volumes:
+  kafka-data:
+  zookeeper-data:
+  redis-data:

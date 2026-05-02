@@ -1,0 +1,29 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'cip-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'cip-websocket'
+    static_configs:
+      - targets: ['websocket:3001']
+    metrics_path: /metrics
+
+  - job_name: 'cip-job-worker'
+    static_configs:
+      - targets: ['job-worker:3002']
+    metrics_path: /metrics
+
+  - job_name: 'cip-storage'
+    static_configs:
+      - targets: ['storage-service:3003']
+    metrics_path: /metrics
+
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['kafka:9101']

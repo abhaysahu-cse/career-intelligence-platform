@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary:   #4F46E5;
+  --secondary: #06B6D4;
+  --success:   #22C55E;
+  --warning:   #F59E0B;
+  --danger:    #EF4444;
+  --bg:        #0F172A;
+  --card:      #1E293B;
+  --text:      #E2E8F0;
+  --muted:     #94A3B8;
+  --sidebar-w: 240px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* Gradient text */
+.grad-text {
+  background: linear-gradient(135deg, #4F46E5, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Score circle animation */
+@keyframes dashOffset {
+  from { stroke-dashoffset: 440; }
+}
+
+/* Skeleton pulse */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.8; }
+}
+.skeleton {
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+  animation: skeleton-pulse 1.5s ease infinite;
+}
+
+/* Page fade-in */
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.95); }      to { opacity: 1; transform: scale(1); }      }
+
+.animate-fade-in  { animation: fadeIn  0.4s ease both; }
+.animate-slide-in { animation: slideIn 0.4s ease both; }
+.animate-scale-in { animation: scaleIn 0.3s ease both; }
+
+/* Glow effects */
+.glow-primary   { box-shadow: 0 0 30px rgba(79,70,229,0.4); }
+.glow-secondary { box-shadow: 0 0 30px rgba(6,182,212,0.3); }
+.glow-success   { box-shadow: 0 0 20px rgba(34,197,94,0.3); }
+
+/* Card hover glow */
+.card-hover-glow {
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.card-hover-glow:hover {
+  border-color: rgba(79,70,229,0.35) !important;
+  box-shadow: 0 0 30px rgba(79,70,229,0.12), 0 8px 40px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
+}
+
+/* Input focus ring */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+/* Sidebar transition */
+.sidebar-transition { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+
+/* Mobile responsive helpers */
+@media (max-width: 768px) {
+  :root { --sidebar-w: 0px; }
+}
+
+/* No number spinner */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* Progress bar animation */
+@keyframes progressFill {
+  from { width: 0%; }
+}
+.progress-animate { animation: progressFill 1.2s cubic-bezier(0.4,0,0.2,1) both; }
+
+/* Tooltip */
+.tooltip { position: relative; }
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute; bottom: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%); white-space: nowrap;
+  background: #263245; color: #E2E8F0; font-size: 12px; font-family: 'DM Sans', sans-serif;
+  padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);
+  pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 99;
+}
+.tooltip:hover::after { opacity: 1; }
+
+/* Live metric pulse dot */
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+.live-dot { animation: livePulse 2s infinite; }
+
+/* Recharts tooltip */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1E293B !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: 12px !important;
+  color: #E2E8F0 !important;
+}
+
+/* ========================================
+   LANDING PAGE STYLES
+   ======================================== */
+
+/* Grid pattern background */
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Glass morphism */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+}
+
+/* Animated gradient border */
+.gradient-border {
+  background: linear-gradient(#0B1120, #0B1120) padding-box,
+              linear-gradient(135deg, #4F46E5, #06B6D4, #4F46E5) border-box;
+  border: 1px solid transparent;
+}
+
+/* Typewriter cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: #06B6D4;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(1deg); }
+  66% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+.float { animation: float 6s ease-in-out infinite; }
+
+/* Orb pulse */
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.18; }
+  50% { transform: scale(1.1); opacity: 0.25; }
+}
+
+.orb-pulse { animation: orb-pulse 8s ease-in-out infinite; }
+
+/* Particle animation */
+@keyframes particle-float {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+/* Line animation for timeline */
+@keyframes line-draw {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* Counter animation */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shimmer */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Rotating gradient for badge */
+@keyframes rotate-gradient {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Scan line effect */
+@keyframes scan {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+
+/* Data flow animation */
+@keyframes data-flow {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0; }
+}
+
+.data-flow { animation: data-flow 3s linear infinite; }
+
+/* Hexagon rotation */
+@keyframes hex-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Network connection pulse */
+@keyframes connection-pulse {
+  0%, 100% { stroke-dashoffset: 0; }
+  50% { stroke-dashoffset: 20; }
+}
+
+/* Landing page text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #06B6D4 40%, #4F46E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #4F46E5, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mesh background for landing */
+.bg-mesh {
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(79,70,229,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(6,182,212,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(34,197,94,0.05) 0%, transparent 70%),
+    #020617;
+}
+
+/* Font utilities for landing */
+.font-syne { font-family: var(--font-syne), 'Syne', sans-serif; }
+.font-mono-jetbrains { font-family: var(--font-mono), 'JetBrains Mono', monospace; }

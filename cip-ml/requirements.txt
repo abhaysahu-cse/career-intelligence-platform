@@ -1,0 +1,31 @@
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+pydantic==2.7.1
+python-multipart==0.0.9
+
+# AI Services
+google-generativeai==0.3.2  # Gemini AI for dynamic question generation
+
+# Kafka
+kafka-python==2.0.2
+
+# NLP
+# spacy==3.7.4  # Optional: pip install spacy && python -m spacy download en_core_web_sm
+# transformers==4.41.0  # Optional: for advanced NLP
+# torch==2.3.0  # Optional: for PyTorch models
+
+# ML / Stats
+numpy==1.26.4
+scikit-learn==1.5.0
+
+# PDF parsing (optional)
+# pdfminer.six==20221105  # for PDF resume parsing
+# PyPDF2==3.0.1  # alternative
+
+# Audio (optional - for Whisper integration)
+# openai-whisper==20231117
+# pyaudio==0.2.14
+
+# Utilities
+python-dotenv==1.0.1
+httpx==0.27.0

@@ -1,0 +1,39 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: analytics-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/cip_analytics
+    username: ${DB_USER:cip}
+    password: ${DB_PASSWORD:cip123}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+    consumer:
+      group-id: analytics-service
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.cip.common.events"
+
+service:
+  score-service: ${SCORE_SERVICE_URL:http://score-service:8084}
+  student-service: ${STUDENT_SERVICE_URL:http://student-service:8082}
+  interview-service: ${INTERVIEW_SERVICE_URL:http://interview-service:8086}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

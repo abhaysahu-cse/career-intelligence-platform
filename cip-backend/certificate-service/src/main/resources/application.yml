@@ -1,0 +1,83 @@
+server:
+  port: 8089
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: certificate-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cip_certificate
+    username: cip
+    password: cip123
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: certificate-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+# ML Service
+ml:
+  service:
+    url: ${ML_SERVICE_URL:http://localhost:8000}
+    timeout-seconds: 30
+
+# Storage
+storage:
+  type: ${STORAGE_TYPE:local}
+  local:
+    path: ${STORAGE_PATH:./storage/certificates}
+  s3:
+    bucket: ${S3_BUCKET:cip-certificates}
+    region: ${AWS_REGION:ap-south-1}
+
+# JWT
+jwt:
+  secret: ${JWT_SECRET:cip-certificate-jwt-secret-key-change-in-production}
+  expiration-ms: 86400000
+
+# Logging
+logging:
+  level:
+    com.cip.certificate: DEBUG
+    org.springframework.kafka: WARN
+  file:
+    name: logs/certificate-service.log
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
