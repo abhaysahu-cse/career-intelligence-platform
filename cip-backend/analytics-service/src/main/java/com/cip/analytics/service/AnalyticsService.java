@@ -37,24 +37,26 @@ public class AnalyticsService {
                 .orElse(0);
 
         List<Map<String, Object>> progressHistory = history.stream()
-                .map(item -> Map.of(
-                        "date", String.valueOf(item.getOrDefault("completedAt", item.getOrDefault("startedAt", ""))),
-                        "score", toDouble(item.get("totalScore"))
-                ))
+                .map(item -> {
+                    Map<String, Object> m = new LinkedHashMap<>();
+                    m.put("date", String.valueOf(item.getOrDefault("completedAt", item.getOrDefault("startedAt", ""))));
+                    m.put("score", toDouble(item.get("totalScore")));
+                    return m;
+                })
                 .toList();
 
-        return new LinkedHashMap<>(Map.of(
-                "userId", userId,
-                "readiness", readiness,
-                "risk", resolveRisk(readiness),
-                "resumeScore", toDouble(score.get("resumeScore")),
-                "interviewScore", toDouble(score.get("interviewScore")),
-                "averageInterviewScore", averageInterviewScore,
-                "totalAttempts", history.size(),
-                "weakSkills", extractWeakSkills(history),
-                "progressHistory", progressHistory,
-                "interviewHistory", progressHistory,
-                "latestRecommendation", String.valueOf(score.getOrDefault("recommendation", ""))
+        return new LinkedHashMap<>(Map.ofEntries(
+                Map.entry("userId", userId),
+                Map.entry("readiness", readiness),
+                Map.entry("risk", resolveRisk(readiness)),
+                Map.entry("resumeScore", toDouble(score.get("resumeScore"))),
+                Map.entry("interviewScore", toDouble(score.get("interviewScore"))),
+                Map.entry("averageInterviewScore", averageInterviewScore),
+                Map.entry("totalAttempts", history.size()),
+                Map.entry("weakSkills", extractWeakSkills(history)),
+                Map.entry("progressHistory", progressHistory),
+                Map.entry("interviewHistory", progressHistory),
+                Map.entry("latestRecommendation", String.valueOf(score.getOrDefault("recommendation", "")))
         ));
     }
 
@@ -170,9 +172,11 @@ public class AnalyticsService {
                 continue;
             }
             for (Object entry : answers) {
-                if (!(entry instanceof Map<?, ?> map)) {
+                if (!(entry instanceof Map<?, ?> rawMap)) {
                     continue;
                 }
+                @SuppressWarnings("unchecked")
+                Map<String, Object> map = (Map<String, Object>) rawMap;
                 double score = toDouble(map.get("score"));
                 String topic = String.valueOf(map.getOrDefault("topic", "")).trim();
                 if (!topic.isBlank() && score > 0 && score < 70) {

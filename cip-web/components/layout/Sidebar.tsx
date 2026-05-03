@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, User, LineChart, Video, Briefcase,
-  Map, Users, Zap, ChevronLeft, LogOut, Settings
+  Map, Users, Zap, ChevronLeft, LogOut, Settings, ShieldCheck
 } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { cn } from '@/lib/utils';
@@ -18,6 +18,7 @@ const studentNav = [
   { href: '/analytics', icon: LineChart,       label: 'Progress'   },
   { href: '/interview', icon: Video,            label: 'Interview'  },
   { href: '/jobs',      icon: Briefcase,        label: 'Jobs'       },
+  { href: '/dashboard/certificates', icon: ShieldCheck, label: 'Certificates' },
   { href: '/roadmap',   icon: Map,              label: 'Roadmap'    },
 ];
 
@@ -43,12 +44,11 @@ export default function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed top-0 left-0 h-full z-50 flex flex-col transition-all duration-300 border-r',
+        'fixed top-0 left-0 h-full z-50 flex flex-col transition-all duration-300 border-r backdrop-blur-xl bg-slate-900/80',
         'sidebar-transition'
       )}
       style={{
         width: sidebarOpen ? '240px' : '72px',
-        background: '#111827',
         borderColor: 'rgba(255,255,255,0.06)',
       }}
     >

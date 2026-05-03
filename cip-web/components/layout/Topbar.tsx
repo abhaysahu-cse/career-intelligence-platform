@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { Bell, Search, Menu } from 'lucide-react';
+import { Bell, Search, Menu, Flame } from 'lucide-react';
 import { useAppStore } from '@/store';
 import { useState } from 'react';
 
@@ -10,6 +10,7 @@ const pageTitles: Record<string, string> = {
   '/analytics': 'Progress Tracking',
   '/interview': 'AI Interview Coach',
   '/jobs':      'Jobs & Internships',
+  '/dashboard/certificates': 'Certificates',
   '/roadmap':   'Learning Roadmap',
   '/admin':     'Faculty Dashboard',
   '/settings':  'Settings',
@@ -17,7 +18,7 @@ const pageTitles: Record<string, string> = {
 
 export default function Topbar() {
   const pathname      = usePathname();
-  const { user, sidebarOpen, setSidebarOpen } = useAppStore();
+  const { user, sidebarOpen, setSidebarOpen, score } = useAppStore();
   const [showSearch, setShowSearch] = useState(false);
   const [notifOpen, setNotifOpen]   = useState(false);
 
@@ -25,14 +26,44 @@ export default function Topbar() {
     pathname === key || pathname.startsWith(key + '/')
   )?.[1] ?? 'CIP';
 
+  // Interview streak (persisted via localStorage)
+  const getStreak = () => {
+    if (typeof window === 'undefined') return 0;
+    const data = localStorage.getItem('cip_streak');
+    if (!data) return 0;
+    try {
+      const { count, lastDate } = JSON.parse(data);
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      if (lastDate === today || lastDate === yesterday) return count;
+      return 0;
+    } catch { return 0; }
+  };
+  const streak = getStreak();
+
+  // Smart notifications based on real state
   const notifications: Array<{ id: number; text: string; time: string; unread: boolean }> = [];
+  if (score) {
+    if (score.readiness >= 65) {
+      notifications.push({ id: 1, text: '🎉 You are Ready to Apply! Check recommended jobs.', time: 'Now', unread: true });
+    } else {
+      notifications.push({ id: 1, text: `📈 Readiness at ${score.readiness}/100. ${Math.max(7, Math.round((65 - score.readiness) / 0.3))} days to ready.`, time: 'Today', unread: true });
+    }
+    if ((score.interviewScore ?? 0) < 50) {
+      notifications.push({ id: 2, text: '🎤 Interview score is low. Practice to improve.', time: 'Suggestion', unread: true });
+    }
+    if ((score.resumeScore ?? 0) < 60) {
+      notifications.push({ id: 3, text: '📄 Resume needs updating for better matching.', time: 'Suggestion', unread: true });
+    }
+  }
+  if (streak >= 3) {
+    notifications.push({ id: 4, text: `🔥 ${streak}-day interview streak! Keep it going!`, time: 'Streak', unread: true });
+  }
 
   return (
-    <header className="fixed top-0 right-0 z-30 flex items-center gap-3 px-4 md:px-6 h-16 border-b transition-all duration-300"
+    <header className="fixed top-0 right-0 z-30 flex items-center gap-3 px-4 md:px-6 h-16 border-b transition-all duration-300 backdrop-blur-xl bg-white/5"
       style={{
         left: sidebarOpen ? '240px' : '72px',
-        background: 'rgba(15,23,42,0.8)',
-        backdropFilter: 'blur(12px)',
         borderColor: 'rgba(255,255,255,0.06)',
       }}>
 
@@ -65,6 +96,15 @@ export default function Topbar() {
           </button>
         )}
       </div>
+
+      {/* Interview Streak */}
+      {streak > 0 && (
+        <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl"
+          style={{ background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)' }}>
+          <Flame size={14} style={{ color: '#F59E0B' }} />
+          <span className="text-xs font-bold" style={{ color: '#FCD34D' }}>{streak}</span>
+        </div>
+      )}
 
       {/* Notifications */}
       <div className="relative">

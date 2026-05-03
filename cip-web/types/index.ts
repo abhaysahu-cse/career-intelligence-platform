@@ -26,9 +26,13 @@ export interface ScoreBreakdown {
 
 export interface ReadinessScore {
   readiness: number;
-  level: ReadinessLevel;
-  breakdown: ScoreBreakdown;
-  lastUpdated: string;
+  level: string;
+  resumeScore?: number;
+  academicScore?: number;
+  interviewScore?: number;
+  recommendation?: string;
+  calculatedAt?: string;
+  breakdown?: ScoreBreakdown;
 }
 
 // ─── Analytics ──────────────────────────────────────────────────────────────
@@ -97,6 +101,9 @@ export interface Job {
   minScore: number;
   salary?: string;
   skills: string[];
+  matchedSkills?: string[];
+  missingSkills?: string[];
+  matchReason?: string;
   logo?: string;
   url: string;
   deadline?: string;

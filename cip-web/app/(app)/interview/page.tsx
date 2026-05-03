@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import {
   Brain,
@@ -13,11 +14,15 @@ import {
   AlertCircle,
   CheckCircle2,
   Lightbulb,
+  Trophy,
+  RotateCcw,
+  ArrowRight,
 } from 'lucide-react';
 import { interviewApi, mlServiceApi } from '@/lib/api';
 import { useAppStore } from '@/store';
+import AIAvatar from '@/components/interview/AIAvatar';
 
-type InterviewPhase = 'setup' | 'listening' | 'processing';
+type InterviewPhase = 'setup' | 'listening' | 'processing' | 'summary';
 type PersonaMode = 'friendly' | 'strict' | 'faang';
 
 type QuestionPayload = {
@@ -109,6 +114,7 @@ function extractWeakSkills(history: Array<AnswerHistory & { missing?: string }>)
 }
 
 export default function InterviewPage() {
+  const router = useRouter();
   const user = useAppStore((state) => state.user);
   const [phase, setPhase] = useState<InterviewPhase>('setup');
   const [role, setRole] = useState('SDE');
@@ -120,6 +126,7 @@ export default function InterviewPage() {
   const [history, setHistory] = useState<Array<AnswerHistory & { missing?: string }>>([]);
   const [weakSkills, setWeakSkills] = useState<string[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [lastAnswer, setLastAnswer] = useState('');
   const [backendInterviewId, setBackendInterviewId] = useState<number | null>(null);
   const [speechSupported, setSpeechSupported] = useState(true);
 
@@ -263,10 +270,30 @@ export default function InterviewPage() {
       clearTimeout(silenceTimerRef.current);
     }
     window.speechSynthesis.cancel();
-    setPhase('setup');
-    setQuestion(null);
     setInterimTranscript('');
     answerBufferRef.current = '';
+
+    // If we have answers, show summary instead of resetting
+    if (history.length > 0) {
+      setPhase('summary' as InterviewPhase);
+      // Update interview streak
+      try {
+        const today = new Date().toDateString();
+        const raw = localStorage.getItem('cip_streak');
+        let count = 1;
+        if (raw) {
+          const prev = JSON.parse(raw);
+          const yesterday = new Date(Date.now() - 86400000).toDateString();
+          if (prev.lastDate === today) count = prev.count;
+          else if (prev.lastDate === yesterday) count = prev.count + 1;
+        }
+        localStorage.setItem('cip_streak', JSON.stringify({ count, lastDate: today }));
+      } catch {}
+    } else {
+      setPhase('setup');
+      setQuestion(null);
+    }
+
     if (backendInterviewId) {
       try {
         await interviewApi.end(backendInterviewId);
@@ -275,6 +302,16 @@ export default function InterviewPage() {
       }
     }
     setBackendInterviewId(null);
+  };
+
+  const resetInterview = () => {
+    setPhase('setup');
+    setQuestion(null);
+    setFeedback(null);
+    setHistory([]);
+    setWeakSkills([]);
+    setTranscript('');
+    setSessionId(null);
   };
 
   const finalizeAnswer = async () => {
@@ -335,6 +372,7 @@ export default function InterviewPage() {
         });
       }
 
+      setLastAnswer(answer);
       answerBufferRef.current = '';
       setTranscript('');
       await fetchNextQuestion(nextHistory.map(({ missing, ...item }) => item));
@@ -419,7 +457,113 @@ export default function InterviewPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
+      {/* Interview Session Summary */}
+      {phase === 'summary' && history.length > 0 && (() => {
+        const overallScore = Math.round(history.reduce((sum, h) => sum + (h.accuracy ?? 0), 0) / history.length);
+        const sorted = [...history].sort((a, b) => (b.accuracy ?? 0) - (a.accuracy ?? 0));
+        const strongest = sorted[0];
+        const weakest = sorted[sorted.length - 1];
+        const scoreColor = (s: number) => s >= 75 ? '#22C55E' : s >= 50 ? '#F59E0B' : '#EF4444';
+        return (
+          <div className="space-y-6 animate-fadeIn">
+            {/* Hero Score */}
+            <div className="rounded-3xl border p-8 text-center relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg,rgba(79,70,229,0.2),rgba(6,182,212,0.1))', borderColor: 'rgba(79,70,229,0.25)' }}>
+              <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none opacity-10"
+                style={{ background: 'radial-gradient(circle,#06B6D4,transparent 70%)', transform: 'translate(30%,-30%)' }} />
+              <Trophy size={32} className="mx-auto mb-3" style={{ color: '#FCD34D' }} />
+              <p className="text-sm mb-2" style={{ color: '#94A3B8' }}>Session Complete — {history.length} Questions</p>
+              <p className="text-6xl font-bold grad-text" style={{ fontFamily: 'JetBrains Mono,monospace' }}>{overallScore}</p>
+              <p className="text-sm mt-2" style={{ color: '#94A3B8' }}>
+                {overallScore >= 75 ? '🎉 Excellent performance!' : overallScore >= 50 ? '👍 Good effort, keep improving!' : '📚 More practice recommended'}
+              </p>
+            </div>
+
+            {/* Per-Question Breakdown */}
+            <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <h3 className="font-semibold mb-4" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Question Breakdown</h3>
+              <div className="space-y-3">
+                {history.map((h, idx) => {
+                  const sc = h.accuracy ?? 0;
+                  const isStrongest = h === strongest;
+                  const isWeakest = h === weakest && history.length > 1;
+                  return (
+                    <div key={idx} className="rounded-xl p-3 border" style={{ background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(255,255,255,0.06)' }}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-mono px-2 py-0.5 rounded-full" style={{ background: 'rgba(79,70,229,0.12)', color: '#A5B4FC' }}>Q{idx + 1}</span>
+                          <span className="text-xs font-semibold capitalize" style={{ color: '#94A3B8' }}>{h.topic}</span>
+                          <span className="text-[10px] px-1.5 py-0.5 rounded-full capitalize" style={{ background: 'rgba(6,182,212,0.1)', color: '#67E8F9' }}>{h.difficulty}</span>
+                          {isStrongest && <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.1)', color: '#4ADE80' }}>★ Best</span>}
+                          {isWeakest && <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(239,68,68,0.1)', color: '#FCA5A5' }}>↓ Weakest</span>}
+                        </div>
+                        <span className="text-lg font-bold font-mono" style={{ color: scoreColor(sc) }}>{sc}</span>
+                      </div>
+                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                        <div className="h-full rounded-full transition-all duration-700" style={{ width: `${sc}%`, background: scoreColor(sc) }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Weak Areas + Suggestions */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#FCA5A5' }}>
+                  <AlertCircle size={15} /> Weak Areas
+                </h3>
+                {weakSkills.length > 0 ? (
+                  <div className="space-y-2">
+                    {weakSkills.map(s => (
+                      <div key={s} className="flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+                        <span style={{ color: '#F59E0B' }}>⚠</span>
+                        <span className="capitalize">{s}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm" style={{ color: '#94A3B8' }}>No repeated weakness detected in this session.</p>
+                )}
+              </div>
+              <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+                <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#4ADE80' }}>
+                  <CheckCircle2 size={15} /> Recommendation
+                </h3>
+                <p className="text-sm" style={{ color: '#94A3B8' }}>
+                  {overallScore >= 75
+                    ? 'Great performance! Move on to harder topics and system design questions.'
+                    : overallScore >= 50
+                    ? `Focus on ${weakest?.topic ?? 'weak topics'} and practice explaining with specific examples.`
+                    : 'Start with fundamentals. Review core DSA concepts and practice structured answers with the STAR method.'}
+                </p>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button onClick={resetInterview}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all hover:shadow-lg"
+                style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}>
+                <RotateCcw size={15} /> Practice Again
+              </button>
+              <button onClick={() => router.push('/dashboard')}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all hover:bg-white/5"
+                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                Dashboard <ArrowRight size={15} />
+              </button>
+              <button onClick={() => router.push('/jobs')}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all hover:bg-white/5"
+                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                View Jobs <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
+        );
+      })()}
+
+      {phase !== 'summary' && <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
         <div className="xl:col-span-4 space-y-4">
           <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
             <p className="mb-3 text-sm font-semibold" style={{ color: '#E2E8F0' }}>Interview Setup</p>
@@ -484,12 +628,43 @@ export default function InterviewPage() {
           <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
             <p className="mb-3 text-sm font-semibold" style={{ color: '#E2E8F0' }}>Skill Gap Engine</p>
             {weakSkills.length ? (
-              <div className="space-y-2">
-                {weakSkills.map((skill) => (
-                  <div key={skill} className="rounded-xl border px-3 py-2 text-sm" style={{ borderColor: 'rgba(245,158,11,0.25)', background: 'rgba(245,158,11,0.08)', color: '#FCD34D' }}>
-                    Repeated weakness: {skill}
-                  </div>
-                ))}
+              <div className="space-y-3">
+                {weakSkills.map((skill, idx) => {
+                  const priority = idx === 0 ? 'HIGH' : 'MEDIUM';
+                  const prColor = priority === 'HIGH' ? '#EF4444' : '#F59E0B';
+                  const prBg = priority === 'HIGH' ? 'rgba(239,68,68,0.12)' : 'rgba(245,158,11,0.1)';
+                  const fixes: Record<string, string[]> = {
+                    'time complexity': ['Review Big-O notation', 'Practice analyzing nested loops'],
+                    'edge cases': ['Always consider null/empty inputs', 'Think about boundary values'],
+                    'system design': ['Study URL shortener design', 'Practice drawing diagrams'],
+                    'database': ['Review indexing & transactions', 'Practice SQL query optimization'],
+                    'communication': ['Use STAR method structure', 'Practice "First...Then...Finally"'],
+                  };
+                  const reasons: Record<string, string> = {
+                    'time complexity': 'No complexity analysis in recent answers',
+                    'edge cases': 'Missed edge cases in last 3 answers',
+                    'system design': 'Incomplete architecture in recent designs',
+                    'database': 'Missing DB concepts in recent answers',
+                    'communication': 'Answers lack structured flow',
+                  };
+                  return (
+                    <div key={skill} className="rounded-xl border p-3 space-y-2" style={{ borderColor: `${prColor}33`, background: prBg }}>
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: `${prColor}22`, color: prColor, border: `1px solid ${prColor}44` }}>
+                          {priority}
+                        </span>
+                        <span className="text-sm font-semibold capitalize" style={{ color: '#E2E8F0' }}>{skill}</span>
+                      </div>
+                      <p className="text-xs" style={{ color: '#94A3B8' }}>Why: {reasons[skill] ?? 'Repeated weakness in recent answers'}</p>
+                      <div className="space-y-1">
+                        <p className="text-xs font-semibold" style={{ color: '#67E8F9' }}>Fix:</p>
+                        {(fixes[skill] ?? ['Practice this topic in your next interview']).map((fix) => (
+                          <p key={fix} className="text-xs pl-3" style={{ color: '#94A3B8' }}>→ {fix}</p>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <p className="text-sm" style={{ color: '#94A3B8' }}>
@@ -502,17 +677,27 @@ export default function InterviewPage() {
         <div className="xl:col-span-5 space-y-4">
           <div className="rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)', minHeight: 260 }}>
             <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: 'rgba(79,70,229,0.16)', color: '#A5B4FC' }}>
-                  {question?.topic ?? 'Waiting'}
+              <div className="flex items-center gap-3">
+                {/* AI Avatar */}
+                <AIAvatar
+                  state={phase === 'listening' ? 'listening' : phase === 'processing' ? 'thinking' : feedback ? 'speaking' : 'idle'}
+                  speechText={feedback?.speech_text}
+                  personaMode={persona}
+                />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center gap-2">
+                    <div className="rounded-full px-2.5 py-1 text-xs font-semibold" style={{ background: 'rgba(79,70,229,0.16)', color: '#A5B4FC' }}>
+                      {question?.topic ?? 'Waiting'}
+                    </div>
+                    <div className="rounded-full px-2.5 py-1 text-xs font-semibold capitalize" style={{ background: 'rgba(6,182,212,0.12)', color: '#67E8F9' }}>
+                      {question?.difficulty ?? 'easy'}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs" style={{ color: '#94A3B8' }}>
+                    {phase === 'listening' ? <Mic size={14} /> : phase === 'processing' ? <Waves size={14} /> : <MicOff size={14} />}
+                    {phase === 'listening' ? 'Listening' : phase === 'processing' ? 'Evaluating' : 'Ready'}
+                  </div>
                 </div>
-                <div className="rounded-full px-2.5 py-1 text-xs font-semibold capitalize" style={{ background: 'rgba(6,182,212,0.12)', color: '#67E8F9' }}>
-                  {question?.difficulty ?? 'easy'}
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-xs" style={{ color: '#94A3B8' }}>
-                {phase === 'listening' ? <Mic size={14} /> : phase === 'processing' ? <Waves size={14} /> : <MicOff size={14} />}
-                {phase === 'listening' ? 'Listening' : phase === 'processing' ? 'Evaluating' : 'Ready'}
               </div>
             </div>
 
@@ -590,6 +775,23 @@ export default function InterviewPage() {
                   <p className="text-sm" style={{ color: '#E2E8F0' }}>{feedback.tip}</p>
                 </div>
 
+                {/* Your Answer vs Ideal — Side by Side */}
+                {(lastAnswer || liveTranscript) && feedback.ideal && (
+                  <div className="rounded-xl border p-3" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
+                    <p className="mb-2 text-xs font-semibold" style={{ color: '#94A3B8' }}>Your Answer vs Ideal</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="rounded-lg p-2.5" style={{ background: 'rgba(239,68,68,0.06)', borderLeft: '2px solid rgba(239,68,68,0.4)' }}>
+                        <p className="text-[10px] font-bold mb-1" style={{ color: '#FCA5A5' }}>YOUR ANSWER</p>
+                        <p className="text-xs leading-relaxed" style={{ color: '#CBD5E1' }}>{(lastAnswer || liveTranscript).slice(0, 200)}{(lastAnswer || liveTranscript).length > 200 ? '...' : ''}</p>
+                      </div>
+                      <div className="rounded-lg p-2.5" style={{ background: 'rgba(34,197,94,0.06)', borderLeft: '2px solid rgba(34,197,94,0.4)' }}>
+                        <p className="text-[10px] font-bold mb-1" style={{ color: '#4ADE80' }}>IDEAL STRUCTURE</p>
+                        <p className="text-xs leading-relaxed" style={{ color: '#CBD5E1' }}>{feedback.ideal.slice(0, 200)}{feedback.ideal.length > 200 ? '...' : ''}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 <div className="text-xs" style={{ color: '#94A3B8' }}>
                   Voice provider: {feedback.provider}. Spoken feedback plays automatically after each pause.
                 </div>
@@ -601,7 +803,7 @@ export default function InterviewPage() {
             )}
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 }

@@ -40,11 +40,11 @@ public class Job {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private Object requiredSkills; // List of required skill names
+    private List<String> requiredSkills; // List of required skill names
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private Object niceToHaveSkills;
+    private List<String> niceToHaveSkills;
 
     private LocalDate applicationDeadline;
 

@@ -4,6 +4,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { uploadCertificate, pollForResult } from '@/lib/api/certificates';
+import { Upload, FileText, Search, Shield, ShieldCheck, AlertCircle } from 'lucide-react';
 
 const ACCEPTED_TYPES = ['application/pdf', 'image/jpeg', 'image/png'];
 const MAX_SIZE = 10 * 1024 * 1024;
@@ -98,8 +99,8 @@ export default function UploadPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Verify Certificate</h1>
-        <p className="text-gray-500 mt-1 text-sm">
+        <h1 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Verify Certificate</h1>
+        <p className="mt-1 text-sm" style={{ color: '#94A3B8' }}>
           Upload a PDF or image. Our AI will check authenticity in under 8 seconds.
         </p>
       </div>
@@ -109,9 +110,11 @@ export default function UploadPage() {
         onDrop={onDrop}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
-        className={`relative border-2 border-dashed rounded-2xl p-10 text-center transition-all duration-200
-          ${dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'}
-          ${file ? 'border-green-400 bg-green-50' : ''}`}
+        className="relative rounded-2xl p-10 text-center transition-all duration-200 border-2 border-dashed"
+        style={{
+          background: dragOver ? 'rgba(79,70,229,0.1)' : file ? 'rgba(34,197,94,0.05)' : 'rgba(255,255,255,0.02)',
+          borderColor: dragOver ? '#4F46E5' : file ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.12)',
+        }}
       >
         <input
           type="file"
@@ -123,43 +126,53 @@ export default function UploadPage() {
 
         {!file ? (
           <div className="pointer-events-none">
-            <div className="text-5xl mb-4">📄</div>
-            <p className="text-lg font-medium text-gray-700">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center"
+              style={{ background: 'rgba(79,70,229,0.12)' }}>
+              <Upload size={28} style={{ color: '#818CF8' }} />
+            </div>
+            <p className="text-lg font-medium" style={{ color: '#E2E8F0' }}>
               Drop your certificate here
             </p>
-            <p className="text-sm text-gray-500 mt-1">or click to browse</p>
-            <p className="text-xs text-gray-400 mt-3">PDF, JPG, PNG · Max 10MB</p>
+            <p className="text-sm mt-1" style={{ color: '#94A3B8' }}>or click to browse</p>
+            <p className="text-xs mt-3" style={{ color: '#64748B' }}>PDF, JPG, PNG · Max 10MB</p>
           </div>
         ) : (
           <div className="pointer-events-none">
             {preview ? (
               <img src={preview} alt="Preview" className="max-h-48 mx-auto rounded-lg shadow mb-3 object-contain" />
             ) : (
-              <div className="text-5xl mb-3">📑</div>
+              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl flex items-center justify-center"
+                style={{ background: 'rgba(34,197,94,0.12)' }}>
+                <FileText size={28} style={{ color: '#4ADE80' }} />
+              </div>
             )}
-            <p className="font-semibold text-gray-800">{file.name}</p>
-            <p className="text-sm text-gray-500">{(file.size / 1024).toFixed(1)} KB</p>
+            <p className="font-semibold" style={{ color: '#E2E8F0' }}>{file.name}</p>
+            <p className="text-sm" style={{ color: '#94A3B8' }}>{(file.size / 1024).toFixed(1)} KB</p>
           </div>
         )}
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-start gap-2">
-          <span>⚠️</span> {error}
+        <div className="mt-4 p-3 rounded-xl flex items-start gap-2"
+          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)' }}>
+          <AlertCircle size={16} className="flex-shrink-0 mt-0.5" style={{ color: '#FCA5A5' }} />
+          <span className="text-sm" style={{ color: '#FCA5A5' }}>{error}</span>
         </div>
       )}
 
       {/* Status */}
       {isLoading && (
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="mt-4 p-4 rounded-xl" style={{ background: 'rgba(79,70,229,0.08)', border: '1px solid rgba(79,70,229,0.2)' }}>
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin flex-shrink-0" />
-            <span className="text-blue-700 text-sm font-medium">{statusMsg}</span>
+            <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin flex-shrink-0"
+              style={{ borderColor: '#818CF8', borderTopColor: 'transparent' }} />
+            <span className="text-sm font-medium" style={{ color: '#A5B4FC' }}>{statusMsg}</span>
           </div>
-          <div className="mt-3 bg-blue-100 rounded-full h-1.5">
-            <div className={`bg-blue-500 h-full rounded-full transition-all duration-1000
-              ${stage === 'uploading' ? 'w-1/4' : 'w-3/4 animate-pulse'}`} />
+          <div className="mt-3 rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            <div className={`h-full rounded-full transition-all duration-1000
+              ${stage === 'uploading' ? 'w-1/4' : 'w-3/4 animate-pulse'}`}
+              style={{ background: 'linear-gradient(90deg, #4F46E5, #06B6D4)' }} />
           </div>
         </div>
       )}
@@ -169,7 +182,8 @@ export default function UploadPage() {
         {file && !isLoading && (
           <button
             onClick={reset}
-            className="flex-1 py-3 px-6 border border-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-50 transition-colors"
+            className="flex-1 py-3 px-6 font-medium rounded-xl border transition-all hover:bg-white/5"
+            style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#94A3B8' }}
           >
             Clear
           </button>
@@ -177,26 +191,25 @@ export default function UploadPage() {
         <button
           onClick={handleUpload}
           disabled={!file || isLoading}
-          className={`flex-1 py-3 px-6 font-semibold rounded-xl transition-all duration-200
-            ${!file || isLoading
-              ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-              : 'bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
-            }`}
+          className="flex-1 py-3 px-6 font-semibold rounded-xl transition-all duration-200"
+          style={!file || isLoading
+            ? { background: 'rgba(255,255,255,0.05)', color: '#64748B', cursor: 'not-allowed' }
+            : { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}
         >
           {isLoading ? 'Processing...' : 'Verify Certificate'}
         </button>
       </div>
 
       {/* Info */}
-      <div className="mt-8 grid grid-cols-3 gap-4 text-center text-xs text-gray-500">
+      <div className="mt-8 grid grid-cols-3 gap-4 text-center text-xs">
         {[
-          { icon: '🔍', label: 'OCR Extraction' },
-          { icon: '🏛️', label: 'Issuer Validation' },
-          { icon: '🛡️', label: 'Tamper Detection' },
+          { icon: Search, label: 'OCR Extraction', color: '#818CF8' },
+          { icon: Shield, label: 'Issuer Validation', color: '#67E8F9' },
+          { icon: ShieldCheck, label: 'Tamper Detection', color: '#4ADE80' },
         ].map((item) => (
-          <div key={item.label} className="p-3 bg-gray-50 rounded-xl">
-            <div className="text-2xl mb-1">{item.icon}</div>
-            {item.label}
+          <div key={item.label} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+            <item.icon size={20} className="mx-auto mb-2" style={{ color: item.color }} />
+            <span style={{ color: '#94A3B8' }}>{item.label}</span>
           </div>
         ))}
       </div>

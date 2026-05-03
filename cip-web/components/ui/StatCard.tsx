@@ -22,8 +22,8 @@ export default function StatCard({
   return (
     <div
       onClick={onClick}
-      className={cn('rounded-2xl p-5 border card-hover-glow', onClick && 'cursor-pointer', className)}
-      style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}
+      className={cn('rounded-2xl p-5 border border-white/5 shadow-md shadow-black/20 card-hover-glow', onClick && 'cursor-pointer', className)}
+      style={{ background: '#1E293B' }}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: iconBg }}>

@@ -153,7 +153,7 @@ export default function Hero() {
             href="/auth/signup"
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.97 }}
-            className="group flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] text-white font-semibold text-base shadow-lg shadow-[#4F46E5]/30 hover:shadow-xl hover:shadow-[#4F46E5]/50 transition-all"
+            className="group flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] text-white font-semibold text-base shadow-lg shadow-[#4F46E5]/30 hover:shadow-[0_0_20px_rgba(79,70,229,0.5)] transition-all"
           >
             Start Your Interview
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

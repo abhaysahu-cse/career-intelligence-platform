@@ -123,7 +123,7 @@ def detect_tampering(file_path: str) -> dict:
         weights["double_jpeg"] * double_jpeg_score
     )
 
-    tampering_detected = tampering_score > 0.45
+    tampering_detected = tampering_score > 0.55  # Raised from 0.45 to reduce false positives on re-saved/shared images
 
     logger.info(f"[Tamper] Combined score: {tampering_score:.3f}, detected={tampering_detected}, issues={len(issues)}")
 
@@ -382,10 +382,12 @@ def _pdf_first_page(pdf_path: str) -> np.ndarray:
         from pdf2image import convert_from_path
         pages = convert_from_path(pdf_path, dpi=150, first_page=1, last_page=1)
         if pages:
-            import numpy as np
             pil_img = pages[0]
             img = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
             return img
+    except ImportError:
+        logger.error("[Tamper] pdf2image/poppler not installed — cannot process PDF certificates. "
+                     "Install with: pip install pdf2image, and ensure poppler-utils is available.")
     except Exception as e:
         logger.warning(f"PDF conversion failed: {e}")
-    return cv2.imread(pdf_path)
+    return None

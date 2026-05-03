@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 const schema = z.object({
   name:     z.string().min(2, 'Name too short'),
   email:    z.string().email('Enter a valid email'),
-  password: z.string().min(6, 'Minimum 6 characters'),
+  password: z.string().min(8, 'Minimum 8 characters'),
   confirm:  z.string(),
   college:  z.string().min(2, 'College name required'),
   branch:   z.string().min(1, 'Branch required'),
@@ -36,10 +36,18 @@ export default function SignupPage() {
   const onSubmit = async (data: FormData) => {
     setLoading(true);
     try {
-      const res = await authApi.signup({ name: data.name, email: data.email, password: data.password, role });
-      const { token, user } = res.data;
+      const res = await authApi.signup({ name: data.name, email: data.email, password: data.password, role: role.toUpperCase() });
+      const payload = res.data?.data ?? res.data;
+      const token = payload?.token;
+      const user = {
+        id: payload?.userId,
+        name: payload?.name,
+        email: payload?.email,
+        role: payload?.role || role
+      };
+
       Cookies.set('cip_token', token, { expires: 7, sameSite: 'strict' });
-      setUser({ ...user, role });
+      setUser(user);
       toast.success('Account created! Redirecting to OTP verification…');
       router.push('/auth/verify');
     } catch {
@@ -116,7 +124,7 @@ export default function SignupPage() {
             <div>
               <label className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>Password</label>
               <div className="relative">
-                <input {...register('password')} type={showPw ? 'text' : 'password'} placeholder="Min. 6 characters"
+                <input {...register('password')} type={showPw ? 'text' : 'password'} placeholder="Min. 8 characters"
                   className="w-full px-4 py-3 rounded-xl text-sm border transition-all pr-11"
                   style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }} />
                 <button type="button" onClick={() => setShowPw(!showPw)}

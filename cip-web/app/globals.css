@@ -69,8 +69,32 @@ body {
 @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); }      to { opacity: 1; transform: scale(1); }      }
 
 .animate-fade-in  { animation: fadeIn  0.4s ease both; }
+.animate-fadeIn    { animation: fadeIn  0.5s ease both; }
 .animate-slide-in { animation: slideIn 0.4s ease both; }
 .animate-scale-in { animation: scaleIn 0.3s ease both; }
+
+/* Stagger children animation */
+.stagger-children > * { animation: fadeIn 0.4s ease both; }
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+
+/* Smooth page enter for app pages */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: pageEnter 0.35s ease both; }
+
+/* Subtle pulse for live indicators */
+@keyframes subtlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.animate-subtle-pulse { animation: subtlePulse 2s ease-in-out infinite; }
 
 /* Glow effects */
 .glow-primary   { box-shadow: 0 0 30px rgba(79,70,229,0.4); }

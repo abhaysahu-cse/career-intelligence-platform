@@ -7,9 +7,16 @@ import {
   getCertificateResult,
   getCertificate,
   getScoreColor,
-  getStatusColor,
   CertificateResult,
 } from '@/lib/api/certificates';
+
+const statusConfig: Record<string, { icon: string; gradient: string; border: string }> = {
+  'Genuine':        { icon: '✅', gradient: 'linear-gradient(135deg, rgba(34,197,94,0.15), rgba(34,197,94,0.05))', border: 'rgba(34,197,94,0.3)' },
+  'Likely Genuine':  { icon: '✅', gradient: 'linear-gradient(135deg, rgba(132,204,22,0.15), rgba(132,204,22,0.05))', border: 'rgba(132,204,22,0.3)' },
+  'Suspicious':     { icon: '⚠️', gradient: 'linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05))', border: 'rgba(245,158,11,0.3)' },
+  'Likely Fake':     { icon: '⚠️', gradient: 'linear-gradient(135deg, rgba(249,115,22,0.15), rgba(249,115,22,0.05))', border: 'rgba(249,115,22,0.3)' },
+  'Fake':           { icon: '❌', gradient: 'linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05))', border: 'rgba(239,68,68,0.3)' },
+};
 
 export default function ResultPage() {
   const params = useParams();
@@ -33,7 +40,6 @@ export default function ResultPage() {
       if (cert.status === 'PENDING' || cert.status === 'PROCESSING') {
         setProcessing(true);
         setLoading(false);
-        // Poll every 3 seconds
         const timer = setInterval(async () => {
           const updated = await getCertificate(id);
           if (updated.status === 'COMPLETED') {
@@ -62,15 +68,19 @@ export default function ResultPage() {
     }
   };
 
-  if (loading) return <LoadingSpinner />;
+  if (loading) return (
+    <div className="max-w-3xl mx-auto px-4 py-16 flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#4F46E5', borderTopColor: 'transparent' }} />
+    </div>
+  );
 
   if (processing) return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
       <div className="text-5xl mb-4">🔍</div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-2">Analyzing Certificate</h2>
-      <p className="text-gray-500 text-sm mb-6">Running OCR, issuer validation, and tamper detection...</p>
-      <div className="w-64 mx-auto bg-gray-200 rounded-full h-2">
-        <div className="bg-blue-500 h-2 rounded-full animate-pulse w-2/3" />
+      <h2 className="text-xl font-semibold mb-2" style={{ color: '#E2E8F0' }}>Analyzing Certificate</h2>
+      <p className="text-sm mb-6" style={{ color: '#94A3B8' }}>Running OCR, issuer validation, and tamper detection...</p>
+      <div className="w-64 mx-auto rounded-full h-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+        <div className="h-2 rounded-full animate-pulse w-2/3" style={{ background: 'linear-gradient(90deg, #4F46E5, #06B6D4)' }} />
       </div>
     </div>
   );
@@ -78,10 +88,11 @@ export default function ResultPage() {
   if (error) return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
       <div className="text-5xl mb-4">❌</div>
-      <h2 className="text-xl font-semibold text-red-700 mb-2">Processing Failed</h2>
-      <p className="text-gray-500 text-sm">{error}</p>
+      <h2 className="text-xl font-semibold mb-2" style={{ color: '#FCA5A5' }}>Processing Failed</h2>
+      <p className="text-sm" style={{ color: '#94A3B8' }}>{error}</p>
       <button onClick={() => router.push('/dashboard/certificates/upload')}
-        className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">
+        className="mt-6 px-6 py-2 rounded-xl text-sm font-semibold transition-all hover:shadow-lg"
+        style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}>
         Try Again
       </button>
     </div>
@@ -93,63 +104,65 @@ export default function ResultPage() {
   const color = getScoreColor(score);
   const circumference = 2 * Math.PI * 54;
   const offset = circumference - (score / 100) * circumference;
+  const cfg = statusConfig[result.status] ?? statusConfig['Suspicious'];
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <button onClick={() => router.push('/dashboard/certificates')}
-          className="text-gray-400 hover:text-gray-600 text-sm flex items-center gap-1">
+          className="text-sm flex items-center gap-1 hover:underline" style={{ color: '#818CF8' }}>
           ← Back
         </button>
-        <h1 className="text-xl font-bold text-gray-900">{result.fileName}</h1>
+        <h1 className="text-xl font-bold" style={{ color: '#E2E8F0' }}>{result.fileName}</h1>
       </div>
 
-      {/* Score Hero */}
-      <div className="bg-white rounded-2xl shadow-sm border p-6 flex flex-col sm:flex-row items-center gap-6">
+      {/* Score Hero — Big Badge */}
+      <div className="rounded-3xl border p-6 flex flex-col sm:flex-row items-center gap-6"
+        style={{ background: cfg.gradient, borderColor: cfg.border }}>
         <div className="relative w-36 h-36 flex-shrink-0">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-            <circle cx="60" cy="60" r="54" fill="none" stroke="#f1f5f9" strokeWidth="10" />
-            <circle
-              cx="60" cy="60" r="54"
-              fill="none"
-              stroke={color}
-              strokeWidth="10"
-              strokeDasharray={circumference}
-              strokeDashoffset={offset}
-              strokeLinecap="round"
-              style={{ transition: 'stroke-dashoffset 1s ease' }}
-            />
+            <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10" />
+            <circle cx="60" cy="60" r="54" fill="none" stroke={color} strokeWidth="10"
+              strokeDasharray={circumference} strokeDashoffset={offset} strokeLinecap="round"
+              style={{ transition: 'stroke-dashoffset 1s ease' }} />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-black" style={{ color }}>{score}</span>
-            <span className="text-xs text-gray-400 font-medium">/ 100</span>
+            <span className="text-3xl font-black" style={{ color, fontFamily: 'JetBrains Mono, monospace' }}>{score}</span>
+            <span className="text-xs font-medium" style={{ color: '#64748B' }}>/ 100</span>
           </div>
         </div>
-        <div className="text-center sm:text-left">
-          <div className={`inline-block px-3 py-1 rounded-full text-sm font-semibold mb-2 ${getStatusColor(result.status)}`}>
-            {result.status}
+        <div className="text-center sm:text-left flex-1">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-lg font-bold mb-2"
+            style={{ background: `${color}22`, color }}>
+            {cfg.icon} {result.status}
           </div>
-          <p className="text-gray-500 text-sm">Confidence: <span className="font-medium text-gray-700">{result.confidenceLevel}</span></p>
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="text-sm" style={{ color: '#94A3B8' }}>
+            Confidence: <span className="font-semibold" style={{ color: '#E2E8F0' }}>{result.confidenceLevel}</span>
+          </p>
+          <p className="text-xs mt-1" style={{ color: '#64748B' }}>
             Processed in {result.processingTimeMs ? `${(result.processingTimeMs / 1000).toFixed(1)}s` : '—'}
           </p>
         </div>
+
         {/* Component score bars */}
         {result.componentScores && (
-          <div className="flex-1 w-full sm:w-auto grid grid-cols-2 gap-2 text-xs text-gray-600">
-            {Object.entries(result.componentScores).map(([key, val]) => (
-              <div key={key}>
-                <div className="flex justify-between mb-0.5">
-                  <span className="capitalize">{key.replace('_', ' ')}</span>
-                  <span className="font-medium">{Math.round((val as number) * 100)}%</span>
+          <div className="flex-1 w-full sm:w-auto space-y-2">
+            {Object.entries(result.componentScores).map(([key, val]) => {
+              const pct = Math.round((val as number) * 100);
+              const barColor = pct >= 80 ? '#22C55E' : pct >= 60 ? '#F59E0B' : '#EF4444';
+              return (
+                <div key={key}>
+                  <div className="flex justify-between mb-0.5 text-xs">
+                    <span className="capitalize" style={{ color: '#94A3B8' }}>{key.replace('_', ' ')}</span>
+                    <span className="font-mono font-bold" style={{ color: '#E2E8F0' }}>{pct}%</span>
+                  </div>
+                  <div className="rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                    <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: barColor }} />
+                  </div>
                 </div>
-                <div className="bg-gray-100 rounded-full h-1.5">
-                  <div className="h-full rounded-full bg-blue-400"
-                    style={{ width: `${Math.round((val as number) * 100)}%` }} />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -157,28 +170,30 @@ export default function ResultPage() {
       {/* Reasons & Warnings */}
       <div className="grid sm:grid-cols-2 gap-4">
         {result.reasons?.length > 0 && (
-          <div className="bg-green-50 border border-green-100 rounded-2xl p-4">
-            <h3 className="font-semibold text-green-800 mb-3 flex items-center gap-2">
-              <span>✅</span> Positive Signals
+          <div className="rounded-2xl border p-4"
+            style={{ background: 'rgba(34,197,94,0.06)', borderColor: 'rgba(34,197,94,0.2)' }}>
+            <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#4ADE80' }}>
+              ✅ Positive Signals
             </h3>
             <ul className="space-y-1.5">
               {result.reasons.map((r, i) => (
-                <li key={i} className="text-green-700 text-sm flex items-start gap-2">
-                  <span className="text-green-400 mt-0.5">•</span>{r}
+                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#94A3B8' }}>
+                  <span className="mt-0.5" style={{ color: '#4ADE80' }}>•</span>{r}
                 </li>
               ))}
             </ul>
           </div>
         )}
         {result.warnings?.length > 0 && (
-          <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4">
-            <h3 className="font-semibold text-amber-800 mb-3 flex items-center gap-2">
-              <span>⚠️</span> Warnings
+          <div className="rounded-2xl border p-4"
+            style={{ background: 'rgba(245,158,11,0.06)', borderColor: 'rgba(245,158,11,0.2)' }}>
+            <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#FBBF24' }}>
+              ⚠️ Warnings
             </h3>
             <ul className="space-y-1.5">
               {result.warnings.map((w, i) => (
-                <li key={i} className="text-amber-700 text-sm flex items-start gap-2">
-                  <span className="text-amber-400 mt-0.5">•</span>{w}
+                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#94A3B8' }}>
+                  <span className="mt-0.5" style={{ color: '#FBBF24' }}>•</span>{w}
                 </li>
               ))}
             </ul>
@@ -188,9 +203,9 @@ export default function ResultPage() {
 
       {/* Extracted Data */}
       {result.extractedData && (
-        <div className="bg-white rounded-2xl shadow-sm border p-5">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span>📋</span> Extracted Information
+        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+            📋 Extracted Information
           </h3>
           <div className="grid sm:grid-cols-2 gap-3">
             {[
@@ -201,16 +216,16 @@ export default function ResultPage() {
               ['Certificate ID', result.extractedData.certificate_id],
               ['Registration No.', result.extractedData.registration_number],
             ].map(([label, value]) => value ? (
-              <div key={label} className="bg-gray-50 rounded-xl p-3">
-                <p className="text-xs text-gray-400 mb-0.5">{label}</p>
-                <p className="text-sm font-medium text-gray-800">{value}</p>
+              <div key={label} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                <p className="text-xs mb-0.5" style={{ color: '#64748B' }}>{label}</p>
+                <p className="text-sm font-medium" style={{ color: '#E2E8F0' }}>{value}</p>
               </div>
             ) : null)}
           </div>
           {result.extractedData.signatories?.length > 0 && (
-            <div className="mt-3 bg-gray-50 rounded-xl p-3">
-              <p className="text-xs text-gray-400 mb-1">Signatories</p>
-              <p className="text-sm text-gray-800">{result.extractedData.signatories.join(', ')}</p>
+            <div className="mt-3 rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
+              <p className="text-xs mb-1" style={{ color: '#64748B' }}>Signatories</p>
+              <p className="text-sm" style={{ color: '#E2E8F0' }}>{result.extractedData.signatories.join(', ')}</p>
             </div>
           )}
         </div>
@@ -218,20 +233,22 @@ export default function ResultPage() {
 
       {/* Issuer Validation */}
       {result.issuerValidation && (
-        <div className="bg-white rounded-2xl shadow-sm border p-5">
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span>🏛️</span> Issuer Verification
+        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+            🏛️ Issuer Verification
           </h3>
           <div className="flex items-center gap-3 mb-3">
-            <span className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
-              ${result.issuerValidation.issuer_valid ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+            <span className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
+              style={result.issuerValidation.issuer_valid
+                ? { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }
+                : { background: 'rgba(239,68,68,0.15)', color: '#FCA5A5' }}>
               {result.issuerValidation.issuer_valid ? '✓' : '✗'}
             </span>
             <div>
-              <p className="font-medium text-gray-800">
+              <p className="font-medium text-sm" style={{ color: '#E2E8F0' }}>
                 {result.issuerValidation.matched_name || 'Not matched'}
               </p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs" style={{ color: '#64748B' }}>
                 Confidence: {Math.round(result.issuerValidation.issuer_confidence * 100)}%
                 {result.issuerValidation.accredited && ' · Accredited'}
               </p>
@@ -242,51 +259,50 @@ export default function ResultPage() {
 
       {/* Tampering Report */}
       {result.tamperingResult && (
-        <div className={`rounded-2xl shadow-sm border p-5
-          ${result.tamperingResult.tampering_detected ? 'bg-red-50 border-red-100' : 'bg-white'}`}>
-          <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span>🛡️</span> Forensic Analysis
+        <div className="rounded-2xl border p-5"
+          style={{
+            background: result.tamperingResult.tampering_detected ? 'rgba(239,68,68,0.06)' : '#1E293B',
+            borderColor: result.tamperingResult.tampering_detected ? 'rgba(239,68,68,0.2)' : 'rgba(255,255,255,0.08)'
+          }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+            🛡️ Forensic Analysis
           </h3>
           <div className="flex items-center gap-3 mb-3">
-            <span className={`px-3 py-1 rounded-full text-xs font-semibold
-              ${result.tamperingResult.tampering_detected
-                ? 'bg-red-100 text-red-700'
-                : 'bg-green-100 text-green-700'}`}>
+            <span className="px-3 py-1 rounded-full text-xs font-semibold"
+              style={result.tamperingResult.tampering_detected
+                ? { background: 'rgba(239,68,68,0.15)', color: '#FCA5A5' }
+                : { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }}>
               {result.tamperingResult.tampering_detected ? 'Tampering Detected' : 'No Tampering'}
             </span>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm" style={{ color: '#64748B' }}>
               Score: {Math.round(result.tamperingResult.tampering_score * 100)}%
             </span>
           </div>
           {result.tamperingResult.issues?.length > 0 && (
             <ul className="space-y-1 mt-2">
               {result.tamperingResult.issues.map((issue, i) => (
-                <li key={i} className="text-red-700 text-sm flex items-start gap-2">
-                  <span className="text-red-400">⚠</span> {issue}
+                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#FCA5A5' }}>
+                  <span style={{ color: '#EF4444' }}>⚠</span> {issue}
                 </li>
               ))}
             </ul>
           )}
           {result.tamperingResult.method_scores && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {Object.entries(result.tamperingResult.method_scores).map(([method, score]) => (
-                <div key={method} className="bg-white rounded-lg p-2 text-xs border">
-                  <p className="text-gray-400 capitalize">{method.replace('_', ' ')}</p>
-                  <p className="font-semibold text-gray-700">{Math.round((score as number) * 100)}%</p>
-                </div>
-              ))}
+              {Object.entries(result.tamperingResult.method_scores).map(([method, mScore]) => {
+                const pct = Math.round((mScore as number) * 100);
+                const mColor = pct <= 30 ? '#4ADE80' : pct <= 60 ? '#FBBF24' : '#EF4444';
+                return (
+                  <div key={method} className="rounded-lg p-2.5 text-xs border" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.06)' }}>
+                    <p className="capitalize mb-1" style={{ color: '#64748B' }}>{method.replace('_', ' ')}</p>
+                    <p className="font-mono font-bold" style={{ color: mColor }}>{pct}%</p>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
       )}
-    </div>
-  );
-}
-
-function LoadingSpinner() {
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-16 flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }

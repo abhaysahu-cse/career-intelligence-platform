@@ -29,3 +29,7 @@ scikit-learn==1.5.0
 # Utilities
 python-dotenv==1.0.1
 httpx==0.27.0
+loguru>=0.7.0
+
+# Certificate Validator
+rapidfuzz>=3.0.0  # Required for fuzzy issuer matching

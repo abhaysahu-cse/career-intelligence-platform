@@ -36,16 +36,21 @@ export default function LoginPage() {
       const response = await authApi.login(data);
       const payload = response.data?.data ?? response.data;
       const token = payload?.token;
-      const user = payload?.user;
+      const user = {
+        id: payload?.userId,
+        name: payload?.name,
+        email: payload?.email,
+        role: payload?.role || role
+      };
 
-      if (!token || !user) {
+      if (!token || !user.id) {
         throw new Error('Invalid auth response');
       }
 
       Cookies.set('cip_token', token, { expires: 7, sameSite: 'strict' });
-      setUser({ ...user, role });
+      setUser(user);
       toast.success(`Welcome back, ${user.name}!`);
-      router.push(role === 'faculty' ? '/admin' : '/dashboard');
+      router.push(user.role?.toLowerCase() === 'faculty' ? '/admin' : '/dashboard');
     } catch {
       toast.error('Login failed. Check backend auth service or credentials.');
     } finally {

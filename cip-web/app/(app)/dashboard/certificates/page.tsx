@@ -3,7 +3,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getUserCertificates, getStatusColor, getScoreColor, CertificateSummary } from '@/lib/api/certificates';
+import { getUserCertificates, getScoreColor, CertificateSummary } from '@/lib/api/certificates';
+import { Plus, ChevronRight, ShieldCheck, Clock, XCircle, FileText } from 'lucide-react';
 
 export default function CertificatesPage() {
   const router = useRouter();
@@ -42,109 +43,135 @@ export default function CertificatesPage() {
     });
   };
 
+  const getStatusStyle = (status: string) => {
+    switch (status?.toLowerCase()) {
+      case 'genuine': return { bg: 'rgba(34,197,94,0.12)', color: '#4ADE80' };
+      case 'likely genuine': return { bg: 'rgba(132,204,22,0.12)', color: '#A3E635' };
+      case 'suspicious': return { bg: 'rgba(245,158,11,0.12)', color: '#FBBF24' };
+      case 'likely fake': return { bg: 'rgba(249,115,22,0.12)', color: '#FB923C' };
+      case 'fake': return { bg: 'rgba(239,68,68,0.12)', color: '#FCA5A5' };
+      default: return { bg: 'rgba(255,255,255,0.06)', color: '#94A3B8' };
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Certificates</h1>
-          <p className="text-gray-500 text-sm mt-1">{total} certificate{total !== 1 ? 's' : ''} verified</p>
+          <h1 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>My Certificates</h1>
+          <p className="text-sm mt-1" style={{ color: '#94A3B8' }}>{total} certificate{total !== 1 ? 's' : ''} verified</p>
         </div>
         <button
           onClick={() => router.push('/dashboard/certificates/upload')}
-          className="bg-blue-600 text-white px-5 py-2 rounded-xl font-semibold hover:bg-blue-700 transition-colors shadow-sm text-sm"
+          className="flex items-center gap-2 px-5 py-2 rounded-xl font-semibold text-sm transition-all hover:shadow-lg"
+          style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}
         >
-          + Verify New
+          <Plus size={15} /> Verify New
         </button>
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm mb-4">
-          {error}
+        <div className="p-4 rounded-xl text-sm mb-4 flex items-start gap-2"
+          style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)', color: '#FCA5A5' }}>
+          <XCircle size={16} className="flex-shrink-0 mt-0.5" /> {error}
         </div>
       )}
 
       {loading ? (
         <div className="space-y-3">
           {[1, 2, 3].map(i => (
-            <div key={i} className="bg-gray-100 rounded-2xl h-20 animate-pulse" />
+            <div key={i} className="rounded-2xl h-20 animate-pulse" style={{ background: 'rgba(255,255,255,0.04)' }} />
           ))}
         </div>
       ) : certificates.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-2xl border">
-          <div className="text-5xl mb-4">📜</div>
-          <h3 className="text-lg font-semibold text-gray-700">No certificates yet</h3>
-          <p className="text-gray-400 text-sm mt-1">Upload your first certificate to get started</p>
+        <div className="text-center py-20 rounded-2xl border" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center"
+            style={{ background: 'rgba(79,70,229,0.12)' }}>
+            <ShieldCheck size={28} style={{ color: '#818CF8' }} />
+          </div>
+          <h3 className="text-lg font-semibold" style={{ color: '#E2E8F0' }}>No certificates yet</h3>
+          <p className="text-sm mt-1" style={{ color: '#64748B' }}>Upload your first certificate to get started</p>
           <button
             onClick={() => router.push('/dashboard/certificates/upload')}
-            className="mt-5 bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 text-sm"
+            className="mt-5 px-6 py-2.5 rounded-xl font-semibold text-sm transition-all hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}
           >
             Verify a Certificate
           </button>
         </div>
       ) : (
         <div className="space-y-3">
-          {certificates.map((cert) => (
-            <div
-              key={cert.id}
-              onClick={() => router.push(`/dashboard/certificates/${cert.id}`)}
-              className="bg-white border rounded-2xl p-4 flex items-center gap-4 cursor-pointer hover:shadow-md transition-all hover:border-blue-200"
-            >
-              {/* Score circle */}
-              <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center">
-                {cert.authenticityScore != null ? (
-                  <div className="relative w-14 h-14">
-                    <svg className="w-full h-full -rotate-90" viewBox="0 0 56 56">
-                      <circle cx="28" cy="28" r="24" fill="none" stroke="#f1f5f9" strokeWidth="4" />
-                      <circle
-                        cx="28" cy="28" r="24"
-                        fill="none"
-                        stroke={getScoreColor(cert.authenticityScore)}
-                        strokeWidth="4"
-                        strokeDasharray={2 * Math.PI * 24}
-                        strokeDashoffset={2 * Math.PI * 24 * (1 - cert.authenticityScore / 100)}
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-xs font-bold"
-                      style={{ color: getScoreColor(cert.authenticityScore) }}>
-                      {cert.authenticityScore}
+          {certificates.map((cert) => {
+            const sts = getStatusStyle(cert.authenticityStatus ?? '');
+            return (
+              <div
+                key={cert.id}
+                onClick={() => router.push(`/dashboard/certificates/${cert.id}`)}
+                className="rounded-2xl border p-4 flex items-center gap-4 cursor-pointer transition-all card-hover-glow"
+                style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}
+              >
+                {/* Score circle */}
+                <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center">
+                  {cert.authenticityScore != null ? (
+                    <div className="relative w-14 h-14">
+                      <svg className="w-full h-full -rotate-90" viewBox="0 0 56 56">
+                        <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="4" />
+                        <circle
+                          cx="28" cy="28" r="24"
+                          fill="none"
+                          stroke={getScoreColor(cert.authenticityScore)}
+                          strokeWidth="4"
+                          strokeDasharray={2 * Math.PI * 24}
+                          strokeDashoffset={2 * Math.PI * 24 * (1 - cert.authenticityScore / 100)}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold font-mono"
+                        style={{ color: getScoreColor(cert.authenticityScore) }}>
+                        {cert.authenticityScore}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="w-14 h-14 rounded-full flex items-center justify-center"
+                      style={{ background: 'rgba(255,255,255,0.04)' }}>
+                      {cert.status === 'PROCESSING' ? <Clock size={20} style={{ color: '#818CF8' }} className="animate-pulse" /> :
+                       cert.status === 'FAILED' ? <XCircle size={20} style={{ color: '#FCA5A5' }} /> :
+                       <FileText size={20} style={{ color: '#64748B' }} />}
+                    </div>
+                  )}
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold truncate text-sm" style={{ color: '#E2E8F0' }}>{cert.fileName}</p>
+                  <p className="text-xs mt-0.5" style={{ color: '#64748B' }}>{formatDate(cert.createdAt)}</p>
+                </div>
+
+                {/* Badges */}
+                <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                  {cert.authenticityStatus ? (
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                      style={{ background: sts.bg, color: sts.color }}>
+                      {cert.authenticityStatus}
                     </span>
-                  </div>
-                ) : (
-                  <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center text-lg">
-                    {cert.status === 'PROCESSING' ? '⏳' : cert.status === 'FAILED' ? '❌' : '📄'}
-                  </div>
-                )}
-              </div>
+                  ) : (
+                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                      style={{
+                        background: cert.status === 'PROCESSING' ? 'rgba(79,70,229,0.12)' : cert.status === 'FAILED' ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.06)',
+                        color: cert.status === 'PROCESSING' ? '#818CF8' : cert.status === 'FAILED' ? '#FCA5A5' : '#94A3B8',
+                      }}>
+                      {cert.status}
+                    </span>
+                  )}
+                  {cert.confidenceLevel && (
+                    <span className="text-xs" style={{ color: '#64748B' }}>{cert.confidenceLevel} conf.</span>
+                  )}
+                </div>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-800 truncate">{cert.fileName}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{formatDate(cert.createdAt)}</p>
+                <ChevronRight size={16} style={{ color: '#4B5563' }} />
               </div>
-
-              {/* Badges */}
-              <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
-                {cert.authenticityStatus ? (
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${getStatusColor(cert.authenticityStatus)}`}>
-                    {cert.authenticityStatus}
-                  </span>
-                ) : (
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold
-                    ${cert.status === 'PROCESSING' ? 'bg-blue-100 text-blue-700 animate-pulse'
-                      : cert.status === 'FAILED' ? 'bg-red-100 text-red-700'
-                      : 'bg-gray-100 text-gray-600'}`}>
-                    {cert.status}
-                  </span>
-                )}
-                {cert.confidenceLevel && (
-                  <span className="text-xs text-gray-400">{cert.confidenceLevel} conf.</span>
-                )}
-              </div>
-
-              <span className="text-gray-300 ml-1">›</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -154,17 +181,19 @@ export default function CertificatesPage() {
           <button
             onClick={() => setPage(p => Math.max(0, p - 1))}
             disabled={page === 0}
-            className="px-4 py-2 rounded-lg border text-sm disabled:opacity-40 hover:bg-gray-50"
+            className="px-4 py-2 rounded-lg border text-sm disabled:opacity-40 transition-all hover:bg-white/5"
+            style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}
           >
             Previous
           </button>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm" style={{ color: '#64748B' }}>
             Page {page + 1} of {Math.ceil(total / PAGE_SIZE)}
           </span>
           <button
             onClick={() => setPage(p => p + 1)}
             disabled={(page + 1) * PAGE_SIZE >= total}
-            className="px-4 py-2 rounded-lg border text-sm disabled:opacity-40 hover:bg-gray-50"
+            className="px-4 py-2 rounded-lg border text-sm disabled:opacity-40 transition-all hover:bg-white/5"
+            style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}
           >
             Next
           </button>

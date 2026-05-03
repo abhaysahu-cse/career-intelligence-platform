@@ -38,7 +38,7 @@ public class ScoreEngine {
     private static final double INTERVIEW_WEIGHT = 0.60;
 
     private final ScoreRepository scoreRepository;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate kafkaTemplate;
 
     @Cacheable(value = "score", key = "#userId")
     public ScoreDtos.ScoreResponse getScore(Long userId) {

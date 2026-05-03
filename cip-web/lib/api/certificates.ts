@@ -211,11 +211,11 @@ export function getScoreColor(score: number): string {
  */
 export function getStatusColor(status: string): string {
   switch (status?.toLowerCase()) {
-    case 'genuine': return 'bg-green-100 text-green-800';
-    case 'likely genuine': return 'bg-lime-100 text-lime-800';
-    case 'suspicious': return 'bg-yellow-100 text-yellow-800';
-    case 'likely fake': return 'bg-orange-100 text-orange-800';
-    case 'fake': return 'bg-red-100 text-red-800';
-    default: return 'bg-gray-100 text-gray-600';
+    case 'genuine': return 'bg-green-500/15 text-green-400';
+    case 'likely genuine': return 'bg-lime-500/15 text-lime-400';
+    case 'suspicious': return 'bg-yellow-500/15 text-yellow-400';
+    case 'likely fake': return 'bg-orange-500/15 text-orange-400';
+    case 'fake': return 'bg-red-500/15 text-red-400';
+    default: return 'bg-white/5 text-gray-400';
   }
 }

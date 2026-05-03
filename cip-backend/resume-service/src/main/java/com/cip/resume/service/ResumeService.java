@@ -6,7 +6,7 @@ import com.cip.resume.entity.Resume;
 import com.cip.resume.repository.ResumeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.pdfbox.Loader;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -27,7 +27,7 @@ public class ResumeService {
 
     private final ResumeRepository resumeRepository;
     private final StorageService storageService;
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate kafkaTemplate;
 
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
     private static final List<String> ALLOWED_TYPES = List.of("application/pdf",
@@ -77,7 +77,7 @@ public class ResumeService {
         byte[] bytes = file.getBytes();
 
         if ("application/pdf".equalsIgnoreCase(contentType)) {
-            try (PDDocument document = Loader.loadPDF(bytes)) {
+            try (PDDocument document = PDDocument.load(bytes)) {
                 return normalizeExtractedText(new PDFTextStripper().getText(document));
             }
         }

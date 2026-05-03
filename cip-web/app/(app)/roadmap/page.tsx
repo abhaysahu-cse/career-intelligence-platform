@@ -5,10 +5,11 @@ import toast from 'react-hot-toast';
 import {
   CheckCircle2, Circle, ChevronDown, ChevronUp,
   BookOpen, FolderOpen, Video, Briefcase,
-  ExternalLink, Trophy, Zap
+  ExternalLink, Trophy, Zap, AlertTriangle
 } from 'lucide-react';
-import { roadmapApi } from '@/lib/api';
-import type { RoadmapTask } from '@/types';
+import { roadmapApi, analyticsApi } from '@/lib/api';
+import { useAppStore } from '@/store';
+import type { RoadmapTask, Analytics } from '@/types';
 
 const categoryConfig = {
   skill:     { icon: BookOpen,    color: '#818CF8', bg: 'rgba(79,70,229,0.15)',  label: 'Skill' },
@@ -24,18 +25,72 @@ const unwrapPayload = <T,>(response: { data: T } | { data: { data: T } }) =>
 
 export default function RoadmapPage() {
   const qc = useQueryClient();
+  const score = useAppStore(s => s.score);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set([1, 2]));
 
   const { data: tasks } = useQuery({
     queryKey: ['roadmap'],
     queryFn: async () => {
-      try { return unwrapPayload(await roadmapApi.get() as { data: RoadmapTask[] } | { data: { data: RoadmapTask[] } }); }
+      try { 
+        const payload: any = unwrapPayload(await roadmapApi.get());
+        if (Array.isArray(payload)) return payload as RoadmapTask[];
+        if (payload && typeof payload === 'object' && 'phases' in payload) {
+          return payload.phases.map((p: any) => ({
+             id: `phase-${p.phase}`,
+             week: p.phase,
+             task: p.title,
+             description: `Topics: ${p.topics?.join(', ')}`,
+             completed: p.completed ?? false,
+             category: p.title.toLowerCase().includes('interview') ? 'interview' : 'skill',
+             resources: payload.resources?.slice(0, 2) ?? []
+          })) as RoadmapTask[];
+        }
+        return [];
+      }
       catch (error) { 
         console.error('Failed to fetch roadmap:', error);
         return []; 
       }
     },
   });
+
+  const { data: analyticsData } = useQuery({
+    queryKey: ['analytics'],
+    queryFn: async () => (await analyticsApi.get()).data,
+  });
+  const analytics = analyticsData ? unwrapPayload(analyticsData) as Analytics : null;
+
+  // Weakness → study plan mapping
+  const weaknessPlan: Record<string, { tasks: string[]; resources: { title: string; url: string }[] }> = {
+    'time complexity': {
+      tasks: ['Review Big-O notation fundamentals', 'Analyze complexity of 10 common algorithms', 'Practice explaining complexity in mock interviews'],
+      resources: [{ title: 'Big-O Cheat Sheet', url: 'https://www.bigocheatsheet.com/' }],
+    },
+    'edge cases': {
+      tasks: ['Always check null/empty inputs first', 'Practice boundary value analysis', 'Solve 5 problems focusing on edge cases'],
+      resources: [{ title: 'LeetCode Edge Cases', url: 'https://leetcode.com/explore/' }],
+    },
+    'system design': {
+      tasks: ['Study URL shortener design pattern', 'Practice drawing system diagrams', 'Take an AI interview focused on System Design'],
+      resources: [{ title: 'System Design Primer', url: 'https://github.com/donnemartin/system-design-primer' }],
+    },
+    'database': {
+      tasks: ['Review indexing & query optimization', 'Practice SQL joins and subqueries', 'Study database normalization'],
+      resources: [{ title: 'SQL Practice', url: 'https://www.hackerrank.com/domains/sql' }],
+    },
+    'communication': {
+      tasks: ['Use STAR method for behavioral questions', 'Practice structured answers: First → Then → Finally', 'Record yourself answering 3 questions'],
+      resources: [{ title: 'STAR Method Guide', url: 'https://www.themuse.com/advice/star-interview-method' }],
+    },
+    'dsa': {
+      tasks: ['Solve 5 Binary Tree problems (Easy → Medium)', 'Implement BFS and DFS from scratch', 'Study tree traversal patterns'],
+      resources: [{ title: 'NeetCode 150', url: 'https://neetcode.io/practice' }],
+    },
+    'oop': {
+      tasks: ['Review SOLID principles', 'Implement 3 design patterns', 'Practice explaining polymorphism and inheritance'],
+      resources: [{ title: 'Refactoring Guru', url: 'https://refactoring.guru/design-patterns' }],
+    },
+  };
 
   const completeMutation = useMutation({
     mutationFn: async (taskId: string) => {
@@ -120,6 +175,62 @@ export default function RoadmapPage() {
           })}
         </div>
       </div>
+
+      {/* AI-Detected Gaps → Dynamic Study Plan */}
+      {analytics && analytics.weakSkills.length > 0 && (
+        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(245,158,11,0.2)' }}>
+          <div className="flex items-center gap-2 mb-4">
+            <AlertTriangle size={16} style={{ color: '#F59E0B' }} />
+            <h3 className="font-semibold text-sm" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>
+              AI-Detected Gaps → Study Plan
+            </h3>
+            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(245,158,11,0.12)', color: '#FCD34D' }}>
+              Based on your interviews
+            </span>
+          </div>
+          <div className="space-y-4">
+            {analytics.weakSkills.slice(0, 3).map((skill, idx) => {
+              const plan = weaknessPlan[skill.toLowerCase()] ?? {
+                tasks: ['Practice this topic in your next interview session', 'Review fundamentals and core concepts'],
+                resources: [],
+              };
+              const priority = idx === 0 ? 'HIGH' : idx === 1 ? 'MEDIUM' : 'LOW';
+              const prColor = priority === 'HIGH' ? '#EF4444' : priority === 'MEDIUM' ? '#F59E0B' : '#06B6D4';
+              const prBg = priority === 'HIGH' ? 'rgba(239,68,68,0.06)' : priority === 'MEDIUM' ? 'rgba(245,158,11,0.05)' : 'rgba(6,182,212,0.05)';
+              return (
+                <div key={skill} className="rounded-xl border p-4" style={{ borderColor: `${prColor}22`, background: prBg }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold"
+                      style={{ background: `${prColor}22`, color: prColor, border: `1px solid ${prColor}33` }}>
+                      {priority}
+                    </span>
+                    <span className="text-sm font-semibold capitalize" style={{ color: '#E2E8F0' }}>{skill}</span>
+                  </div>
+                  <div className="space-y-1.5 ml-1">
+                    {plan.tasks.map(task => (
+                      <div key={task} className="flex items-start gap-2">
+                        <Circle size={12} className="flex-shrink-0 mt-0.5" style={{ color: prColor }} />
+                        <span className="text-xs" style={{ color: '#94A3B8' }}>{task}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {plan.resources.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2.5">
+                      {plan.resources.map(res => (
+                        <a key={res.url} href={res.url} target="_blank" rel="noreferrer"
+                          className="flex items-center gap-1 text-xs hover:underline"
+                          style={{ color: '#818CF8' }}>
+                          <ExternalLink size={10} />{res.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Week-wise timeline */}
       <div className="space-y-3">

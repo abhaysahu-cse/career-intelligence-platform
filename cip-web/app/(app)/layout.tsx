@@ -26,7 +26,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         style={{ marginLeft: sidebarOpen ? '240px' : '72px' }}
       >
         <Topbar />
-        <main className="flex-1 p-4 md:p-6 lg:p-8 pt-20 max-w-[1600px] w-full mx-auto animate-fade-in">
+        <main key={pathname} className="flex-1 p-4 md:p-6 lg:p-8 pt-20 max-w-[1600px] w-full mx-auto page-enter">
           {children}
         </main>
       </div>
