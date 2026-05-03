@@ -29,7 +29,7 @@ export default function Footer() {
                 CIP
               </span>
             </div>
-            <p className="text-sm text-[#64748B] leading-relaxed mb-5">
+            <p className="text-sm text-[#71717A] leading-relaxed mb-5">
               AI-powered career intelligence platform for serious candidates.
             </p>
             <div className="flex gap-3">
@@ -42,7 +42,7 @@ export default function Footer() {
                   key={href + Icon.name}
                   href={href}
                   whileHover={{ scale: 1.15, y: -2 }}
-                  className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-[#64748B] hover:text-white hover:border-white/20 transition-colors"
+                  className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center text-[#71717A] hover:text-white hover:border-white/20 transition-colors"
                 >
                   <Icon className="w-3.5 h-3.5" />
                 </motion.a>
@@ -61,7 +61,7 @@ export default function Footer() {
                   <li key={link}>
                     <a
                       href="#"
-                      className="text-sm text-[#64748B] hover:text-[#94A3B8] transition-colors"
+                      className="text-sm text-[#71717A] hover:text-[#A1A1AA] transition-colors"
                     >
                       {link}
                     </a>
@@ -74,10 +74,10 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/[0.06] flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-[#64748B]">
+          <p className="text-sm text-[#71717A]">
             © 2026 CIP. All rights reserved.
           </p>
-          <div className="flex items-center gap-1.5 text-sm text-[#64748B]">
+          <div className="flex items-center gap-1.5 text-sm text-[#71717A]">
             Built with{" "}
             <motion.span
               animate={{ scale: [1, 1.2, 1] }}
@@ -87,7 +87,7 @@ export default function Footer() {
             </motion.span>{" "}
             and AI for ambitious candidates
           </div>
-          <div className="flex items-center gap-1.5 text-xs font-mono-jetbrains text-[#64748B]">
+          <div className="flex items-center gap-1.5 text-xs font-mono-jetbrains text-[#71717A]">
             <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse" />
             All systems operational
           </div>

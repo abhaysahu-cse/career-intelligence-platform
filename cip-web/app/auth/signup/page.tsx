@@ -77,10 +77,10 @@ export default function SignupPage() {
             <span className="text-lg font-bold grad-text" style={{ fontFamily: 'Syne, sans-serif' }}>CIP</span>
           </div>
           <h1 className="text-2xl font-bold mb-1" style={{ fontFamily: 'Syne, sans-serif' }}>Create Account</h1>
-          <p className="text-sm" style={{ color: '#94A3B8' }}>Start your career journey today</p>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>Start your career journey today</p>
         </div>
 
-        <div className="rounded-2xl p-6 border" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="rounded-2xl p-6 border" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
           {/* Role Toggle */}
           <div className="flex rounded-xl p-1 mb-5" style={{ background: 'rgba(255,255,255,0.04)' }}>
             {(['student', 'faculty'] as const).map(r => (
@@ -88,7 +88,7 @@ export default function SignupPage() {
                 className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all duration-200"
                 style={role === r
                   ? { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }
-                  : { color: '#94A3B8' }}>
+                  : { color: '#A1A1AA' }}>
                 {r === 'student' ? <GraduationCap size={14} /> : <BookOpen size={14} />}
                 {r === 'student' ? 'Student' : 'Faculty'}
               </button>
@@ -102,19 +102,19 @@ export default function SignupPage() {
               { name: 'college' as const, label: 'College/University', type: 'text', placeholder: 'RGPV University' },
             ].map(f => (
               <div key={f.name}>
-                <label className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>{f.label}</label>
+                <label className="block text-sm font-medium mb-1.5" style={{ color: '#A1A1AA' }}>{f.label}</label>
                 <input {...register(f.name)} type={f.type} placeholder={f.placeholder}
                   className="w-full px-4 py-3 rounded-xl text-sm border transition-all"
-                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }} />
+                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
                 {errors[f.name] && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors[f.name]?.message}</p>}
               </div>
             ))}
 
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>Branch</label>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: '#A1A1AA' }}>Branch</label>
               <select {...register('branch')}
                 className="w-full px-4 py-3 rounded-xl text-sm border transition-all appearance-none"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}>
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}>
                 <option value="">Select branch</option>
                 {branches.map(b => <option key={b} value={b}>{b}</option>)}
               </select>
@@ -122,24 +122,24 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>Password</label>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: '#A1A1AA' }}>Password</label>
               <div className="relative">
                 <input {...register('password')} type={showPw ? 'text' : 'password'} placeholder="Min. 8 characters"
                   className="w-full px-4 py-3 rounded-xl text-sm border transition-all pr-11"
-                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }} />
+                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
                 <button type="button" onClick={() => setShowPw(!showPw)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100">
-                  {showPw ? <EyeOff size={15} style={{ color: '#94A3B8' }} /> : <Eye size={15} style={{ color: '#94A3B8' }} />}
+                  {showPw ? <EyeOff size={15} style={{ color: '#A1A1AA' }} /> : <Eye size={15} style={{ color: '#A1A1AA' }} />}
                 </button>
               </div>
               {errors.password && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors.password.message}</p>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1.5" style={{ color: '#94A3B8' }}>Confirm Password</label>
+              <label className="block text-sm font-medium mb-1.5" style={{ color: '#A1A1AA' }}>Confirm Password</label>
               <input {...register('confirm')} type="password" placeholder="Re-enter password"
                 className="w-full px-4 py-3 rounded-xl text-sm border transition-all"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }} />
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }} />
               {errors.confirm && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors.confirm.message}</p>}
             </div>
 
@@ -152,7 +152,7 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <p className="mt-4 text-center text-sm" style={{ color: '#64748B' }}>
+          <p className="mt-4 text-center text-sm" style={{ color: '#71717A' }}>
             Already have an account?{' '}
             <Link href="/auth/login" className="font-medium hover:underline" style={{ color: '#818CF8' }}>Sign in</Link>
           </p>

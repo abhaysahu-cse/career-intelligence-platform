@@ -23,7 +23,7 @@ export default function AnalyticsPage() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-indigo-500" />
-          <p style={{ color: '#94A3B8' }}>Loading progress...</p>
+          <p style={{ color: '#A1A1AA' }}>Loading progress...</p>
         </div>
       </div>
     );
@@ -40,18 +40,18 @@ export default function AnalyticsPage() {
           { title: 'Avg Interview', value: a.averageInterviewScore.toFixed(0), icon: LineChartIcon, color: '#67E8F9' },
           { title: 'Attempts', value: a.totalAttempts, icon: Brain, color: '#F59E0B' },
         ].map((card) => (
-          <div key={card.title} className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <div key={card.title} className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
             <card.icon size={18} style={{ color: card.color }} />
-            <p className="mb-1 mt-3 text-sm" style={{ color: '#94A3B8' }}>{card.title}</p>
-            <p className="text-2xl font-bold" style={{ color: '#E2E8F0', fontFamily: 'Syne,sans-serif' }}>{card.value}</p>
+            <p className="mb-1 mt-3 text-sm" style={{ color: '#A1A1AA' }}>{card.title}</p>
+            <p className="text-2xl font-bold" style={{ color: '#FFFFFF', fontFamily: 'Syne,sans-serif' }}>{card.value}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="mb-1 font-semibold" style={{ color: '#E2E8F0', fontFamily: 'Syne,sans-serif' }}>Readiness Progress</h3>
-          <p className="mb-4 text-xs" style={{ color: '#64748B' }}>Based on real completed interview attempts</p>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="mb-1 font-semibold" style={{ color: '#FFFFFF', fontFamily: 'Syne,sans-serif' }}>Readiness Progress</h3>
+          <p className="mb-4 text-xs" style={{ color: '#71717A' }}>Based on real completed interview attempts</p>
           <ResponsiveContainer width="100%" height={220}>
             <AreaChart data={a.progressHistory}>
               <defs>
@@ -61,23 +61,23 @@ export default function AnalyticsPage() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
+              <XAxis dataKey="date" tick={{ fill: '#71717A', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: '#71717A', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
               <Area type="monotone" dataKey="score" stroke="#4F46E5" fill="url(#analytics-progress)" strokeWidth={2.5} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="mb-1 font-semibold" style={{ color: '#E2E8F0', fontFamily: 'Syne,sans-serif' }}>Interview Trend</h3>
-          <p className="mb-4 text-xs" style={{ color: '#64748B' }}>How your interview scores are changing over time</p>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="mb-1 font-semibold" style={{ color: '#FFFFFF', fontFamily: 'Syne,sans-serif' }}>Interview Trend</h3>
+          <p className="mb-4 text-xs" style={{ color: '#71717A' }}>How your interview scores are changing over time</p>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={a.interviewHistory}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fill: '#64748B', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
+              <XAxis dataKey="date" tick={{ fill: '#71717A', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: '#71717A', fontSize: 10 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
               <Line type="monotone" dataKey="score" stroke="#22C55E" strokeWidth={2.5} dot={{ fill: '#22C55E', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
@@ -85,8 +85,8 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="mb-3 font-semibold" style={{ color: '#E2E8F0', fontFamily: 'Syne,sans-serif' }}>Weak Skills</h3>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="mb-3 font-semibold" style={{ color: '#FFFFFF', fontFamily: 'Syne,sans-serif' }}>Weak Skills</h3>
           {a.weakSkills.length ? (
             <div className="flex flex-wrap gap-2">
               {a.weakSkills.map((skill) => (
@@ -96,13 +96,13 @@ export default function AnalyticsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-sm" style={{ color: '#94A3B8' }}>No repeated weak topic has shown up yet. Keep answering and the system will surface patterns.</p>
+            <p className="text-sm" style={{ color: '#A1A1AA' }}>No repeated weak topic has shown up yet. Keep answering and the system will surface patterns.</p>
           )}
         </div>
 
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="mb-3 font-semibold" style={{ color: '#E2E8F0', fontFamily: 'Syne,sans-serif' }}>Recommendation</h3>
-          <p className="text-sm leading-6" style={{ color: '#94A3B8' }}>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="mb-3 font-semibold" style={{ color: '#FFFFFF', fontFamily: 'Syne,sans-serif' }}>Recommendation</h3>
+          <p className="text-sm leading-6" style={{ color: '#A1A1AA' }}>
             {a.latestRecommendation || 'Complete a few interview attempts and upload your resume to unlock more targeted coaching.'}
           </p>
         </div>

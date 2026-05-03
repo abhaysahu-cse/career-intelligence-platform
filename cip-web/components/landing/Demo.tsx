@@ -77,7 +77,7 @@ export default function Demo() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="text-lg text-[#94A3B8] mb-8 leading-relaxed"
+              className="text-lg text-[#A1A1AA] mb-8 leading-relaxed"
             >
               Our AI doesn't just listen — it understands. It evaluates your
               answers the way a senior hiring manager would, then teaches you
@@ -106,7 +106,7 @@ export default function Demo() {
                   <div className="w-5 h-5 rounded-full bg-[#22C55E]/15 flex items-center justify-center flex-shrink-0">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
                   </div>
-                  <span className="text-[#E2E8F0] text-sm">{f}</span>
+                  <span className="text-[#FFFFFF] text-sm">{f}</span>
                 </motion.li>
               ))}
             </motion.ul>
@@ -145,7 +145,7 @@ export default function Demo() {
                   ))}
                 </div>
                 <div className="flex-1 flex items-center justify-center gap-2">
-                  <span className="font-mono-jetbrains text-xs text-[#64748B]">
+                  <span className="font-mono-jetbrains text-xs text-[#71717A]">
                     cip.ai / interview / software-engineer
                   </span>
                 </div>
@@ -173,7 +173,7 @@ export default function Demo() {
 
                 {/* Question selector */}
                 <div className="space-y-2">
-                  <div className="text-xs text-[#64748B] uppercase tracking-wider mb-2">
+                  <div className="text-xs text-[#71717A] uppercase tracking-wider mb-2">
                     Question {activeQuestion + 1} / {questions.length}
                   </div>
                   <div className="p-4 rounded-xl bg-[#4F46E5]/10 border border-[#4F46E5]/20">
@@ -183,7 +183,7 @@ export default function Demo() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="text-sm text-[#E2E8F0] leading-relaxed"
+                        className="text-sm text-[#FFFFFF] leading-relaxed"
                       >
                         {questions[activeQuestion]}
                       </motion.p>
@@ -237,7 +237,7 @@ export default function Demo() {
                       </>
                     )}
                   </button>
-                  <div className="text-xs text-[#64748B]">
+                  <div className="text-xs text-[#71717A]">
                     {recording ? (
                       <motion.span
                         className="text-red-400"
@@ -255,7 +255,7 @@ export default function Demo() {
                 {/* Skill bars */}
                 <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-3">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-1.5 text-xs font-medium text-[#94A3B8]">
+                    <div className="flex items-center gap-1.5 text-xs font-medium text-[#A1A1AA]">
                       <BarChart3 className="w-3.5 h-3.5" />
                       Session Skills
                     </div>
@@ -267,7 +267,7 @@ export default function Demo() {
                   {skillBars.map((bar, i) => (
                     <div key={bar.skill}>
                       <div className="flex items-center justify-between text-xs mb-1">
-                        <span className="text-[#94A3B8]">{bar.skill}</span>
+                        <span className="text-[#A1A1AA]">{bar.skill}</span>
                         <span
                           className="font-semibold"
                           style={{ color: bar.color }}
@@ -314,7 +314,7 @@ export default function Demo() {
                       >
                         {stat.value}
                       </div>
-                      <div className="text-[10px] text-[#64748B]">
+                      <div className="text-[10px] text-[#71717A]">
                         {stat.label}
                       </div>
                     </div>

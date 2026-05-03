@@ -77,8 +77,8 @@ export default function ResultPage() {
   if (processing) return (
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
       <div className="text-5xl mb-4">🔍</div>
-      <h2 className="text-xl font-semibold mb-2" style={{ color: '#E2E8F0' }}>Analyzing Certificate</h2>
-      <p className="text-sm mb-6" style={{ color: '#94A3B8' }}>Running OCR, issuer validation, and tamper detection...</p>
+      <h2 className="text-xl font-semibold mb-2" style={{ color: '#FFFFFF' }}>Analyzing Certificate</h2>
+      <p className="text-sm mb-6" style={{ color: '#A1A1AA' }}>Running OCR, issuer validation, and tamper detection...</p>
       <div className="w-64 mx-auto rounded-full h-2 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div className="h-2 rounded-full animate-pulse w-2/3" style={{ background: 'linear-gradient(90deg, #4F46E5, #06B6D4)' }} />
       </div>
@@ -89,7 +89,7 @@ export default function ResultPage() {
     <div className="max-w-2xl mx-auto px-4 py-16 text-center">
       <div className="text-5xl mb-4">❌</div>
       <h2 className="text-xl font-semibold mb-2" style={{ color: '#FCA5A5' }}>Processing Failed</h2>
-      <p className="text-sm" style={{ color: '#94A3B8' }}>{error}</p>
+      <p className="text-sm" style={{ color: '#A1A1AA' }}>{error}</p>
       <button onClick={() => router.push('/dashboard/certificates/upload')}
         className="mt-6 px-6 py-2 rounded-xl text-sm font-semibold transition-all hover:shadow-lg"
         style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}>
@@ -114,7 +114,7 @@ export default function ResultPage() {
           className="text-sm flex items-center gap-1 hover:underline" style={{ color: '#818CF8' }}>
           ← Back
         </button>
-        <h1 className="text-xl font-bold" style={{ color: '#E2E8F0' }}>{result.fileName}</h1>
+        <h1 className="text-xl font-bold" style={{ color: '#FFFFFF' }}>{result.fileName}</h1>
       </div>
 
       {/* Score Hero — Big Badge */}
@@ -129,7 +129,7 @@ export default function ResultPage() {
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-3xl font-black" style={{ color, fontFamily: 'JetBrains Mono, monospace' }}>{score}</span>
-            <span className="text-xs font-medium" style={{ color: '#64748B' }}>/ 100</span>
+            <span className="text-xs font-medium" style={{ color: '#71717A' }}>/ 100</span>
           </div>
         </div>
         <div className="text-center sm:text-left flex-1">
@@ -137,10 +137,10 @@ export default function ResultPage() {
             style={{ background: `${color}22`, color }}>
             {cfg.icon} {result.status}
           </div>
-          <p className="text-sm" style={{ color: '#94A3B8' }}>
-            Confidence: <span className="font-semibold" style={{ color: '#E2E8F0' }}>{result.confidenceLevel}</span>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>
+            Confidence: <span className="font-semibold" style={{ color: '#FFFFFF' }}>{result.confidenceLevel}</span>
           </p>
-          <p className="text-xs mt-1" style={{ color: '#64748B' }}>
+          <p className="text-xs mt-1" style={{ color: '#71717A' }}>
             Processed in {result.processingTimeMs ? `${(result.processingTimeMs / 1000).toFixed(1)}s` : '—'}
           </p>
         </div>
@@ -154,8 +154,8 @@ export default function ResultPage() {
               return (
                 <div key={key}>
                   <div className="flex justify-between mb-0.5 text-xs">
-                    <span className="capitalize" style={{ color: '#94A3B8' }}>{key.replace('_', ' ')}</span>
-                    <span className="font-mono font-bold" style={{ color: '#E2E8F0' }}>{pct}%</span>
+                    <span className="capitalize" style={{ color: '#A1A1AA' }}>{key.replace('_', ' ')}</span>
+                    <span className="font-mono font-bold" style={{ color: '#FFFFFF' }}>{pct}%</span>
                   </div>
                   <div className="rounded-full h-1.5 overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
                     <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: barColor }} />
@@ -177,7 +177,7 @@ export default function ResultPage() {
             </h3>
             <ul className="space-y-1.5">
               {result.reasons.map((r, i) => (
-                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#94A3B8' }}>
+                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#A1A1AA' }}>
                   <span className="mt-0.5" style={{ color: '#4ADE80' }}>•</span>{r}
                 </li>
               ))}
@@ -192,7 +192,7 @@ export default function ResultPage() {
             </h3>
             <ul className="space-y-1.5">
               {result.warnings.map((w, i) => (
-                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#94A3B8' }}>
+                <li key={i} className="text-sm flex items-start gap-2" style={{ color: '#A1A1AA' }}>
                   <span className="mt-0.5" style={{ color: '#FBBF24' }}>•</span>{w}
                 </li>
               ))}
@@ -203,8 +203,8 @@ export default function ResultPage() {
 
       {/* Extracted Data */}
       {result.extractedData && (
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#FFFFFF' }}>
             📋 Extracted Information
           </h3>
           <div className="grid sm:grid-cols-2 gap-3">
@@ -217,15 +217,15 @@ export default function ResultPage() {
               ['Registration No.', result.extractedData.registration_number],
             ].map(([label, value]) => value ? (
               <div key={label} className="rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                <p className="text-xs mb-0.5" style={{ color: '#64748B' }}>{label}</p>
-                <p className="text-sm font-medium" style={{ color: '#E2E8F0' }}>{value}</p>
+                <p className="text-xs mb-0.5" style={{ color: '#71717A' }}>{label}</p>
+                <p className="text-sm font-medium" style={{ color: '#FFFFFF' }}>{value}</p>
               </div>
             ) : null)}
           </div>
           {result.extractedData.signatories?.length > 0 && (
             <div className="mt-3 rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)' }}>
-              <p className="text-xs mb-1" style={{ color: '#64748B' }}>Signatories</p>
-              <p className="text-sm" style={{ color: '#E2E8F0' }}>{result.extractedData.signatories.join(', ')}</p>
+              <p className="text-xs mb-1" style={{ color: '#71717A' }}>Signatories</p>
+              <p className="text-sm" style={{ color: '#FFFFFF' }}>{result.extractedData.signatories.join(', ')}</p>
             </div>
           )}
         </div>
@@ -233,8 +233,8 @@ export default function ResultPage() {
 
       {/* Issuer Validation */}
       {result.issuerValidation && (
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#FFFFFF' }}>
             🏛️ Issuer Verification
           </h3>
           <div className="flex items-center gap-3 mb-3">
@@ -245,10 +245,10 @@ export default function ResultPage() {
               {result.issuerValidation.issuer_valid ? '✓' : '✗'}
             </span>
             <div>
-              <p className="font-medium text-sm" style={{ color: '#E2E8F0' }}>
+              <p className="font-medium text-sm" style={{ color: '#FFFFFF' }}>
                 {result.issuerValidation.matched_name || 'Not matched'}
               </p>
-              <p className="text-xs" style={{ color: '#64748B' }}>
+              <p className="text-xs" style={{ color: '#71717A' }}>
                 Confidence: {Math.round(result.issuerValidation.issuer_confidence * 100)}%
                 {result.issuerValidation.accredited && ' · Accredited'}
               </p>
@@ -261,10 +261,10 @@ export default function ResultPage() {
       {result.tamperingResult && (
         <div className="rounded-2xl border p-5"
           style={{
-            background: result.tamperingResult.tampering_detected ? 'rgba(239,68,68,0.06)' : '#1E293B',
+            background: result.tamperingResult.tampering_detected ? 'rgba(239,68,68,0.06)' : '#0A0A0A',
             borderColor: result.tamperingResult.tampering_detected ? 'rgba(239,68,68,0.2)' : 'rgba(255,255,255,0.08)'
           }}>
-          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+          <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm" style={{ color: '#FFFFFF' }}>
             🛡️ Forensic Analysis
           </h3>
           <div className="flex items-center gap-3 mb-3">
@@ -274,7 +274,7 @@ export default function ResultPage() {
                 : { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }}>
               {result.tamperingResult.tampering_detected ? 'Tampering Detected' : 'No Tampering'}
             </span>
-            <span className="text-sm" style={{ color: '#64748B' }}>
+            <span className="text-sm" style={{ color: '#71717A' }}>
               Score: {Math.round(result.tamperingResult.tampering_score * 100)}%
             </span>
           </div>
@@ -294,7 +294,7 @@ export default function ResultPage() {
                 const mColor = pct <= 30 ? '#4ADE80' : pct <= 60 ? '#FBBF24' : '#EF4444';
                 return (
                   <div key={method} className="rounded-lg p-2.5 text-xs border" style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.06)' }}>
-                    <p className="capitalize mb-1" style={{ color: '#64748B' }}>{method.replace('_', ' ')}</p>
+                    <p className="capitalize mb-1" style={{ color: '#71717A' }}>{method.replace('_', ' ')}</p>
                     <p className="font-mono font-bold" style={{ color: mColor }}>{pct}%</p>
                   </div>
                 );

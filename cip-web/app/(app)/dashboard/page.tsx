@@ -95,7 +95,7 @@ export default function DashboardPage() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-indigo-500" />
-          <p style={{ color: '#94A3B8' }}>Loading your dashboard...</p>
+          <p style={{ color: '#A1A1AA' }}>Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -140,8 +140,8 @@ export default function DashboardPage() {
       <div
         className="rounded-3xl border p-6 md:p-8"
         style={{
-          background: 'linear-gradient(135deg, rgba(79,70,229,0.2) 0%, rgba(6,182,212,0.1) 100%)',
-          borderColor: 'rgba(79,70,229,0.25)',
+          background: '#0A0A0A',
+          borderColor: 'rgba(255,255,255,0.05)',
         }}
       >
         <div className="flex flex-col items-center gap-6 md:flex-row md:gap-10">
@@ -150,13 +150,13 @@ export default function DashboardPage() {
           </div>
 
           <div className="flex-1 text-center md:text-left">
-            <p className="mb-1 text-sm font-medium" style={{ color: '#94A3B8' }}>
+            <p className="mb-1 text-sm font-medium" style={{ color: '#A1A1AA' }}>
               Good morning, {user?.name?.split(' ')[0] ?? 'Student'}
             </p>
-            <h2 className="mb-2 text-2xl font-bold md:text-3xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne, sans-serif' }}>
+            <h2 className="mb-2 text-2xl font-bold md:text-3xl text-white" style={{ fontFamily: 'Syne, sans-serif' }}>
               You are <span className="grad-text">{s.level}</span>
             </h2>
-            <p className="mb-3 text-sm" style={{ color: '#94A3B8' }}>
+            <p className="mb-3 text-sm" style={{ color: '#A1A1AA' }}>
               Speak, get evaluated, improve weak topics, and turn that progress into stronger job matches.
             </p>
 
@@ -205,8 +205,8 @@ export default function DashboardPage() {
               ].map((item) => (
                 <div key={item.label}>
                   <div className="mb-1 flex justify-between text-xs">
-                    <span style={{ color: '#94A3B8' }}>{item.label}</span>
-                    <span className="font-mono font-bold" style={{ color: '#E2E8F0' }}>{item.val}</span>
+                    <span style={{ color: '#A1A1AA' }}>{item.label}</span>
+                    <span className="font-mono font-bold" style={{ color: '#FFFFFF' }}>{item.val}</span>
                   </div>
                   <div className="h-1.5 overflow-hidden rounded-full" style={{ background: 'rgba(255,255,255,0.1)' }}>
                     <div className="h-full rounded-full" style={{ width: `${Math.min(Number(item.val), 100)}%`, background: item.color }} />
@@ -227,7 +227,7 @@ export default function DashboardPage() {
             <button
               onClick={() => router.push('/jobs')}
               className="flex items-center gap-2 rounded-xl border px-5 py-3 text-sm font-semibold transition-all hover:bg-white/10"
-              style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#E2E8F0' }}
+              style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#FFFFFF' }}
             >
               <Target size={15} /> View Jobs
             </button>
@@ -249,11 +249,11 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl p-5 lg:col-span-2 border border-white/5 shadow-md shadow-black/20" style={{ background: '#1E293B' }}>
+        <div className="rounded-2xl p-5 lg:col-span-2 border border-white/5 shadow-md shadow-black/20" style={{ background: '#0A0A0A' }}>
           <div className="mb-4 flex items-center justify-between">
             <div>
-              <h3 className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne,sans-serif' }}>Progress Tracking</h3>
-              <p className="text-xs" style={{ color: '#64748B' }}>Built from completed interview attempts</p>
+              <h3 className="font-semibold text-white" style={{ fontFamily: 'Syne,sans-serif' }}>Progress Tracking</h3>
+              <p className="text-xs" style={{ color: '#71717A' }}>Built from completed interview attempts</p>
             </div>
             <button onClick={() => router.push('/analytics')} className="flex items-center gap-1 text-xs font-medium hover:underline" style={{ color: '#818CF8' }}>
               View details <ChevronRight size={12} />
@@ -268,9 +268,9 @@ export default function DashboardPage() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="date" tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fill: '#64748B', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
+              <XAxis dataKey="date" tick={{ fill: '#71717A', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: '#71717A', fontSize: 11 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ background: '#0A0A0A', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px' }} />
               <Area type="monotone" dataKey="score" stroke="#4F46E5" strokeWidth={2.5} fill="url(#dashboard-progress)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -278,7 +278,7 @@ export default function DashboardPage() {
 
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne,sans-serif' }}>Next Actions</h3>
+            <h3 className="font-semibold text-white" style={{ fontFamily: 'Syne,sans-serif' }}>Next Actions</h3>
             <button onClick={() => router.push('/roadmap')} className="flex items-center gap-1 text-xs font-medium hover:underline" style={{ color: '#818CF8' }}>
               Full roadmap <ChevronRight size={12} />
             </button>
@@ -292,13 +292,13 @@ export default function DashboardPage() {
       <div>
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h3 className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne,sans-serif' }}>Top Job Matches</h3>
-            <p className="text-xs" style={{ color: '#64748B' }}>Real backend matches based on readiness and skills</p>
+            <h3 className="font-semibold text-white" style={{ fontFamily: 'Syne,sans-serif' }}>Top Job Matches</h3>
+            <p className="text-xs" style={{ color: '#71717A' }}>Real backend matches based on readiness and skills</p>
           </div>
           <button
             onClick={() => router.push('/jobs')}
             className="flex items-center gap-1 rounded-xl border px-3 py-1.5 text-sm font-medium transition-all hover:bg-white/5"
-            style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}
+            style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#A1A1AA' }}
           >
             View all <ArrowRight size={13} />
           </button>
@@ -313,12 +313,12 @@ export default function DashboardPage() {
               />
             ))
           ) : (
-            <div className="col-span-3 py-10 text-center rounded-2xl border border-white/5 shadow-md shadow-black/20" style={{ background: '#1E293B' }}>
+            <div className="col-span-3 py-10 text-center rounded-2xl border border-white/5 shadow-md shadow-black/20" style={{ background: '#0A0A0A' }}>
               <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ background: 'rgba(79,70,229,0.1)' }}>
                 <Zap size={20} className="text-[#818CF8]" />
               </div>
-              <h3 className="text-lg font-semibold mb-1" style={{ color: '#E2E8F0' }}>Unlock your potential — Start your first AI interview</h3>
-              <p className="text-sm" style={{ color: '#94A3B8' }}>Your top job matches will appear here once we understand your skills.</p>
+              <h3 className="text-lg font-semibold mb-1" style={{ color: '#FFFFFF' }}>Unlock your potential — Start your first AI interview</h3>
+              <p className="text-sm" style={{ color: '#A1A1AA' }}>Your top job matches will appear here once we understand your skills.</p>
             </div>
           )}
         </div>
@@ -327,8 +327,8 @@ export default function DashboardPage() {
       {/* Skill Radar Chart + Intelligent Weakness Analysis */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Radar Chart */}
-        <div className="rounded-2xl p-5 border border-white/5 shadow-md shadow-black/20" style={{ background: '#1E293B' }}>
-          <h3 className="mb-4 font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne,sans-serif' }}>Skill Radar</h3>
+        <div className="rounded-2xl p-5 border border-white/5 shadow-md shadow-black/20" style={{ background: '#0A0A0A' }}>
+          <h3 className="mb-4 font-semibold text-white" style={{ fontFamily: 'Syne,sans-serif' }}>Skill Radar</h3>
           <ResponsiveContainer width="100%" height={220}>
             <RadarChart data={[
               { subject: 'DSA', score: Math.min((s.interviewScore ?? 0) + 10, 100), fullMark: 100 },
@@ -338,20 +338,27 @@ export default function DashboardPage() {
               { subject: 'OOP', score: Math.min((s.academicScore ?? 0) + 5, 100), fullMark: 100 },
               { subject: 'Database', score: Math.min(Math.max((s.interviewScore ?? 0) - 5, 0), 100), fullMark: 100 },
             ]}>
-              <PolarGrid stroke="rgba(255,255,255,0.08)" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#94A3B8', fontSize: 10 }} />
+              <defs>
+                <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#06B6D4" stopOpacity={0.7} />
+                  <stop offset="50%" stopColor="#4F46E5" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity={0.1} />
+                </radialGradient>
+              </defs>
+              <PolarGrid stroke="rgba(255,255,255,0.15)" strokeDasharray="3 3" />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: '#FFFFFF', fontSize: 11, fontWeight: 500 }} />
               <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-              <Radar name="Skills" dataKey="score" stroke="#4F46E5" fill="#4F46E5" fillOpacity={0.25} strokeWidth={2} />
+              <Radar name="Skills" dataKey="score" stroke="#06B6D4" fill="url(#radarGlow)" fillOpacity={1} strokeWidth={3} />
             </RadarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Structured Weak Skills */}
-        <div className="rounded-2xl p-5 lg:col-span-2 border border-white/5 shadow-md shadow-black/20" style={{ background: '#1E293B' }}>
+        <div className="rounded-2xl p-5 lg:col-span-2 border border-white/5 shadow-md shadow-black/20" style={{ background: '#0A0A0A' }}>
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <AlertTriangle size={16} style={{ color: '#F59E0B' }} />
-              <h3 className="font-semibold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400" style={{ fontFamily: 'Syne,sans-serif' }}>Skill Gap Analysis</h3>
+              <h3 className="font-semibold text-white" style={{ fontFamily: 'Syne,sans-serif' }}>Skill Gap Analysis</h3>
             </div>
             <button onClick={() => router.push('/analytics')} className="flex items-center gap-1 text-xs font-medium hover:underline" style={{ color: '#818CF8' }}>
               Details <ChevronRight size={12} />
@@ -387,13 +394,13 @@ export default function DashboardPage() {
                       <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: `${prColor}22`, color: prColor, border: `1px solid ${prColor}33` }}>
                         {priority}
                       </span>
-                      <span className="text-sm font-semibold capitalize" style={{ color: '#E2E8F0' }}>{skill}</span>
+                      <span className="text-sm font-semibold capitalize" style={{ color: '#FFFFFF' }}>{skill}</span>
                     </div>
-                    <p className="text-xs" style={{ color: '#94A3B8' }}>Why: {whyMap[skill.toLowerCase()] ?? 'Repeated weakness in recent answers'}</p>
+                    <p className="text-xs" style={{ color: '#A1A1AA' }}>Why: {whyMap[skill.toLowerCase()] ?? 'Repeated weakness in recent answers'}</p>
                     <div className="space-y-0.5">
                       <p className="text-xs font-semibold" style={{ color: '#67E8F9' }}>Fix:</p>
                       {(fixMap[skill.toLowerCase()] ?? ['Practice this topic in your next interview session']).map((fix) => (
-                        <p key={fix} className="text-xs pl-3" style={{ color: '#94A3B8' }}>→ {fix}</p>
+                        <p key={fix} className="text-xs pl-3" style={{ color: '#A1A1AA' }}>→ {fix}</p>
                       ))}
                     </div>
                   </div>
@@ -402,7 +409,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="py-6 text-center">
-              <p className="text-sm" style={{ color: '#94A3B8' }}>
+              <p className="text-sm" style={{ color: '#A1A1AA' }}>
                 No repeated weak topic detected yet. Complete a few more interview attempts for the AI to detect patterns.
               </p>
             </div>

@@ -166,41 +166,41 @@ export default function JobsPage() {
       {/* Header + Score mini */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
         <div className="flex-1">
-          <h2 className="text-xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>
+          <h2 className="text-xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>
             Jobs & Internships
           </h2>
-          <p className="text-sm" style={{ color:'#94A3B8' }}>
+          <p className="text-sm" style={{ color:'#A1A1AA' }}>
             {filtered.length} opportunities matched • Based on your readiness score
           </p>
         </div>
         {score && (
           <div className="flex items-center gap-3 px-4 py-2 rounded-2xl border flex-shrink-0"
-            style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+            style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
             <ScoreCircle score={score.readiness} size={52} strokeWidth={6} showLevel={false} />
             <div>
-              <p className="text-xs" style={{ color:'#94A3B8' }}>Your Score</p>
-              <p className="text-sm font-semibold" style={{ color:'#E2E8F0' }}>{score.level}</p>
+              <p className="text-xs" style={{ color:'#A1A1AA' }}>Your Score</p>
+              <p className="text-sm font-semibold" style={{ color:'#FFFFFF' }}>{score.level}</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Filters */}
-      <div className="rounded-2xl p-4 border space-y-3" style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+      <div className="rounded-2xl p-4 border space-y-3" style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
         {/* Search + recommended toggle */}
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color:'#64748B' }} />
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color:'#71717A' }} />
             <input value={search} onChange={e => setSearch(e.target.value)}
               placeholder="Search companies or roles…"
               className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border transition-all"
-              style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#E2E8F0' }} />
+              style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#FFFFFF' }} />
           </div>
           <button onClick={() => setOnlyRecommended(!onlyRecommended)}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium border transition-all flex-shrink-0"
             style={onlyRecommended
               ? { background:'rgba(79,70,229,0.2)', borderColor:'rgba(79,70,229,0.5)', color:'#818CF8' }
-              : { background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+              : { background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             <Zap size={13} /> Only Recommended
           </button>
         </div>
@@ -209,22 +209,22 @@ export default function JobsPage() {
         <div className="flex flex-wrap gap-2">
           <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)}
             className="px-3 py-2 rounded-xl text-sm border appearance-none transition-all"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             {ROLES.map(r => <option key={r}>{r}</option>)}
           </select>
           <select value={locationFilter} onChange={e => setLocationFilter(e.target.value)}
             className="px-3 py-2 rounded-xl text-sm border appearance-none transition-all"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             {LOCATIONS.map(l => <option key={l}>{l}</option>)}
           </select>
           <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
             className="px-3 py-2 rounded-xl text-sm border appearance-none transition-all"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             {TYPES.map(t => <option key={t}>{t}</option>)}
           </select>
           <select value={minMatch} onChange={e => setMinMatch(Number(e.target.value))}
             className="px-3 py-2 rounded-xl text-sm border appearance-none transition-all"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             <option value={0}>Any Match</option>
             <option value={60}>60%+ Match</option>
             <option value={75}>75%+ Match</option>
@@ -248,19 +248,19 @@ export default function JobsPage() {
           { label: 'High Match 80%+',value: filtered.filter(j=>j.match>=80).length,    color: '#F59E0B' },
         ].map(s => (
           <div key={s.label} className="rounded-2xl p-4 border text-center"
-            style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+            style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
             <p className="text-2xl font-bold" style={{ fontFamily:'Syne,sans-serif', color: s.color }}>{s.value}</p>
-            <p className="text-xs mt-0.5" style={{ color:'#64748B' }}>{s.label}</p>
+            <p className="text-xs mt-0.5" style={{ color:'#71717A' }}>{s.label}</p>
           </div>
         ))}
       </div>
 
       {/* Job Grid */}
       {filtered.length === 0 ? (
-        <div className="text-center py-16 rounded-2xl border" style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+        <div className="text-center py-16 rounded-2xl border" style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
           <Filter size={32} className="mx-auto mb-3" style={{ color:'#4F46E5' }} />
-          <p className="font-semibold" style={{ color:'#E2E8F0' }}>No jobs match your filters</p>
-          <p className="text-sm mt-1" style={{ color:'#94A3B8' }}>Try adjusting your filters</p>
+          <p className="font-semibold" style={{ color:'#FFFFFF' }}>No jobs match your filters</p>
+          <p className="text-sm mt-1" style={{ color:'#A1A1AA' }}>Try adjusting your filters</p>
           <button onClick={clearFilters} className="mt-4 px-4 py-2 rounded-xl text-sm font-medium transition-all"
             style={{ background:'rgba(79,70,229,0.15)', color:'#818CF8' }}>
             Clear Filters

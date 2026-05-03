@@ -18,7 +18,7 @@ const getStatusStyle = (status: string) => {
     case 'suspicious': return { bg: 'rgba(245,158,11,0.12)', color: '#FBBF24' };
     case 'likely fake': return { bg: 'rgba(249,115,22,0.12)', color: '#FB923C' };
     case 'fake': return { bg: 'rgba(239,68,68,0.12)', color: '#FCA5A5' };
-    default: return { bg: 'rgba(255,255,255,0.06)', color: '#94A3B8' };
+    default: return { bg: 'rgba(255,255,255,0.06)', color: '#A1A1AA' };
   }
 };
 
@@ -71,7 +71,7 @@ export default function AuthenticityScore({
             {score}
           </span>
           {size !== 'sm' && (
-            <span className="text-xs font-medium" style={{ color: '#64748B' }}>/ 100</span>
+            <span className="text-xs font-medium" style={{ color: '#71717A' }}>/ 100</span>
           )}
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function AuthenticityScore({
             style={{ background: sts.bg, color: sts.color }}>
             {status}
           </span>
-          <p className="text-xs mt-1" style={{ color: '#64748B' }}>{confidenceLevel} confidence</p>
+          <p className="text-xs mt-1" style={{ color: '#71717A' }}>{confidenceLevel} confidence</p>
         </div>
       )}
     </div>

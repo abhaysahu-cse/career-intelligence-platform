@@ -98,7 +98,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-[#94A3B8] text-lg max-w-xl mx-auto"
+            className="text-[#A1A1AA] text-lg max-w-xl mx-auto"
           >
             A structured pipeline that transforms interview anxiety into
             career confidence.
@@ -167,7 +167,7 @@ export default function HowItWorks() {
                 <h4 className="font-syne font-bold text-white text-base mb-2">
                   {step.title}
                 </h4>
-                <p className="text-xs text-[#64748B] leading-relaxed px-1">
+                <p className="text-xs text-[#71717A] leading-relaxed px-1">
                   {step.description}
                 </p>
               </motion.div>
@@ -213,7 +213,7 @@ export default function HowItWorks() {
                 <h4 className="font-syne font-bold text-white text-base mb-1">
                   {step.title}
                 </h4>
-                <p className="text-sm text-[#64748B] leading-relaxed">
+                <p className="text-sm text-[#71717A] leading-relaxed">
                   {step.description}
                 </p>
               </div>
@@ -229,7 +229,7 @@ export default function HowItWorks() {
           transition={{ delay: 0.6 }}
           className="text-center mt-16"
         >
-          <p className="text-[#94A3B8] text-sm mb-4">
+          <p className="text-[#A1A1AA] text-sm mb-4">
             Average time from first session to first offer:{" "}
             <strong className="text-white">14 days</strong>
           </p>

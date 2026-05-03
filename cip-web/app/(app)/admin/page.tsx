@@ -115,20 +115,20 @@ export default function AdminPage() {
           { label:'Avg Readiness',   value: `${stats.avgScore}%`, color:'#67E8F9', bg:'rgba(6,182,212,0.15)',  icon: TrendingUp },
         ].map(c => (
           <div key={c.label} className="rounded-2xl p-4 border"
-            style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+            style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
             <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2" style={{ background: c.bg }}>
               <c.icon size={15} style={{ color: c.color }} />
             </div>
-            <p className="text-xs" style={{ color:'#94A3B8' }}>{c.label}</p>
-            <p className="text-2xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>{c.value}</p>
+            <p className="text-xs" style={{ color:'#A1A1AA' }}>{c.label}</p>
+            <p className="text-2xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>{c.value}</p>
           </div>
         ))}
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="rounded-2xl p-5 border" style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold mb-4" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>
+        <div className="rounded-2xl p-5 border" style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>
             Avg Readiness by Branch
           </h3>
           <ResponsiveContainer width="100%" height={180}>
@@ -140,17 +140,17 @@ export default function AdminPage() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="branch" tick={{ fill:'#64748B', fontSize:11 }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0,100]} tick={{ fill:'#64748B', fontSize:11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background:'#1E293B', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', color:'#E2E8F0' }} />
+              <XAxis dataKey="branch" tick={{ fill:'#71717A', fontSize:11 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0,100]} tick={{ fill:'#71717A', fontSize:11 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={{ background:'#0A0A0A', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', color:'#FFFFFF' }} />
               <Bar dataKey="avg" radius={[6,6,0,0]} fill="url(#bg2)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <div className="rounded-2xl p-5 border flex flex-col items-center"
-          style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold mb-4 self-start" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>
+          style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold mb-4 self-start" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>
             Risk Distribution
           </h3>
           <ResponsiveContainer width="100%" height={180}>
@@ -158,14 +158,14 @@ export default function AdminPage() {
               <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={80} dataKey="value" strokeWidth={0}>
                 {pieData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
               </Pie>
-              <Tooltip contentStyle={{ background:'#1E293B', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', color:'#E2E8F0' }} />
+              <Tooltip contentStyle={{ background:'#0A0A0A', border:'1px solid rgba(255,255,255,0.08)', borderRadius:'12px', color:'#FFFFFF' }} />
             </PieChart>
           </ResponsiveContainer>
           <div className="flex gap-4 mt-2">
             {pieData.map(p => (
               <div key={p.name} className="flex items-center gap-1.5 text-xs">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: p.color }} />
-                <span style={{ color:'#94A3B8' }}>{p.name}</span>
+                <span style={{ color:'#A1A1AA' }}>{p.name}</span>
               </div>
             ))}
           </div>
@@ -175,16 +175,16 @@ export default function AdminPage() {
       {/* Table Controls */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color:'#64748B' }} />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color:'#71717A' }} />
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search by name or email…"
             className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm border"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#E2E8F0' }} />
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#FFFFFF' }} />
         </div>
         <div className="flex gap-2">
           <select value={riskFilter} onChange={e => setRiskFilter(e.target.value as RiskLevel | 'ALL')}
             className="px-3 py-2.5 rounded-xl text-sm border appearance-none"
-            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#94A3B8' }}>
+            style={{ background:'rgba(255,255,255,0.04)', borderColor:'rgba(255,255,255,0.08)', color:'#A1A1AA' }}>
             <option value="ALL">All Risks</option>
             <option value="LOW">Low Risk</option>
             <option value="MEDIUM">Medium Risk</option>
@@ -199,7 +199,7 @@ export default function AdminPage() {
       </div>
 
       {/* Data Table */}
-      <div className="rounded-2xl border overflow-hidden" style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+      <div className="rounded-2xl border overflow-hidden" style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -216,7 +216,7 @@ export default function AdminPage() {
                 ].map(col => (
                   <th key={col.key} onClick={() => handleSort(col.key)}
                     className="text-left py-3 px-4 text-xs font-medium cursor-pointer hover:text-white transition-colors select-none"
-                    style={{ color:'#64748B' }}>
+                    style={{ color:'#71717A' }}>
                     <span className="flex items-center gap-1">
                       {col.label} <SortIcon col={col.key} />
                     </span>
@@ -235,21 +235,21 @@ export default function AdminPage() {
                         {s.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-medium text-xs" style={{ color:'#E2E8F0' }}>{s.name}</p>
-                        <p className="text-xs" style={{ color:'#64748B' }}>{s.email}</p>
+                        <p className="font-medium text-xs" style={{ color:'#FFFFFF' }}>{s.name}</p>
+                        <p className="text-xs" style={{ color:'#71717A' }}>{s.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-xs" style={{ color:'#94A3B8' }}>{s.branch}</td>
-                  <td className="py-3 px-4 text-xs" style={{ color:'#94A3B8' }}>Year {s.year}</td>
-                  <td className="py-3 px-4 text-xs font-mono font-bold" style={{ color:'#E2E8F0' }}>{s.cgpa.toFixed(1)}</td>
+                  <td className="py-3 px-4 text-xs" style={{ color:'#A1A1AA' }}>{s.branch}</td>
+                  <td className="py-3 px-4 text-xs" style={{ color:'#A1A1AA' }}>Year {s.year}</td>
+                  <td className="py-3 px-4 text-xs font-mono font-bold" style={{ color:'#FFFFFF' }}>{s.cgpa.toFixed(1)}</td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">
                       <div className="flex-1 h-1.5 rounded-full overflow-hidden w-16" style={{ background:'rgba(255,255,255,0.06)' }}>
                         <div className="h-full rounded-full"
                           style={{ width:`${s.readiness}%`, background: s.readiness>=75?'#22C55E':s.readiness>=50?'#F59E0B':'#EF4444' }} />
                       </div>
-                      <span className="text-xs font-mono font-bold" style={{ color:'#E2E8F0' }}>{s.readiness}</span>
+                      <span className="text-xs font-mono font-bold" style={{ color:'#FFFFFF' }}>{s.readiness}</span>
                     </div>
                   </td>
                   <td className="py-3 px-4">
@@ -261,7 +261,7 @@ export default function AdminPage() {
                   <td className="py-3 px-4 text-xs font-mono" style={{ color: s.interviewScore && s.interviewScore >= 60 ? '#4ADE80' : '#FCA5A5' }}>
                     {s.interviewScore ?? '–'}
                   </td>
-                  <td className="py-3 px-4 text-xs" style={{ color:'#64748B' }}>
+                  <td className="py-3 px-4 text-xs" style={{ color:'#71717A' }}>
                     {new Date(s.lastActive).toLocaleDateString('en-IN', { day:'2-digit', month:'short' })}
                   </td>
                 </tr>
@@ -269,7 +269,7 @@ export default function AdminPage() {
             </tbody>
           </table>
         </div>
-        <div className="px-4 py-3 border-t text-xs" style={{ borderColor:'rgba(255,255,255,0.06)', color:'#64748B' }}>
+        <div className="px-4 py-3 border-t text-xs" style={{ borderColor:'rgba(255,255,255,0.06)', color:'#71717A' }}>
           Showing {filtered.length} of {all.length} students
         </div>
       </div>

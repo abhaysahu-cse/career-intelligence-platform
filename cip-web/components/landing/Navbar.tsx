@@ -46,7 +46,7 @@ export default function Navbar() {
           <span className="font-syne text-xl font-bold text-gradient-primary">
             CIP
           </span>
-          <span className="hidden sm:block text-[10px] font-mono-jetbrains text-[#64748B] border border-[#64748B]/30 px-1.5 py-0.5 rounded">
+          <span className="hidden sm:block text-[10px] font-mono-jetbrains text-[#71717A] border border-[#71717A]/30 px-1.5 py-0.5 rounded">
             BETA
           </span>
         </motion.a>
@@ -60,7 +60,7 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.05 }}
-              className="text-sm font-medium text-[#94A3B8] hover:text-white transition-colors relative group"
+              className="text-sm font-medium text-[#A1A1AA] hover:text-white transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] group-hover:w-full transition-all duration-300" />
@@ -75,7 +75,7 @@ export default function Navbar() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-sm font-medium text-[#94A3B8] hover:text-white transition-colors px-4 py-2"
+            className="text-sm font-medium text-[#A1A1AA] hover:text-white transition-colors px-4 py-2"
           >
             Sign In
           </motion.a>
@@ -95,7 +95,7 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-[#94A3B8] hover:text-white p-2"
+          className="md:hidden text-[#A1A1AA] hover:text-white p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -116,7 +116,7 @@ export default function Navbar() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-[#94A3B8] hover:text-white text-sm font-medium py-2 border-b border-white/[0.04]"
+                  className="text-[#A1A1AA] hover:text-white text-sm font-medium py-2 border-b border-white/[0.04]"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}

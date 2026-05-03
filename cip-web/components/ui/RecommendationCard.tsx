@@ -24,8 +24,8 @@ export default function RecommendationCard({ title, description, icon: Icon, cta
         <Icon size={16} style={{ color: colors.icon }} />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold mb-0.5" style={{ color: '#E2E8F0' }}>{title}</p>
-        <p className="text-xs" style={{ color: '#94A3B8' }}>{description}</p>
+        <p className="text-sm font-semibold mb-0.5" style={{ color: '#FFFFFF' }}>{title}</p>
+        <p className="text-xs" style={{ color: '#A1A1AA' }}>{description}</p>
         {onClick && (
           <button onClick={onClick}
             className="flex items-center gap-1 text-xs font-medium mt-2 hover:gap-2 transition-all"

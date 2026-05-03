@@ -70,13 +70,13 @@ export default function Topbar() {
       {/* Mobile sidebar toggle */}
       <button onClick={() => setSidebarOpen(!sidebarOpen)}
         className="p-2 rounded-lg transition-colors hover:bg-white/5 md:hidden"
-        style={{ color: '#94A3B8' }}>
+        style={{ color: '#A1A1AA' }}>
         <Menu size={18} />
       </button>
 
       {/* Page title */}
       <div className="flex-1">
-        <h1 className="text-base font-semibold" style={{ fontFamily: 'Syne, sans-serif', color: '#E2E8F0' }}>
+        <h1 className="text-base font-semibold" style={{ fontFamily: 'Syne, sans-serif', color: '#FFFFFF' }}>
           {title}
         </h1>
       </div>
@@ -87,11 +87,11 @@ export default function Topbar() {
           <input autoFocus onBlur={() => setShowSearch(false)}
             placeholder="Search anything…"
             className="w-48 px-3 py-1.5 rounded-lg text-sm border transition-all"
-            style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(79,70,229,0.4)', color: '#E2E8F0' }} />
+            style={{ background: 'rgba(255,255,255,0.06)', borderColor: 'rgba(79,70,229,0.4)', color: '#FFFFFF' }} />
         ) : (
           <button onClick={() => setShowSearch(true)}
             className="p-2 rounded-lg transition-colors hover:bg-white/5"
-            style={{ color: '#94A3B8' }}>
+            style={{ color: '#A1A1AA' }}>
             <Search size={16} />
           </button>
         )}
@@ -110,7 +110,7 @@ export default function Topbar() {
       <div className="relative">
         <button onClick={() => setNotifOpen(!notifOpen)}
           className="relative p-2 rounded-lg transition-colors hover:bg-white/5"
-          style={{ color: '#94A3B8' }}>
+          style={{ color: '#A1A1AA' }}>
           <Bell size={16} />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full"
             style={{ background: '#EF4444', boxShadow: '0 0 6px rgba(239,68,68,0.8)' }} />
@@ -120,10 +120,10 @@ export default function Topbar() {
           <>
             <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
             <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border shadow-xl z-50 overflow-hidden"
-              style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+              style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
               <div className="px-4 py-3 border-b flex items-center justify-between"
                 style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                <span className="text-sm font-semibold" style={{ color: '#E2E8F0' }}>Notifications</span>
+                <span className="text-sm font-semibold" style={{ color: '#FFFFFF' }}>Notifications</span>
                 <span className="text-xs px-2 py-0.5 rounded-full"
                   style={{ background: 'rgba(79,70,229,0.2)', color: '#818CF8' }}>
                   {notifications.filter(n => n.unread).length} new
@@ -135,13 +135,13 @@ export default function Topbar() {
                     <div className="flex gap-2 items-start">
                       {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ background: '#4F46E5' }} />}
                       <div className={n.unread ? '' : 'ml-3.5'}>
-                        <p className="text-xs mb-0.5" style={{ color: n.unread ? '#E2E8F0' : '#94A3B8' }}>{n.text}</p>
-                        <p className="text-xs" style={{ color: '#64748B' }}>{n.time}</p>
+                        <p className="text-xs mb-0.5" style={{ color: n.unread ? '#FFFFFF' : '#A1A1AA' }}>{n.text}</p>
+                        <p className="text-xs" style={{ color: '#71717A' }}>{n.time}</p>
                       </div>
                     </div>
                   </div>
                 )) : (
-                  <div className="px-4 py-6 text-sm" style={{ color: '#94A3B8' }}>
+                  <div className="px-4 py-6 text-sm" style={{ color: '#A1A1AA' }}>
                     No live notifications yet.
                   </div>
                 )}

@@ -79,7 +79,7 @@ export default function CTA() {
                   />
                 ))}
               </div>
-              <p className="text-sm text-[#94A3B8] leading-relaxed mb-4">
+              <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                 "{t.text}"
               </p>
               <div className="flex items-center gap-3">
@@ -124,7 +124,7 @@ export default function CTA() {
             <span className="text-gradient">Is Waiting</span>
           </h2>
 
-          <p className="text-xl text-[#94A3B8] max-w-2xl mx-auto mb-10">
+          <p className="text-xl text-[#A1A1AA] max-w-2xl mx-auto mb-10">
             Join thousands of candidates who stopped guessing and started
             landing offers with AI-powered precision.
           </p>
@@ -134,7 +134,7 @@ export default function CTA() {
             {perks.map((perk) => (
               <div
                 key={perk}
-                className="flex items-center gap-2 text-sm text-[#94A3B8]"
+                className="flex items-center gap-2 text-sm text-[#A1A1AA]"
               >
                 <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
                 {perk}
@@ -173,9 +173,9 @@ export default function CTA() {
             </motion.div>
           )}
 
-          <p className="text-xs text-[#64748B]">
+          <p className="text-xs text-[#71717A]">
             No spam, ever. Unsubscribe anytime.{" "}
-            <a href="#" className="underline hover:text-[#94A3B8]">
+            <a href="#" className="underline hover:text-[#A1A1AA]">
               Privacy Policy
             </a>
           </p>

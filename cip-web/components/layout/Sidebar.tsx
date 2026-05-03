@@ -67,7 +67,7 @@ export default function Sidebar() {
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="ml-auto p-1 rounded-lg transition-all hover:bg-white/5"
-          style={{ color: '#64748B' }}
+          style={{ color: '#71717A' }}
         >
           <ChevronLeft size={16} className={cn('transition-transform', !sidebarOpen && 'rotate-180')} />
         </button>
@@ -123,7 +123,7 @@ export default function Sidebar() {
               {/* Tooltip when collapsed */}
               {!sidebarOpen && (
                 <div className="absolute left-full ml-2 px-2 py-1 rounded-lg text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50"
-                  style={{ background: '#1E293B', color: '#E2E8F0', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  style={{ background: '#0A0A0A', color: '#FFFFFF', border: '1px solid rgba(255,255,255,0.1)' }}>
                   {item.label}
                 </div>
               )}
@@ -136,13 +136,13 @@ export default function Sidebar() {
       <div className="px-2 py-3 border-t space-y-1" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
         <Link href="/settings"
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all hover:bg-white/5"
-          style={{ color: '#64748B' }}>
+          style={{ color: '#71717A' }}>
           <Settings size={18} className="flex-shrink-0" />
           {sidebarOpen && <span className="text-sm font-medium">Settings</span>}
         </Link>
         <button onClick={handleLogout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all hover:bg-red-500/10"
-          style={{ color: '#64748B' }}>
+          style={{ color: '#71717A' }}>
           <LogOut size={18} className="flex-shrink-0" />
           {sidebarOpen && <span className="text-sm font-medium">Logout</span>}
         </button>
@@ -156,8 +156,8 @@ export default function Sidebar() {
               {user.name?.charAt(0).toUpperCase()}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-medium truncate" style={{ color: '#E2E8F0' }}>{user.name}</p>
-              <p className="text-xs truncate" style={{ color: '#64748B' }}>{user.role}</p>
+              <p className="text-xs font-medium truncate" style={{ color: '#FFFFFF' }}>{user.name}</p>
+              <p className="text-xs truncate" style={{ color: '#71717A' }}>{user.role}</p>
             </div>
           </div>
         )}

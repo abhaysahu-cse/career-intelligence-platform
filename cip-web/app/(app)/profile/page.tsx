@@ -88,8 +88,8 @@ export default function ProfilePage() {
           {user?.name?.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1">
-          <h2 className="text-xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>{user?.name}</h2>
-          <p className="text-sm" style={{ color: '#94A3B8' }}>{user?.branch} - {user?.college}</p>
+          <h2 className="text-xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>{user?.name}</h2>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>{user?.branch} - {user?.college}</p>
         </div>
         <button
           type="submit"
@@ -108,7 +108,7 @@ export default function ProfilePage() {
             type="button"
             onClick={() => setActiveTab(tab.id)}
             className="flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-all"
-            style={activeTab === tab.id ? { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' } : { color: '#94A3B8' }}
+            style={activeTab === tab.id ? { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' } : { color: '#A1A1AA' }}
           >
             <tab.icon size={14} />
             <span className="hidden sm:inline">{tab.label}</span>
@@ -117,8 +117,8 @@ export default function ProfilePage() {
       </div>
 
       {activeTab === 'personal' && (
-        <div className="space-y-5 rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Personal Information</h3>
+        <div className="space-y-5 rounded-2xl border p-6" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>Personal Information</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
               { name: 'name', label: 'Full Name', type: 'text', placeholder: 'Aryan Sharma' },
@@ -129,13 +129,13 @@ export default function ProfilePage() {
               { name: 'github', label: 'GitHub URL', type: 'url', placeholder: 'github.com/aryan' },
             ].map((field) => (
               <div key={field.name}>
-                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>{field.label}</label>
+                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>{field.label}</label>
                 <input
                   {...register(field.name as 'name')}
                   type={field.type}
                   placeholder={field.placeholder}
                   className="w-full rounded-xl border px-4 py-2.5 text-sm"
-                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
                 />
               </div>
             ))}
@@ -143,27 +143,27 @@ export default function ProfilePage() {
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>Branch</label>
+              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>Branch</label>
               <select
                 {...register('branch')}
                 className="w-full rounded-xl border px-4 py-2.5 text-sm"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
               >
                 {['CSE', 'IT', 'ECE', 'ME', 'CE', 'MCA'].map((branch) => <option key={branch} value={branch}>{branch}</option>)}
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>Year</label>
+              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>Year</label>
               <select
                 {...register('year')}
                 className="w-full rounded-xl border px-4 py-2.5 text-sm"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
               >
                 {[1, 2, 3, 4].map((year) => <option key={year} value={year}>Year {year}</option>)}
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>CGPA</label>
+              <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>CGPA</label>
               <input
                 {...register('cgpa')}
                 type="number"
@@ -171,13 +171,13 @@ export default function ProfilePage() {
                 min="0"
                 max="10"
                 className="w-full rounded-xl border px-4 py-2.5 text-sm"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-2 block text-xs font-medium" style={{ color: '#94A3B8' }}>Resume (PDF)</label>
+            <label className="mb-2 block text-xs font-medium" style={{ color: '#A1A1AA' }}>Resume (PDF)</label>
             <div
               {...getRootProps()}
               className="cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all"
@@ -187,11 +187,11 @@ export default function ProfilePage() {
               }}
             >
               <input {...getInputProps()} />
-              <Upload size={28} className="mx-auto mb-3" style={{ color: isDragActive ? '#818CF8' : '#64748B' }} />
+              <Upload size={28} className="mx-auto mb-3" style={{ color: isDragActive ? '#818CF8' : '#71717A' }} />
               {resumeFile ? (
                 <p className="text-sm font-medium" style={{ color: '#4ADE80' }}>{resumeFile.name}</p>
               ) : (
-                <p className="text-sm" style={{ color: '#94A3B8' }}>Drop your PDF here, or browse</p>
+                <p className="text-sm" style={{ color: '#A1A1AA' }}>Drop your PDF here, or browse</p>
               )}
             </div>
           </div>
@@ -199,8 +199,8 @@ export default function ProfilePage() {
       )}
 
       {activeTab === 'skills' && (
-        <div className="space-y-5 rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-          <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Technical Skills</h3>
+        <div className="space-y-5 rounded-2xl border p-6" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>Technical Skills</h3>
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
               <span
@@ -222,7 +222,7 @@ export default function ProfilePage() {
               onKeyDown={(event) => event.key === 'Enter' && (event.preventDefault(), addSkill())}
               placeholder="Add a skill"
               className="flex-1 rounded-xl border px-4 py-2.5 text-sm"
-              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
             />
             <button
               type="button"
@@ -237,15 +237,15 @@ export default function ProfilePage() {
       )}
 
       {activeTab === 'academics' && (
-        <div className="rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="rounded-2xl border p-6" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
           <div className="mb-5 flex items-center justify-between">
-            <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Academic Snapshot</h3>
+            <h3 className="font-semibold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>Academic Snapshot</h3>
             <span className="rounded-xl px-3 py-1 text-sm" style={{ background: 'rgba(34,197,94,0.12)', color: '#4ADE80' }}>
               CGPA: {user?.cgpa ?? 'Not added'}
             </span>
           </div>
           <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,0.03)' }}>
-            <p className="text-sm leading-6" style={{ color: '#94A3B8' }}>
+            <p className="text-sm leading-6" style={{ color: '#A1A1AA' }}>
               Keep your branch, year, and CGPA updated here so readiness scoring and job recommendations stay tied to your real profile.
             </p>
           </div>

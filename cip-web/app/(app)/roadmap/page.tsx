@@ -136,11 +136,11 @@ export default function RoadmapPage() {
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <Trophy size={18} style={{ color:'#FCD34D' }} />
-              <h2 className="text-lg font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>
+              <h2 className="text-lg font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>
                 Learning Roadmap
               </h2>
             </div>
-            <p className="text-sm mb-4" style={{ color:'#94A3B8' }}>
+            <p className="text-sm mb-4" style={{ color:'#A1A1AA' }}>
               Your personalized path from preparation to placement
             </p>
             <div className="flex items-center gap-3">
@@ -148,14 +148,14 @@ export default function RoadmapPage() {
                 <div className="h-full rounded-full progress-animate"
                   style={{ width:`${pct}%`, background:'linear-gradient(90deg,#4F46E5,#06B6D4)' }} />
               </div>
-              <span className="text-sm font-mono font-bold whitespace-nowrap" style={{ color:'#E2E8F0' }}>
+              <span className="text-sm font-mono font-bold whitespace-nowrap" style={{ color:'#FFFFFF' }}>
                 {completed}/{total}
               </span>
             </div>
           </div>
           <div className="text-center flex-shrink-0">
             <p className="text-4xl font-bold grad-text" style={{ fontFamily:'JetBrains Mono,monospace' }}>{pct}%</p>
-            <p className="text-xs" style={{ color:'#94A3B8' }}>Complete</p>
+            <p className="text-xs" style={{ color:'#A1A1AA' }}>Complete</p>
           </div>
         </div>
 
@@ -168,8 +168,8 @@ export default function RoadmapPage() {
               <div key={cat} className="text-center p-2 rounded-xl"
                 style={{ background:'rgba(255,255,255,0.04)' }}>
                 <cfg.icon size={14} className="mx-auto mb-1" style={{ color: cfg.color }} />
-                <p className="text-xs font-mono font-bold" style={{ color:'#E2E8F0' }}>{done}/{catTasks.length}</p>
-                <p className="text-xs" style={{ color:'#64748B' }}>{cfg.label}</p>
+                <p className="text-xs font-mono font-bold" style={{ color:'#FFFFFF' }}>{done}/{catTasks.length}</p>
+                <p className="text-xs" style={{ color:'#71717A' }}>{cfg.label}</p>
               </div>
             );
           })}
@@ -178,10 +178,10 @@ export default function RoadmapPage() {
 
       {/* AI-Detected Gaps → Dynamic Study Plan */}
       {analytics && analytics.weakSkills.length > 0 && (
-        <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(245,158,11,0.2)' }}>
+        <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(245,158,11,0.2)' }}>
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle size={16} style={{ color: '#F59E0B' }} />
-            <h3 className="font-semibold text-sm" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>
+            <h3 className="font-semibold text-sm" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>
               AI-Detected Gaps → Study Plan
             </h3>
             <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(245,158,11,0.12)', color: '#FCD34D' }}>
@@ -204,13 +204,13 @@ export default function RoadmapPage() {
                       style={{ background: `${prColor}22`, color: prColor, border: `1px solid ${prColor}33` }}>
                       {priority}
                     </span>
-                    <span className="text-sm font-semibold capitalize" style={{ color: '#E2E8F0' }}>{skill}</span>
+                    <span className="text-sm font-semibold capitalize" style={{ color: '#FFFFFF' }}>{skill}</span>
                   </div>
                   <div className="space-y-1.5 ml-1">
                     {plan.tasks.map(task => (
                       <div key={task} className="flex items-start gap-2">
                         <Circle size={12} className="flex-shrink-0 mt-0.5" style={{ color: prColor }} />
-                        <span className="text-xs" style={{ color: '#94A3B8' }}>{task}</span>
+                        <span className="text-xs" style={{ color: '#A1A1AA' }}>{task}</span>
                       </div>
                     ))}
                   </div>
@@ -242,7 +242,7 @@ export default function RoadmapPage() {
 
           return (
             <div key={week} className="rounded-2xl border overflow-hidden"
-              style={{ background:'#1E293B', borderColor: allDone ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.08)' }}>
+              style={{ background:'#0A0A0A', borderColor: allDone ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.08)' }}>
               {/* Week header */}
               <button onClick={() => toggleWeek(week)}
                 className="w-full flex items-center justify-between px-5 py-4 transition-colors hover:bg-white/3"
@@ -255,8 +255,8 @@ export default function RoadmapPage() {
                     {allDone ? <CheckCircle2 size={16} /> : week}
                   </div>
                   <div>
-                    <p className="font-semibold text-sm" style={{ color:'#E2E8F0' }}>Week {week}</p>
-                    <p className="text-xs" style={{ color:'#64748B' }}>{weekDone}/{weekTasks.length} tasks done</p>
+                    <p className="font-semibold text-sm" style={{ color:'#FFFFFF' }}>Week {week}</p>
+                    <p className="text-xs" style={{ color:'#71717A' }}>{weekDone}/{weekTasks.length} tasks done</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -264,7 +264,7 @@ export default function RoadmapPage() {
                     <div className="h-full rounded-full"
                       style={{ width:`${weekDone/weekTasks.length*100}%`, background:'linear-gradient(90deg,#4F46E5,#22C55E)' }} />
                   </div>
-                  {expanded ? <ChevronUp size={16} style={{ color:'#64748B' }} /> : <ChevronDown size={16} style={{ color:'#64748B' }} />}
+                  {expanded ? <ChevronUp size={16} style={{ color:'#71717A' }} /> : <ChevronDown size={16} style={{ color:'#71717A' }} />}
                 </div>
               </button>
 
@@ -293,7 +293,7 @@ export default function RoadmapPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <p className={`text-sm font-medium ${task.completed ? 'line-through' : ''}`}
-                              style={{ color: task.completed ? '#64748B' : '#E2E8F0' }}>
+                              style={{ color: task.completed ? '#71717A' : '#FFFFFF' }}>
                               {task.task}
                             </p>
                             <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full flex-shrink-0"
@@ -303,7 +303,7 @@ export default function RoadmapPage() {
                             </span>
                           </div>
                           {task.description && (
-                            <p className="text-xs mt-0.5" style={{ color:'#64748B' }}>{task.description}</p>
+                            <p className="text-xs mt-0.5" style={{ color:'#71717A' }}>{task.description}</p>
                           )}
                           {task.resources && task.resources.length > 0 && (
                             <div className="flex flex-wrap gap-2 mt-2">
@@ -334,10 +334,10 @@ export default function RoadmapPage() {
           style={{ background:'rgba(79,70,229,0.08)', borderColor:'rgba(79,70,229,0.2)' }}>
           <Zap size={16} className="flex-shrink-0 mt-0.5" style={{ color:'#818CF8' }} />
           <div>
-            <p className="text-sm font-semibold" style={{ color:'#E2E8F0' }}>
+            <p className="text-sm font-semibold" style={{ color:'#FFFFFF' }}>
               {total - completed} tasks remaining
             </p>
-            <p className="text-xs" style={{ color:'#94A3B8' }}>
+            <p className="text-xs" style={{ color:'#A1A1AA' }}>
               Completing your roadmap can boost your readiness score by up to 25 points.
             </p>
           </div>

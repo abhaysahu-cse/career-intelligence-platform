@@ -17,7 +17,7 @@ export default function JobCard({ job, onApply }: Props) {
 
   return (
     <div className="rounded-2xl p-5 border card-hover-glow flex flex-col gap-3"
-      style={{ background: '#1E293B', borderColor: job.isRecommended ? 'rgba(79,70,229,0.35)' : 'rgba(255,255,255,0.08)' }}>
+      style={{ background: '#0A0A0A', borderColor: job.isRecommended ? 'rgba(79,70,229,0.35)' : 'rgba(255,255,255,0.08)' }}>
 
       {job.isRecommended && (
         <div className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full self-start"
@@ -32,8 +32,8 @@ export default function JobCard({ job, onApply }: Props) {
           {job.company.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm truncate" style={{ color: '#E2E8F0' }}>{job.role}</p>
-          <p className="text-xs" style={{ color: '#94A3B8' }}>{job.company}</p>
+          <p className="font-semibold text-sm truncate" style={{ color: '#FFFFFF' }}>{job.role}</p>
+          <p className="text-xs" style={{ color: '#A1A1AA' }}>{job.company}</p>
         </div>
         <span className="text-xs font-bold px-2.5 py-1 rounded-xl flex-shrink-0"
           style={{ background: matchBg, color: matchColor }}>
@@ -41,17 +41,17 @@ export default function JobCard({ job, onApply }: Props) {
         </span>
       </div>
 
-      <div className="flex flex-wrap gap-2 text-xs" style={{ color: '#64748B' }}>
+      <div className="flex flex-wrap gap-2 text-xs" style={{ color: '#71717A' }}>
         <span className="flex items-center gap-1"><MapPin size={11} />{job.location}</span>
         <span className="px-2 py-0.5 rounded-full"
-          style={{ background: 'rgba(255,255,255,0.04)', color: '#94A3B8' }}>{job.type}</span>
+          style={{ background: 'rgba(255,255,255,0.04)', color: '#A1A1AA' }}>{job.type}</span>
         {job.salary && <span className="flex items-center gap-1"><Clock size={11}/>{job.salary}</span>}
       </div>
 
       {/* Why This Job Matches — Intelligence Layer */}
       {job.isRecommended && (
         <div className="rounded-xl p-3 space-y-2" style={{ background: 'rgba(255,255,255,0.03)', borderLeft: '3px solid rgba(79,70,229,0.5)' }}>
-          <p className="text-xs font-semibold" style={{ color: '#94A3B8' }}>Why this job fits you</p>
+          <p className="text-xs font-semibold" style={{ color: '#A1A1AA' }}>Why this job fits you</p>
           {matchedSkills.length > 0 && (
             <div className="flex flex-wrap gap-1.5">
               {matchedSkills.slice(0, 4).map(s => (
@@ -73,7 +73,7 @@ export default function JobCard({ job, onApply }: Props) {
             </div>
           )}
           {job.matchReason && (
-            <p className="text-xs" style={{ color: '#64748B' }}>{job.matchReason}</p>
+            <p className="text-xs" style={{ color: '#71717A' }}>{job.matchReason}</p>
           )}
           {missingSkills.length > 0 && job.match < 95 && (
             <div className="rounded-lg px-2.5 py-1.5 mt-1" style={{ background: 'rgba(79,70,229,0.08)', borderLeft: '2px solid rgba(79,70,229,0.4)' }}>
@@ -103,7 +103,7 @@ export default function JobCard({ job, onApply }: Props) {
         </button>
         <a href={job.url} target="_blank" rel="noreferrer"
           className="px-3 py-2 rounded-xl border transition-all hover:bg-white/5"
-          style={{ borderColor:'rgba(255,255,255,0.1)', color:'#94A3B8' }}>
+          style={{ borderColor:'rgba(255,255,255,0.1)', color:'#A1A1AA' }}>
           <ExternalLink size={14} />
         </a>
       </div>

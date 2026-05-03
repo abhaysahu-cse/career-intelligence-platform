@@ -23,7 +23,7 @@ export default function StatCard({
     <div
       onClick={onClick}
       className={cn('rounded-2xl p-5 border border-white/5 shadow-md shadow-black/20 card-hover-glow', onClick && 'cursor-pointer', className)}
-      style={{ background: '#1E293B' }}
+      style={{ background: '#0A0A0A' }}
     >
       <div className="flex items-start justify-between mb-3">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: iconBg }}>
@@ -39,10 +39,10 @@ export default function StatCard({
           </span>
         )}
       </div>
-      <p className="text-sm font-medium mb-1" style={{ color: '#94A3B8' }}>{title}</p>
-      <p className="text-2xl font-bold tabular-nums" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>{value}</p>
-      {subtitle && <p className="text-xs mt-1" style={{ color: '#64748B' }}>{subtitle}</p>}
-      {trend && <p className="text-xs mt-1" style={{ color: '#64748B' }}>{trend.label}</p>}
+      <p className="text-sm font-medium mb-1" style={{ color: '#A1A1AA' }}>{title}</p>
+      <p className="text-2xl font-bold tabular-nums" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>{value}</p>
+      {subtitle && <p className="text-xs mt-1" style={{ color: '#71717A' }}>{subtitle}</p>}
+      {trend && <p className="text-xs mt-1" style={{ color: '#71717A' }}>{trend.label}</p>}
     </div>
   );
 }

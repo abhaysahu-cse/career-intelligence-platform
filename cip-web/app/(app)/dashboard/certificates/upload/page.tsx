@@ -99,8 +99,8 @@ export default function UploadPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Verify Certificate</h1>
-        <p className="mt-1 text-sm" style={{ color: '#94A3B8' }}>
+        <h1 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>Verify Certificate</h1>
+        <p className="mt-1 text-sm" style={{ color: '#A1A1AA' }}>
           Upload a PDF or image. Our AI will check authenticity in under 8 seconds.
         </p>
       </div>
@@ -130,11 +130,11 @@ export default function UploadPage() {
               style={{ background: 'rgba(79,70,229,0.12)' }}>
               <Upload size={28} style={{ color: '#818CF8' }} />
             </div>
-            <p className="text-lg font-medium" style={{ color: '#E2E8F0' }}>
+            <p className="text-lg font-medium" style={{ color: '#FFFFFF' }}>
               Drop your certificate here
             </p>
-            <p className="text-sm mt-1" style={{ color: '#94A3B8' }}>or click to browse</p>
-            <p className="text-xs mt-3" style={{ color: '#64748B' }}>PDF, JPG, PNG · Max 10MB</p>
+            <p className="text-sm mt-1" style={{ color: '#A1A1AA' }}>or click to browse</p>
+            <p className="text-xs mt-3" style={{ color: '#71717A' }}>PDF, JPG, PNG · Max 10MB</p>
           </div>
         ) : (
           <div className="pointer-events-none">
@@ -146,8 +146,8 @@ export default function UploadPage() {
                 <FileText size={28} style={{ color: '#4ADE80' }} />
               </div>
             )}
-            <p className="font-semibold" style={{ color: '#E2E8F0' }}>{file.name}</p>
-            <p className="text-sm" style={{ color: '#94A3B8' }}>{(file.size / 1024).toFixed(1)} KB</p>
+            <p className="font-semibold" style={{ color: '#FFFFFF' }}>{file.name}</p>
+            <p className="text-sm" style={{ color: '#A1A1AA' }}>{(file.size / 1024).toFixed(1)} KB</p>
           </div>
         )}
       </div>
@@ -183,7 +183,7 @@ export default function UploadPage() {
           <button
             onClick={reset}
             className="flex-1 py-3 px-6 font-medium rounded-xl border transition-all hover:bg-white/5"
-            style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#94A3B8' }}
+            style={{ borderColor: 'rgba(255,255,255,0.12)', color: '#A1A1AA' }}
           >
             Clear
           </button>
@@ -193,7 +193,7 @@ export default function UploadPage() {
           disabled={!file || isLoading}
           className="flex-1 py-3 px-6 font-semibold rounded-xl transition-all duration-200"
           style={!file || isLoading
-            ? { background: 'rgba(255,255,255,0.05)', color: '#64748B', cursor: 'not-allowed' }
+            ? { background: 'rgba(255,255,255,0.05)', color: '#71717A', cursor: 'not-allowed' }
             : { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }}
         >
           {isLoading ? 'Processing...' : 'Verify Certificate'}
@@ -209,7 +209,7 @@ export default function UploadPage() {
         ].map((item) => (
           <div key={item.label} className="p-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
             <item.icon size={20} className="mx-auto mb-2" style={{ color: item.color }} />
-            <span style={{ color: '#94A3B8' }}>{item.label}</span>
+            <span style={{ color: '#A1A1AA' }}>{item.label}</span>
           </div>
         ))}
       </div>

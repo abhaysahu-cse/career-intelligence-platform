@@ -9,8 +9,8 @@ export default function LiveMetricBar({ label, value, color = '#4F46E5' }: Props
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between text-xs">
-        <span style={{ color: '#94A3B8' }}>{label}</span>
-        <span className="font-mono font-bold" style={{ color: '#E2E8F0' }}>{pct}%</span>
+        <span style={{ color: '#A1A1AA' }}>{label}</span>
+        <span className="font-mono font-bold" style={{ color: '#FFFFFF' }}>{pct}%</span>
       </div>
       <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
         <div className="h-full rounded-full transition-all duration-700"

@@ -58,12 +58,11 @@ export default function Hero() {
             <span className="text-[#22C55E] font-mono-jetbrains text-xs font-medium">
               LIVE
             </span>
-            <span className="text-[#94A3B8]">AI Interview Platform — Now in Beta</span>
+            <span className="text-[#A1A1AA]">AI Interview Platform — Now in Beta</span>
           </div>
         </motion.div>
 
-        {/* Halo Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-indigo-500/10 to-transparent blur-[100px] rounded-full pointer-events-none -z-10" />
+
 
         {/* Main heading */}
         <motion.h1
@@ -72,9 +71,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="font-syne text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-wide"
         >
-          <span className="text-gradient block">Your AI Career Copilot.</span>
+          <span className="text-white block">Your AI Career Copilot.</span>
           <span className="text-white block mt-2">Turn Interviews into</span>
-          <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+          <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400">
             Offers.
           </span>
         </motion.h1>
@@ -84,7 +83,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25 }}
-          className="text-lg md:text-xl text-[#94A3B8] max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg md:text-xl text-[#A1A1AA] max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           Real-time AI coaching for interviews, instant skill gap analysis,
           and smart job matching — all in one platform built for serious
@@ -123,7 +122,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="flex items-center justify-center gap-3 mb-16 text-sm text-[#64748B]"
+          className="flex items-center justify-center gap-3 mb-16 text-sm text-[#71717A]"
         >
           <div className="flex">
             {[...Array(5)].map((_, i) => (
@@ -134,7 +133,7 @@ export default function Hero() {
             ))}
           </div>
           <span>
-            <strong className="text-[#E2E8F0]">4.9/5</strong> from 2,400+
+            <strong className="text-[#FFFFFF]">4.9/5</strong> from 2,400+
             candidates
           </span>
         </motion.div>
@@ -160,7 +159,7 @@ export default function Hero() {
                 ))}
               </div>
               <div className="flex-1 text-center">
-                <span className="font-mono-jetbrains text-xs text-[#64748B]">
+                <span className="font-mono-jetbrains text-xs text-[#71717A]">
                   cip.ai / interview
                 </span>
               </div>
@@ -189,7 +188,7 @@ export default function Hero() {
                     className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
                       msg.role === "ai"
                         ? "bg-gradient-to-br from-[#4F46E5] to-[#06B6D4]"
-                        : "bg-[#1E293B] border border-white/10"
+                        : "bg-[#0A0A0A] border border-white/10"
                     }`}
                   >
                     {msg.role === "ai" ? (
@@ -203,8 +202,8 @@ export default function Hero() {
                       (msg as { isFeeback?: boolean }).isFeeback
                         ? "bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E]"
                         : msg.role === "ai"
-                        ? "bg-white/[0.05] border border-white/[0.06] text-[#E2E8F0]"
-                        : "bg-[#4F46E5]/20 border border-[#4F46E5]/30 text-[#E2E8F0]"
+                        ? "bg-white/[0.05] border border-white/[0.06] text-[#FFFFFF]"
+                        : "bg-[#4F46E5]/20 border border-[#4F46E5]/30 text-[#FFFFFF]"
                     }`}
                   >
                     {(msg as { isFeeback?: boolean }).isFeeback && (
@@ -221,7 +220,7 @@ export default function Hero() {
 
             {/* Score bar */}
             <div className="px-4 pb-4">
-              <div className="flex items-center justify-between text-xs text-[#64748B] mb-1.5">
+              <div className="flex items-center justify-between text-xs text-[#71717A] mb-1.5">
                 <span>Confidence Score</span>
                 <span className="text-[#22C55E] font-semibold">87%</span>
               </div>
@@ -259,7 +258,7 @@ export default function Hero() {
                   >
                     {s.value}
                   </div>
-                  <div className="text-[10px] text-[#64748B] mt-0.5 leading-tight">
+                  <div className="text-[10px] text-[#71717A] mt-0.5 leading-tight">
                     {s.label}
                   </div>
                 </motion.div>
@@ -269,7 +268,7 @@ export default function Hero() {
             {/* Job matches */}
             <div className="glass-card rounded-2xl p-4 text-left">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-[#94A3B8] uppercase tracking-wider">
+                <span className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider">
                   AI Job Matches
                 </span>
                 <span className="text-xs text-[#4F46E5]">View All →</span>
@@ -302,10 +301,10 @@ export default function Hero() {
                   className="flex items-center justify-between py-2.5 border-b border-white/[0.04] last:border-0"
                 >
                   <div>
-                    <div className="text-sm font-medium text-[#E2E8F0]">
+                    <div className="text-sm font-medium text-[#FFFFFF]">
                       {job.role}
                     </div>
-                    <div className="text-xs text-[#64748B]">{job.co}</div>
+                    <div className="text-xs text-[#71717A]">{job.co}</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <div
@@ -314,7 +313,7 @@ export default function Hero() {
                     >
                       {job.match}%
                     </div>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+                    <ChevronRight className="w-3.5 h-3.5 text-[#71717A]" />
                   </div>
                 </motion.div>
               ))}
@@ -327,10 +326,10 @@ export default function Hero() {
               transition={{ delay: 1.4 }}
               className="glass-card rounded-xl px-4 py-3 flex items-center justify-between"
             >
-              <span className="text-[10px] text-[#64748B] uppercase tracking-wider">
+              <span className="text-[10px] text-[#71717A] uppercase tracking-wider">
                 Trusted by employees at
               </span>
-              <div className="flex gap-4 text-xs font-semibold text-[#64748B]">
+              <div className="flex gap-4 text-xs font-semibold text-[#71717A]">
                 {["Google", "Meta", "Amazon", "Apple"].map((co) => (
                   <span key={co} className="hover:text-white transition-colors cursor-default">
                     {co}

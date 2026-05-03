@@ -90,7 +90,7 @@ export default function Features() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-[#94A3B8] text-lg max-w-2xl mx-auto"
+            className="text-[#A1A1AA] text-lg max-w-2xl mx-auto"
           >
             Each module is independently powerful. Together, they form an
             unstoppable career OS.
@@ -152,7 +152,7 @@ export default function Features() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-[#94A3B8] leading-relaxed mb-4">
+                <p className="text-sm text-[#A1A1AA] leading-relaxed mb-4">
                   {f.description}
                 </p>
 
@@ -161,7 +161,7 @@ export default function Features() {
                   {f.bullets.map((b) => (
                     <li
                       key={b}
-                      className="flex items-center gap-2 text-xs text-[#64748B]"
+                      className="flex items-center gap-2 text-xs text-[#71717A]"
                     >
                       <span
                         className="w-1 h-1 rounded-full"
@@ -197,7 +197,7 @@ export default function Features() {
             <div className="font-syne text-lg font-bold text-white mb-1">
               All modules included in every plan
             </div>
-            <div className="text-sm text-[#94A3B8]">
+            <div className="text-sm text-[#A1A1AA]">
               No feature gates. Full access from day one.
             </div>
           </div>

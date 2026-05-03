@@ -74,10 +74,10 @@ export default function LoginPage() {
             </span>
           </div>
           <h1 className="mb-1 text-2xl font-bold" style={{ fontFamily: 'Syne, sans-serif' }}>Welcome back</h1>
-          <p className="text-sm" style={{ color: '#94A3B8' }}>Sign in to your Career Intelligence Platform</p>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>Sign in to your Career Intelligence Platform</p>
         </div>
 
-        <div className="rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="rounded-2xl border p-6" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
           <div className="mb-6 flex rounded-xl p-1" style={{ background: 'rgba(255,255,255,0.04)' }}>
             {(['student', 'faculty'] as const).map((currentRole) => (
               <button
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 className="flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-sm font-medium transition-all duration-200"
                 style={role === currentRole
                   ? { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', color: '#fff' }
-                  : { color: '#94A3B8' }}
+                  : { color: '#A1A1AA' }}
               >
                 {currentRole === 'student' ? <GraduationCap size={15} /> : <BookOpen size={15} />}
                 {currentRole === 'student' ? 'Student' : 'Faculty'}
@@ -97,33 +97,33 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label className="mb-1.5 block text-sm font-medium" style={{ color: '#94A3B8' }}>Email</label>
+              <label className="mb-1.5 block text-sm font-medium" style={{ color: '#A1A1AA' }}>Email</label>
               <input
                 {...register('email')}
                 type="email"
                 placeholder="you@college.edu"
                 className="w-full rounded-xl border px-4 py-3 text-sm transition-all"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
               />
               {errors.email && <p className="mt-1 text-xs" style={{ color: '#EF4444' }}>{errors.email.message}</p>}
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium" style={{ color: '#94A3B8' }}>Password</label>
+              <label className="mb-1.5 block text-sm font-medium" style={{ color: '#A1A1AA' }}>Password</label>
               <div className="relative">
                 <input
                   {...register('password')}
                   type={showPw ? 'text' : 'password'}
                   placeholder="••••••••"
                   className="w-full rounded-xl border px-4 py-3 pr-11 text-sm transition-all"
-                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 opacity-50 transition-opacity hover:opacity-100"
                 >
-                  {showPw ? <EyeOff size={16} style={{ color: '#94A3B8' }} /> : <Eye size={16} style={{ color: '#94A3B8' }} />}
+                  {showPw ? <EyeOff size={16} style={{ color: '#A1A1AA' }} /> : <Eye size={16} style={{ color: '#A1A1AA' }} />}
                 </button>
               </div>
               {errors.password && <p className="mt-1 text-xs" style={{ color: '#EF4444' }}>{errors.password.message}</p>}
@@ -150,7 +150,7 @@ export default function LoginPage() {
           </form>
 
           <div className="mt-4 text-center">
-            <span className="text-sm" style={{ color: '#64748B' }}>Don&apos;t have an account? </span>
+            <span className="text-sm" style={{ color: '#71717A' }}>Don&apos;t have an account? </span>
             <Link href="/auth/signup" className="text-sm font-medium hover:underline" style={{ color: '#818CF8' }}>
               Sign up
             </Link>

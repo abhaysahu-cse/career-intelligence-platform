@@ -9,7 +9,7 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 pb-8 max-w-2xl">
-      <h2 className="text-xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#E2E8F0' }}>Settings</h2>
+      <h2 className="text-xl font-bold" style={{ fontFamily:'Syne,sans-serif', color:'#FFFFFF' }}>Settings</h2>
 
       {[
         {
@@ -30,17 +30,17 @@ export default function SettingsPage() {
         },
       ].map(section => (
         <div key={section.title} className="rounded-2xl border overflow-hidden"
-          style={{ background:'#1E293B', borderColor:'rgba(255,255,255,0.08)' }}>
+          style={{ background:'#0A0A0A', borderColor:'rgba(255,255,255,0.08)' }}>
           <div className="flex items-center gap-2 px-5 py-4 border-b" style={{ borderColor:'rgba(255,255,255,0.06)' }}>
             <section.icon size={15} style={{ color:'#818CF8' }} />
-            <h3 className="font-semibold text-sm" style={{ color:'#E2E8F0' }}>{section.title}</h3>
+            <h3 className="font-semibold text-sm" style={{ color:'#FFFFFF' }}>{section.title}</h3>
           </div>
           <div className="divide-y">
             {section.items.map(item => (
               <div key={item.key} className="flex items-center justify-between px-5 py-4">
                 <div>
-                  <p className="text-sm font-medium" style={{ color:'#E2E8F0' }}>{item.label}</p>
-                  <p className="text-xs" style={{ color:'#64748B' }}>{item.desc}</p>
+                  <p className="text-sm font-medium" style={{ color:'#FFFFFF' }}>{item.label}</p>
+                  <p className="text-xs" style={{ color:'#71717A' }}>{item.desc}</p>
                 </div>
                 <button onClick={() => item.set(!item.val)}
                   className="relative w-11 h-6 rounded-full transition-all flex-shrink-0"

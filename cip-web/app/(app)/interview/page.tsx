@@ -437,15 +437,15 @@ export default function InterviewPage() {
     <div className="space-y-6 pb-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>
+          <h2 className="text-2xl font-bold" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>
             Real-Time AI Voice Interview
           </h2>
-          <p className="text-sm" style={{ color: '#94A3B8' }}>
+          <p className="text-sm" style={{ color: '#A1A1AA' }}>
             Speak naturally, pause for 2 to 3 seconds, and the system will coach you like a live interviewer.
           </p>
         </div>
         {sessionId && (
-          <div className="rounded-xl border px-3 py-2 text-xs" style={{ borderColor: 'rgba(255,255,255,0.08)', color: '#94A3B8' }}>
+          <div className="rounded-xl border px-3 py-2 text-xs" style={{ borderColor: 'rgba(255,255,255,0.08)', color: '#A1A1AA' }}>
             Session {sessionId}
           </div>
         )}
@@ -472,16 +472,16 @@ export default function InterviewPage() {
               <div className="absolute top-0 right-0 w-48 h-48 rounded-full pointer-events-none opacity-10"
                 style={{ background: 'radial-gradient(circle,#06B6D4,transparent 70%)', transform: 'translate(30%,-30%)' }} />
               <Trophy size={32} className="mx-auto mb-3" style={{ color: '#FCD34D' }} />
-              <p className="text-sm mb-2" style={{ color: '#94A3B8' }}>Session Complete — {history.length} Questions</p>
+              <p className="text-sm mb-2" style={{ color: '#A1A1AA' }}>Session Complete — {history.length} Questions</p>
               <p className="text-6xl font-bold grad-text" style={{ fontFamily: 'JetBrains Mono,monospace' }}>{overallScore}</p>
-              <p className="text-sm mt-2" style={{ color: '#94A3B8' }}>
+              <p className="text-sm mt-2" style={{ color: '#A1A1AA' }}>
                 {overallScore >= 75 ? '🎉 Excellent performance!' : overallScore >= 50 ? '👍 Good effort, keep improving!' : '📚 More practice recommended'}
               </p>
             </div>
 
             {/* Per-Question Breakdown */}
-            <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-              <h3 className="font-semibold mb-4" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>Question Breakdown</h3>
+            <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <h3 className="font-semibold mb-4" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>Question Breakdown</h3>
               <div className="space-y-3">
                 {history.map((h, idx) => {
                   const sc = h.accuracy ?? 0;
@@ -492,7 +492,7 @@ export default function InterviewPage() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-mono px-2 py-0.5 rounded-full" style={{ background: 'rgba(79,70,229,0.12)', color: '#A5B4FC' }}>Q{idx + 1}</span>
-                          <span className="text-xs font-semibold capitalize" style={{ color: '#94A3B8' }}>{h.topic}</span>
+                          <span className="text-xs font-semibold capitalize" style={{ color: '#A1A1AA' }}>{h.topic}</span>
                           <span className="text-[10px] px-1.5 py-0.5 rounded-full capitalize" style={{ background: 'rgba(6,182,212,0.1)', color: '#67E8F9' }}>{h.difficulty}</span>
                           {isStrongest && <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(34,197,94,0.1)', color: '#4ADE80' }}>★ Best</span>}
                           {isWeakest && <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(239,68,68,0.1)', color: '#FCA5A5' }}>↓ Weakest</span>}
@@ -510,28 +510,28 @@ export default function InterviewPage() {
 
             {/* Weak Areas + Suggestions */}
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
                 <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#FCA5A5' }}>
                   <AlertCircle size={15} /> Weak Areas
                 </h3>
                 {weakSkills.length > 0 ? (
                   <div className="space-y-2">
                     {weakSkills.map(s => (
-                      <div key={s} className="flex items-center gap-2 text-sm" style={{ color: '#E2E8F0' }}>
+                      <div key={s} className="flex items-center gap-2 text-sm" style={{ color: '#FFFFFF' }}>
                         <span style={{ color: '#F59E0B' }}>⚠</span>
                         <span className="capitalize">{s}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm" style={{ color: '#94A3B8' }}>No repeated weakness detected in this session.</p>
+                  <p className="text-sm" style={{ color: '#A1A1AA' }}>No repeated weakness detected in this session.</p>
                 )}
               </div>
-              <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+              <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
                 <h3 className="font-semibold mb-3 flex items-center gap-2 text-sm" style={{ color: '#4ADE80' }}>
                   <CheckCircle2 size={15} /> Recommendation
                 </h3>
-                <p className="text-sm" style={{ color: '#94A3B8' }}>
+                <p className="text-sm" style={{ color: '#A1A1AA' }}>
                   {overallScore >= 75
                     ? 'Great performance! Move on to harder topics and system design questions.'
                     : overallScore >= 50
@@ -550,12 +550,12 @@ export default function InterviewPage() {
               </button>
               <button onClick={() => router.push('/dashboard')}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all hover:bg-white/5"
-                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#A1A1AA' }}>
                 Dashboard <ArrowRight size={15} />
               </button>
               <button onClick={() => router.push('/jobs')}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm border transition-all hover:bg-white/5"
-                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#94A3B8' }}>
+                style={{ borderColor: 'rgba(255,255,255,0.1)', color: '#A1A1AA' }}>
                 View Jobs <ArrowRight size={15} />
               </button>
             </div>
@@ -565,23 +565,23 @@ export default function InterviewPage() {
 
       {phase !== 'summary' && <div className="grid grid-cols-1 gap-4 xl:grid-cols-12">
         <div className="xl:col-span-4 space-y-4">
-          <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-            <p className="mb-3 text-sm font-semibold" style={{ color: '#E2E8F0' }}>Interview Setup</p>
+          <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+            <p className="mb-3 text-sm font-semibold" style={{ color: '#FFFFFF' }}>Interview Setup</p>
             <div className="space-y-4">
               <div>
-                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>Role</label>
+                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>Role</label>
                 <select
                   value={role}
                   onChange={(event) => setRole(event.target.value)}
                   className="w-full rounded-xl border px-3 py-2.5 text-sm"
-                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#E2E8F0' }}
+                  style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}
                 >
                   {ROLES.map((option) => <option key={option}>{option}</option>)}
                 </select>
               </div>
 
               <div>
-                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#94A3B8' }}>Persona</label>
+                <label className="mb-1.5 block text-xs font-medium" style={{ color: '#A1A1AA' }}>Persona</label>
                 <div className="grid grid-cols-3 gap-2">
                   {PERSONAS.map((mode) => (
                     <button
@@ -591,7 +591,7 @@ export default function InterviewPage() {
                       className="rounded-xl border px-3 py-2 text-sm font-medium"
                       style={persona === mode.id
                         ? { background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', borderColor: 'transparent', color: '#fff' }
-                        : { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#94A3B8' }}
+                        : { background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#A1A1AA' }}
                     >
                       {mode.label}
                     </button>
@@ -599,7 +599,7 @@ export default function InterviewPage() {
                 </div>
               </div>
 
-              <div className="rounded-xl border p-3 text-xs" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#94A3B8' }}>
+              <div className="rounded-xl border p-3 text-xs" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)', color: '#A1A1AA' }}>
                 Resume skills in context: {resumeSkills.length ? resumeSkills.join(', ') : 'none yet, add them in profile for better questions.'}
               </div>
 
@@ -625,8 +625,8 @@ export default function InterviewPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-            <p className="mb-3 text-sm font-semibold" style={{ color: '#E2E8F0' }}>Skill Gap Engine</p>
+          <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+            <p className="mb-3 text-sm font-semibold" style={{ color: '#FFFFFF' }}>Skill Gap Engine</p>
             {weakSkills.length ? (
               <div className="space-y-3">
                 {weakSkills.map((skill, idx) => {
@@ -653,13 +653,13 @@ export default function InterviewPage() {
                         <span className="px-2 py-0.5 rounded-full text-[10px] font-bold" style={{ background: `${prColor}22`, color: prColor, border: `1px solid ${prColor}44` }}>
                           {priority}
                         </span>
-                        <span className="text-sm font-semibold capitalize" style={{ color: '#E2E8F0' }}>{skill}</span>
+                        <span className="text-sm font-semibold capitalize" style={{ color: '#FFFFFF' }}>{skill}</span>
                       </div>
-                      <p className="text-xs" style={{ color: '#94A3B8' }}>Why: {reasons[skill] ?? 'Repeated weakness in recent answers'}</p>
+                      <p className="text-xs" style={{ color: '#A1A1AA' }}>Why: {reasons[skill] ?? 'Repeated weakness in recent answers'}</p>
                       <div className="space-y-1">
                         <p className="text-xs font-semibold" style={{ color: '#67E8F9' }}>Fix:</p>
                         {(fixes[skill] ?? ['Practice this topic in your next interview']).map((fix) => (
-                          <p key={fix} className="text-xs pl-3" style={{ color: '#94A3B8' }}>→ {fix}</p>
+                          <p key={fix} className="text-xs pl-3" style={{ color: '#A1A1AA' }}>→ {fix}</p>
                         ))}
                       </div>
                     </div>
@@ -667,7 +667,7 @@ export default function InterviewPage() {
                 })}
               </div>
             ) : (
-              <p className="text-sm" style={{ color: '#94A3B8' }}>
+              <p className="text-sm" style={{ color: '#A1A1AA' }}>
                 Weaknesses appear here when the last 3 answers repeat the same gap.
               </p>
             )}
@@ -675,7 +675,7 @@ export default function InterviewPage() {
         </div>
 
         <div className="xl:col-span-5 space-y-4">
-          <div className="rounded-2xl border p-6" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)', minHeight: 260 }}>
+          <div className="rounded-2xl border p-6" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)', minHeight: 260 }}>
             <div className="mb-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {/* AI Avatar */}
@@ -693,7 +693,7 @@ export default function InterviewPage() {
                       {question?.difficulty ?? 'easy'}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 text-xs" style={{ color: '#94A3B8' }}>
+                  <div className="flex items-center gap-2 text-xs" style={{ color: '#A1A1AA' }}>
                     {phase === 'listening' ? <Mic size={14} /> : phase === 'processing' ? <Waves size={14} /> : <MicOff size={14} />}
                     {phase === 'listening' ? 'Listening' : phase === 'processing' ? 'Evaluating' : 'Ready'}
                   </div>
@@ -701,22 +701,22 @@ export default function InterviewPage() {
               </div>
             </div>
 
-            <p className="text-lg font-semibold leading-8" style={{ fontFamily: 'Syne,sans-serif', color: '#E2E8F0' }}>
+            <p className="text-lg font-semibold leading-8" style={{ fontFamily: 'Syne,sans-serif', color: '#FFFFFF' }}>
               {question?.question ?? 'Start the interview to get the first AI-generated question.'}
             </p>
 
             <div className="mt-6 rounded-2xl border p-4" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(15,23,42,0.6)' }}>
-              <div className="mb-2 flex items-center gap-2 text-xs font-semibold" style={{ color: '#94A3B8' }}>
+              <div className="mb-2 flex items-center gap-2 text-xs font-semibold" style={{ color: '#A1A1AA' }}>
                 <Volume2 size={14} /> Live Transcript
               </div>
-              <p className="min-h-24 text-sm leading-6" style={{ color: liveTranscript ? '#E2E8F0' : '#64748B' }}>
+              <p className="min-h-24 text-sm leading-6" style={{ color: liveTranscript ? '#FFFFFF' : '#71717A' }}>
                 {liveTranscript || 'Your transcript appears here while you speak. A 2.5 second pause triggers evaluation.'}
               </p>
             </div>
           </div>
 
-          <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
-            <div className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#E2E8F0' }}>
+          <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
+            <div className="mb-3 flex items-center gap-2 text-sm font-semibold" style={{ color: '#FFFFFF' }}>
               <Brain size={16} /> Recent Answers
             </div>
             {history.length ? (
@@ -724,20 +724,20 @@ export default function InterviewPage() {
                 {history.slice(-3).reverse().map((item, index) => (
                   <div key={`${item.question}-${index}`} className="rounded-xl border p-3" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
                     <p className="text-xs font-semibold" style={{ color: '#A5B4FC' }}>{item.topic} • {item.accuracy}/100</p>
-                    <p className="mt-1 text-sm" style={{ color: '#E2E8F0' }}>{item.answer}</p>
+                    <p className="mt-1 text-sm" style={{ color: '#FFFFFF' }}>{item.answer}</p>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm" style={{ color: '#94A3B8' }}>Your last answers and scores appear here.</p>
+              <p className="text-sm" style={{ color: '#A1A1AA' }}>Your last answers and scores appear here.</p>
             )}
           </div>
         </div>
 
         <div className="xl:col-span-3">
-          <div className="rounded-2xl border p-5" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+          <div className="rounded-2xl border p-5" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
             <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm font-semibold" style={{ color: '#E2E8F0' }}>AI Feedback</p>
+              <p className="text-sm font-semibold" style={{ color: '#FFFFFF' }}>AI Feedback</p>
               {feedback && (
                 <div className="rounded-full px-3 py-1 text-sm font-bold" style={{ background: 'rgba(6,182,212,0.12)', color: '#67E8F9' }}>
                   {feedback.score}
@@ -751,34 +751,34 @@ export default function InterviewPage() {
                   <div className="mb-1 flex items-center gap-2 text-xs font-semibold" style={{ color: '#4ADE80' }}>
                     <CheckCircle2 size={14} /> Good points
                   </div>
-                  <p className="text-sm" style={{ color: '#E2E8F0' }}>{feedback.good}</p>
+                  <p className="text-sm" style={{ color: '#FFFFFF' }}>{feedback.good}</p>
                 </div>
 
                 <div className="rounded-xl border p-3" style={{ borderColor: 'rgba(239,68,68,0.24)', background: 'rgba(239,68,68,0.08)' }}>
                   <div className="mb-1 flex items-center gap-2 text-xs font-semibold" style={{ color: '#FCA5A5' }}>
                     <AlertCircle size={14} /> Missing parts
                   </div>
-                  <p className="text-sm" style={{ color: '#E2E8F0' }}>{feedback.missing}</p>
+                  <p className="text-sm" style={{ color: '#FFFFFF' }}>{feedback.missing}</p>
                 </div>
 
                 <div className="rounded-xl border p-3" style={{ borderColor: 'rgba(79,70,229,0.24)', background: 'rgba(79,70,229,0.1)' }}>
                   <div className="mb-1 flex items-center gap-2 text-xs font-semibold" style={{ color: '#A5B4FC' }}>
                     <Brain size={14} /> Ideal structure
                   </div>
-                  <p className="text-sm" style={{ color: '#E2E8F0' }}>{feedback.ideal}</p>
+                  <p className="text-sm" style={{ color: '#FFFFFF' }}>{feedback.ideal}</p>
                 </div>
 
                 <div className="rounded-xl border p-3" style={{ borderColor: 'rgba(245,158,11,0.24)', background: 'rgba(245,158,11,0.08)' }}>
                   <div className="mb-1 flex items-center gap-2 text-xs font-semibold" style={{ color: '#FCD34D' }}>
                     <Lightbulb size={14} /> Tip
                   </div>
-                  <p className="text-sm" style={{ color: '#E2E8F0' }}>{feedback.tip}</p>
+                  <p className="text-sm" style={{ color: '#FFFFFF' }}>{feedback.tip}</p>
                 </div>
 
                 {/* Your Answer vs Ideal — Side by Side */}
                 {(lastAnswer || liveTranscript) && feedback.ideal && (
                   <div className="rounded-xl border p-3" style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}>
-                    <p className="mb-2 text-xs font-semibold" style={{ color: '#94A3B8' }}>Your Answer vs Ideal</p>
+                    <p className="mb-2 text-xs font-semibold" style={{ color: '#A1A1AA' }}>Your Answer vs Ideal</p>
                     <div className="grid grid-cols-2 gap-2">
                       <div className="rounded-lg p-2.5" style={{ background: 'rgba(239,68,68,0.06)', borderLeft: '2px solid rgba(239,68,68,0.4)' }}>
                         <p className="text-[10px] font-bold mb-1" style={{ color: '#FCA5A5' }}>YOUR ANSWER</p>
@@ -792,12 +792,12 @@ export default function InterviewPage() {
                   </div>
                 )}
 
-                <div className="text-xs" style={{ color: '#94A3B8' }}>
+                <div className="text-xs" style={{ color: '#A1A1AA' }}>
                   Voice provider: {feedback.provider}. Spoken feedback plays automatically after each pause.
                 </div>
               </div>
             ) : (
-              <p className="text-sm leading-6" style={{ color: '#94A3B8' }}>
+              <p className="text-sm leading-6" style={{ color: '#A1A1AA' }}>
                 The score, what was good, what was missing, the ideal short structure, and one improvement tip appear here after each spoken answer.
               </p>
             )}

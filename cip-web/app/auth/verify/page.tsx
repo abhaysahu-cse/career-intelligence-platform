@@ -58,11 +58,11 @@ export default function VerifyPage() {
         </div>
 
         <h1 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Syne, sans-serif' }}>Verify Email</h1>
-        <p className="text-sm mb-6" style={{ color: '#94A3B8' }}>
-          We sent a 6-digit code to <strong style={{ color: '#E2E8F0' }}>{user?.email || 'your email'}</strong>
+        <p className="text-sm mb-6" style={{ color: '#A1A1AA' }}>
+          We sent a 6-digit code to <strong style={{ color: '#FFFFFF' }}>{user?.email || 'your email'}</strong>
         </p>
 
-        <div className="rounded-2xl p-6 border mb-4" style={{ background: '#1E293B', borderColor: 'rgba(255,255,255,0.08)' }}>
+        <div className="rounded-2xl p-6 border mb-4" style={{ background: '#0A0A0A', borderColor: 'rgba(255,255,255,0.08)' }}>
           <div className="flex gap-2 justify-center mb-6">
             {otp.map((digit, i) => (
               <input
@@ -76,7 +76,7 @@ export default function VerifyPage() {
                 style={{
                   background: 'rgba(255,255,255,0.04)',
                   borderColor: digit ? '#4F46E5' : 'rgba(255,255,255,0.08)',
-                  color: '#E2E8F0',
+                  color: '#FFFFFF',
                   fontFamily: 'JetBrains Mono, monospace',
                 }}
               />
@@ -92,7 +92,7 @@ export default function VerifyPage() {
           </button>
         </div>
 
-        <p className="text-sm" style={{ color: '#64748B' }}>
+        <p className="text-sm" style={{ color: '#71717A' }}>
           Didn&apos;t receive it?{' '}
           <button className="font-medium hover:underline" style={{ color: '#818CF8' }}
             onClick={() => toast.success('OTP resent!')}>Resend</button>
