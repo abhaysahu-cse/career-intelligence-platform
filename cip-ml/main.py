@@ -89,7 +89,7 @@ def _get_gemini_model():
     if not api_key or genai is None:
         return None
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemini-1.5-flash"))
+    return genai.GenerativeModel(os.getenv("GEMINI_MODEL", "gemini-2.5-flash"))
 
 
 def _json_from_response(text: str) -> dict:
