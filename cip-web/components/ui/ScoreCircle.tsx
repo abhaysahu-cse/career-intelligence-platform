@@ -44,18 +44,23 @@ export default function ScoreCircle({
         <circle cx={size/2} cy={size/2} r={radius} fill="none"
           stroke="url(#sg)" strokeWidth={strokeWidth} strokeLinecap="round"
           strokeDasharray={circumference} strokeDashoffset={offset}
-          style={{ transition: 'stroke-dashoffset 0.04s linear' }} />
+          style={{ transition: 'stroke-dashoffset 0.04s linear' }}
+          filter="url(#glow)" />
         <defs>
           <linearGradient id="sg" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="#4F46E5" />
-            <stop offset="100%" stopColor="#06B6D4" />
+            <stop offset="0%" stopColor={displayed < 50 ? '#EF4444' : displayed < 80 ? '#4F46E5' : '#10B981'} />
+            <stop offset="100%" stopColor={displayed < 50 ? '#F59E0B' : displayed < 80 ? '#06B6D4' : '#4ADE80'} />
           </linearGradient>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
         </defs>
       </svg>
       {showLabel && (
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className="font-bold tabular-nums leading-none"
-            style={{ fontSize: size*0.22, fontFamily:'JetBrains Mono,monospace', color:'#E2E8F0' }}>
+            style={{ fontSize: size*0.22, fontFamily:'JetBrains Mono,monospace', color:'#F8FAFC' }}>
             {displayed}
           </span>
           {showLevel && (

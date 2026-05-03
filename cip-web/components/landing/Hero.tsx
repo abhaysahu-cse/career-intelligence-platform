@@ -13,12 +13,7 @@ import {
 } from "lucide-react";
 import AnimatedBackground from "./AnimatedBackground";
 
-const words = [
-  "Smarter Interviews",
-  "Real-Time Feedback",
-  "Skill Intelligence",
-  "Dream Careers",
-];
+
 
 const stats = [
   { value: "10K+", label: "Interviews Conducted", color: "#4F46E5" },
@@ -40,35 +35,7 @@ const sampleMessages = [
 ];
 
 export default function Hero() {
-  const [wordIndex, setWordIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [typing, setTyping] = useState(true);
 
-  useEffect(() => {
-    const word = words[wordIndex];
-    let timeout: ReturnType<typeof setTimeout>;
-    if (typing) {
-      if (displayed.length < word.length) {
-        timeout = setTimeout(
-          () => setDisplayed(word.slice(0, displayed.length + 1)),
-          60
-        );
-      } else {
-        timeout = setTimeout(() => setTyping(false), 1800);
-      }
-    } else {
-      if (displayed.length > 0) {
-        timeout = setTimeout(
-          () => setDisplayed(displayed.slice(0, -1)),
-          30
-        );
-      } else {
-        setWordIndex((i) => (i + 1) % words.length);
-        setTyping(true);
-      }
-    }
-    return () => clearTimeout(timeout);
-  }, [displayed, typing, wordIndex]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -95,38 +62,20 @@ export default function Hero() {
           </div>
         </motion.div>
 
+        {/* Halo Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-indigo-500/10 to-transparent blur-[100px] rounded-full pointer-events-none -z-10" />
+
         {/* Main heading */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="font-syne text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[0.95] mb-6 tracking-tight"
+          className="font-syne text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-wide"
         >
-          <span className="text-gradient block">Prepare. Improve.</span>
-          <span className="text-white block mt-2">Get Hired</span>
-          <span className="block mt-2 text-4xl md:text-5xl lg:text-6xl">
-            <span className="text-[#94A3B8]">with </span>
-            <span
-              className="inline-block min-w-[12px]"
-              style={{
-                background:
-                  "linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              {displayed}
-              <span
-                style={{
-                  WebkitTextFillColor: "#06B6D4",
-                  animation: "blink 1s step-end infinite",
-                  opacity: typing ? 0 : 1,
-                }}
-              >
-                |
-              </span>
-            </span>
+          <span className="text-gradient block">Your AI Career Copilot.</span>
+          <span className="text-white block mt-2">Turn Interviews into</span>
+          <span className="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
+            Offers.
           </span>
         </motion.h1>
 

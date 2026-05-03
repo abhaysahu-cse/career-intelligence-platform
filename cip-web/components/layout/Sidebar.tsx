@@ -75,19 +75,22 @@ export default function Sidebar() {
 
       {/* Score mini-badge */}
       {sidebarOpen && score && (
-        <div className="mx-3 mt-3 p-3 rounded-xl border"
-          style={{ background: 'rgba(79,70,229,0.1)', borderColor: 'rgba(79,70,229,0.2)' }}>
-          <p className="text-xs mb-1" style={{ color: '#94A3B8' }}>Readiness Score</p>
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold font-mono grad-text">{score.readiness}</span>
-            <span className="text-xs px-2 py-0.5 rounded-full"
-              style={{ background: 'rgba(79,70,229,0.2)', color: '#818CF8' }}>
-              {score.level}
-            </span>
-          </div>
-          <div className="mt-2 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-            <div className="h-full rounded-full progress-animate"
-              style={{ width: `${score.readiness}%`, background: 'linear-gradient(90deg,#4F46E5,#06B6D4)' }} />
+        <div className="mx-3 mt-3 p-3 rounded-xl border relative overflow-hidden shimmer group transition-all"
+          style={{ background: 'rgba(255,255,255,0.02)', borderColor: 'rgba(79,70,229,0.3)' }}>
+          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="relative z-10">
+            <p className="text-[11px] uppercase tracking-wider mb-1 font-semibold" style={{ color: '#CBD5E1' }}>Readiness Score</p>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold font-mono grad-text drop-shadow-[0_0_10px_rgba(79,70,229,0.4)]">{score.readiness}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full font-medium"
+                style={{ background: 'rgba(79,70,229,0.2)', color: '#818CF8', border: '1px solid rgba(79,70,229,0.3)' }}>
+                {score.level}
+              </span>
+            </div>
+            <div className="mt-2.5 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+              <div className="h-full rounded-full progress-animate"
+                style={{ width: `${score.readiness}%`, background: 'linear-gradient(90deg,#4F46E5,#06B6D4)', boxShadow: '0 0 10px rgba(79,70,229,0.6)' }} />
+            </div>
           </div>
         </div>
       )}
@@ -99,21 +102,21 @@ export default function Sidebar() {
           return (
             <Link key={item.href} href={item.href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative',
+                'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 group relative',
                 active
-                  ? 'text-white'
-                  : 'hover:bg-white/5'
+                  ? 'text-[#F8FAFC]'
+                  : 'hover:bg-white/5 hover:translate-x-1 hover:text-white'
               )}
               style={active ? {
                 background: 'linear-gradient(135deg, rgba(79,70,229,0.3), rgba(6,182,212,0.15))',
-                color: '#E2E8F0',
-              } : { color: '#64748B' }}
+                color: '#F8FAFC',
+              } : { color: '#CBD5E1' }}
             >
               {active && (
                 <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 rounded-r-full"
                   style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)' }} />
               )}
-              <item.icon size={18} className="flex-shrink-0" style={active ? { color: '#818CF8' } : {}} />
+              <item.icon size={18} className="flex-shrink-0 transition-all duration-300 group-hover:text-[#818CF8]" style={active ? { color: '#818CF8', filter: 'drop-shadow(0 0 8px rgba(79,70,229,0.8))' } : {}} />
               {sidebarOpen && (
                 <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
               )}
