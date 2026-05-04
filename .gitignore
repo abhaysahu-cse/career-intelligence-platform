@@ -15,7 +15,7 @@ venv/
 target/
 .mvn/
 
-# Env files
+# Env files (keep .env.example)
 .env
 .env.local
 .env.*.local
@@ -28,4 +28,8 @@ Thumbs.db
 
 # Uploads and generated runtime data
 uploads/
+storage/
 *.log
+
+# Test PDFs (personal data)
+*.pdf

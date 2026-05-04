@@ -21,6 +21,7 @@ import {
 import { interviewApi, mlServiceApi } from '@/lib/api';
 import { useAppStore } from '@/store';
 import AIAvatar from '@/components/interview/AIAvatar';
+import InterviewChatPanel from '@/components/interview/InterviewChatPanel';
 
 type InterviewPhase = 'setup' | 'listening' | 'processing' | 'summary';
 type PersonaMode = 'friendly' | 'strict' | 'faang';
@@ -795,6 +796,14 @@ export default function InterviewPage() {
                 <div className="text-xs" style={{ color: '#A1A1AA' }}>
                   Voice provider: {feedback.provider}. Spoken feedback plays automatically after each pause.
                 </div>
+
+                {/* AI Follow-up Coach */}
+                {question && (lastAnswer || liveTranscript) && (
+                  <InterviewChatPanel 
+                    question={question.question}
+                    lastUserAnswer={lastAnswer || liveTranscript}
+                  />
+                )}
               </div>
             ) : (
               <p className="text-sm leading-6" style={{ color: '#A1A1AA' }}>

@@ -1,114 +1,170 @@
-# AI Career Intelligence & Interview Coach
+# 🚀 Career Intelligence Platform (CIP)
 
-This repository contains a multi-service career coaching platform built around one connected flow:
+> **AI-powered career readiness system for students** — Real-time voice interview coaching, smart resume analysis, job matching, and certificate validation.
 
-`Resume -> skills -> interview coaching -> skill gaps -> job matching -> progress tracking`
+[![Java](https://img.shields.io/badge/Java-21-orange)](https://openjdk.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green)](https://spring.io/projects/spring-boot)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![Python](https://img.shields.io/badge/Python-3.11-blue)](https://python.org/)
+[![Gemini AI](https://img.shields.io/badge/Gemini-2.5-purple)](https://ai.google.dev/)
 
-The active product path has been cleaned so the real interview logic lives in the ML service, while the backend stores and aggregates results.
+---
 
-## Main apps
+## 🎯 What It Does
 
-- `cip-web` - Next.js frontend
-- `cip-backend` - Spring Boot backend services and persistence
-- `cip-ml` - FastAPI AI/ML service
-- `cip-infra` - infra support such as WebSocket and local stack pieces
+CIP is a **full-stack AI platform** that helps students prepare for job interviews and track career readiness through:
 
-## Product modules
+| Feature | Description |
+|---|---|
+| 🎤 **AI Voice Interview** | Real-time speech-to-text → AI evaluation → spoken feedback loop |
+| 📄 **Resume Analyzer** | PDF/DOCX parsing → skill extraction → gap analysis |
+| 📊 **Career Dashboard** | Readiness score, radar charts, percentile tracking |
+| 💼 **Job Matcher** | Skill-based job recommendations with match % |
+| 🏆 **Certificate Validator** | Upload & validate professional certificates |
+| 🗺️ **Learning Roadmap** | AI-generated study plans based on weak areas |
+| 🤖 **AI Interview Mentor** | Follow-up chat with context-aware coaching |
 
-1. `AI Interview Coach`
-   Voice input, pause detection, AI question generation, answer evaluation, spoken feedback, persona mode.
-2. `Skill Intelligence Engine`
-   Uses resume skills and recent interview performance to detect repeated weak areas.
-3. `Job Recommendation`
-   Uses real job data and match scores tied to skills and readiness.
-4. `Certificate Validator`
-   Upload, OCR, authenticity checks, and result display.
-5. `Progress Tracking`
-   Honest aggregates from stored attempts and scores.
+---
 
-## Architecture
+## 🏗️ Architecture (v1.0 — Full Microservices)
 
-For the interview flow, the clean path is now:
+```
+┌─────────────┐     ┌──────────────┐     ┌──────────────────┐
+│  Next.js 14  │────▶│ API Gateway  │────▶│  Microservices   │
+│  (Port 3000) │     │  (Port 8080) │     │  (8081–8089)     │
+└─────────────┘     └──────────────┘     └──────────────────┘
+                           │
+                    ┌──────┴──────┐
+                    │  FastAPI ML  │
+                    │  (Port 8000) │
+                    └─────────────┘
 
-`Frontend -> ML service (question + evaluation) -> Backend (store results) -> DB`
+Infrastructure: PostgreSQL · Redis · Kafka · Docker
+```
 
-The backend interview service is storage-only for interview sessions and answers. It no longer owns question generation or answer scoring.
+### Backend Services (Java 21 / Spring Boot 3.2)
 
-## What is already verified
+| Service | Port | Purpose |
+|---|---|---|
+| `api-gateway` | 8080 | Routing, JWT validation, rate limiting |
+| `auth-service` | 8081 | Login, signup, OTP, JWT tokens |
+| `student-service` | 8082 | Student profiles, admin panel |
+| `resume-service` | 8083 | Resume upload, PDF/DOCX parsing |
+| `score-service` | 8084 | Composite readiness scoring |
+| `analytics-service` | 8085 | Progress tracking, percentiles |
+| `interview-service` | 8086 | Interview session management |
+| `job-service` | 8087 | Job listings, skill-based matching |
+| `recommendation-service` | 8088 | Roadmaps, job recommendations |
+| `certificate-service` | 8089 | Certificate upload & validation |
 
-These checks passed locally in this workspace:
+### ML Engine (Python / FastAPI)
 
-- frontend type-check
-- frontend production build
-- backend Maven compile
-- ML Python syntax validation
+| Endpoint | Purpose |
+|---|---|
+| `/ml/resume/upload` | Resume parsing + skill extraction |
+| `/ml/interview/question` | AI question generation (Gemini) |
+| `/ml/interview/coach` | Answer evaluation + voice feedback |
+| `/ml/interview/coach` (chat) | Follow-up mentor chat |
+| `/ml/readiness` | Career readiness computation |
+| `/ml/recommend` | Job recommendation scoring |
+| `/ml/certificate/validate` | Certificate authenticity check |
 
-## What still needs live runtime verification
+### Frontend (Next.js 14 / TypeScript / Tailwind)
 
-I could not honestly mark the whole system as fully runtime-validated inside this workspace because Docker was not running during the final pass. That means the complete live chain still needs one real startup run:
+- Dashboard with readiness gauge & radar chart
+- Real-time AI voice interview with avatar
+- Profile with resume upload & skill tags
+- Job board with match percentages
+- Certificate manager with validation
+- Learning roadmap generator
 
-- browser mic -> frontend -> ML -> backend -> DB
-- resume upload -> parse -> save -> reuse in interview
-- certificate upload -> OCR/authenticity result
-- jobs page against live backend data
+---
 
-## Quick start
+## 🚀 Quick Start (Local Development)
 
 ### Prerequisites
+- Java 21, Maven 3.9+, Node.js 18+, Python 3.11+
+- Docker Desktop (for PostgreSQL, Redis, Kafka)
+- Gemini API Key
 
-- Docker Desktop
-- Node.js 18+
-- Python 3.10+
-- Java 17+
-- Maven 3.9+
-
-### Frontend env
-
-Create `cip-web/.env.local`:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8080
-NEXT_PUBLIC_ML_URL=http://localhost:8000
-NEXT_PUBLIC_WS_URL=http://localhost:3001
+### 1. Infrastructure
+```bash
+docker-compose -f cip-infra/docker-compose.yml up -d
 ```
 
-### ML env
-
-In PowerShell:
-
-```powershell
-$env:GEMINI_API_KEY="your-gemini-key"
-$env:ELEVENLABS_API_KEY="your-elevenlabs-key"   # optional
+### 2. Backend (build all services)
+```bash
+cd cip-backend && mvn clean install -DskipTests
+# Then start each service JAR individually or use start_cip.bat
 ```
 
-### Start order
-
-1. Start infra from `cip-infra`
-2. Start `cip-ml`
-3. Start backend services in `cip-backend`
-4. Start `cip-web`
-
-See:
-
-- [QUICK-START-GUIDE.md](QUICK-START-GUIDE.md)
-- [START-SERVICES-WINDOWS.md](START-SERVICES-WINDOWS.md)
-- [SETUP-AND-TEST.md](SETUP-AND-TEST.md)
-- [cip-web/README.md](cip-web/README.md)
-- [cip-backend/API_REFERENCE.md](cip-backend/API_REFERENCE.md)
-
-## GitHub readiness
-
-A root `.gitignore` is included and generated junk from the main app surface has been removed. Before pushing:
-
-1. Review local `.env` files.
-2. Make sure secrets are not committed.
-3. Run the live startup once with your real keys.
-
-## Initialize git locally
-
-```powershell
-git init
-git add .
-git status
-git commit -m "Finalize AI Career Intelligence & Interview Coach"
+### 3. ML Engine
+```bash
+cd cip-ml && pip install -r requirements.txt
+# Set GEMINI_API_KEY in .env
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
+
+### 4. Frontend
+```bash
+cd cip-web && npm install && npm run dev
+```
+
+Open **http://localhost:3000**
+
+---
+
+## 🔑 Environment Variables
+
+| Variable | Where | Example |
+|---|---|---|
+| `DB_PASSWORD` | Backend services | `cip123` |
+| `DB_PORT` | Backend services | `5433` |
+| `REDIS_PASSWORD` | Backend services | `cip-redis-pass` |
+| `GEMINI_API_KEY` | ML Engine `.env` | `AIza...` |
+| `ELEVENLABS_API_KEY` | ML Engine `.env` | (optional, for TTS) |
+
+---
+
+## 📁 Project Structure
+
+```
+career-intelligence-platform/
+├── cip-backend/          # Java microservices (Maven multi-module)
+│   ├── api-gateway/      # Spring Cloud Gateway
+│   ├── auth-service/     # Authentication & JWT
+│   ├── student-service/  # Student profiles
+│   ├── resume-service/   # Resume processing
+│   ├── score-service/    # Score aggregation
+│   ├── analytics-service/# Progress analytics
+│   ├── interview-service/# Interview sessions
+│   ├── job-service/      # Job management
+│   ├── recommendation-service/ # Roadmaps
+│   ├── certificate-service/    # Certificates
+│   └── common-lib/       # Shared DTOs, configs
+├── cip-ml/               # Python FastAPI ML engine
+│   ├── main.py           # All ML endpoints
+│   └── services/         # Resume, interview, cert engines
+├── cip-web/              # Next.js 14 frontend
+│   ├── app/              # App router pages
+│   ├── components/       # Reusable UI components
+│   ├── lib/              # API client, utilities
+│   └── store/            # Zustand state management
+├── cip-infra/            # Docker Compose, Kafka, monitoring
+├── API_ENDPOINTS.md      # Complete API reference
+├── start_cip.bat         # Windows startup script
+└── run_e2e_tests.py      # End-to-end test suite
+```
+
+---
+
+## 👤 Author
+
+**Abhay Sahu** — Computer Science & Engineering  
+Built as a capstone project demonstrating full-stack AI engineering, microservices architecture, and real-time ML integration.
+
+---
+
+## 📜 License
+
+This project is for educational and portfolio purposes.

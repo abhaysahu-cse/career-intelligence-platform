@@ -59,7 +59,7 @@ public class StorageService {
         Path dir = Paths.get(localPath, filename).getParent();
         Files.createDirectories(dir);
         Path dest = Paths.get(localPath, filename);
-        file.transferTo(dest.toFile());
+        file.transferTo(dest.toAbsolutePath().toFile());
         return "/uploads/" + filename;
     }
 }

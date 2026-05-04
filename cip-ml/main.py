@@ -531,6 +531,39 @@ async def coach_interview_answer(payload: dict):
     }
     return JSONResponse(content=response)
 
+@app.post("/ml/interview/coach", tags=["Interview"])
+async def interview_coach(payload: dict):
+    question = str(payload.get("question", "")).strip()
+    answer = str(payload.get("answer", "")).strip()
+    user_query = str(payload.get("user_query", "")).strip()
+    
+    if not user_query:
+        raise HTTPException(status_code=400, detail="User query is required")
+        
+    model = _get_gemini_model()
+    if not model:
+        return JSONResponse(content={"reply": "AI is currently offline. Please try again later."})
+        
+    prompt = f"""
+    You are an expert, encouraging AI Interview Mentor.
+    The user is practicing for a technical interview.
+    
+    Interview Question: "{question}"
+    The user's original answer: "{answer}"
+    
+    The user is asking you a follow-up question regarding their answer or the topic:
+    "{user_query}"
+    
+    Provide a helpful, direct, and constructive response. Keep it conversational but concise.
+    """
+    
+    try:
+        response = model.generate_content(prompt)
+        reply = response.text
+    except Exception as e:
+        reply = "Sorry, I'm having trouble analyzing that right now. Could you rephrase your question?"
+        
+    return JSONResponse(content={"reply": reply})
 
 @app.post("/ml/readiness", response_model=CareerReadinessResponse, tags=["Career"])
 async def career_readiness_endpoint(request: CareerReadinessRequest, background_tasks: BackgroundTasks):
