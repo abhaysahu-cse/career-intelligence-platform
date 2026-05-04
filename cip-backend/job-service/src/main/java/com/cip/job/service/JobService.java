@@ -24,7 +24,6 @@ public class JobService {
 
     private static final double SKILL_MATCH_THRESHOLD = 0.70; // 70%
 
-    @Cacheable(value = "all-jobs", key = "#page + '-' + #size")
     public Page<Job> getAllJobs(int page, int size) {
         return jobRepository.findByActiveTrue(
                 PageRequest.of(page, size, Sort.by("createdAt").descending()));

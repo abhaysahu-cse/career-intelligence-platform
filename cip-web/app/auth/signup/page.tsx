@@ -115,8 +115,8 @@ export default function SignupPage() {
               <select {...register('branch')}
                 className="w-full px-4 py-3 rounded-xl text-sm border transition-all appearance-none"
                 style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#FFFFFF' }}>
-                <option value="">Select branch</option>
-                {branches.map(b => <option key={b} value={b}>{b}</option>)}
+                <option value="" className="bg-[#0A0A0A] text-white">Select branch</option>
+                {branches.map(b => <option key={b} value={b} className="bg-[#0A0A0A] text-white">{b}</option>)}
               </select>
               {errors.branch && <p className="text-xs mt-1" style={{ color: '#EF4444' }}>{errors.branch.message}</p>}
             </div>

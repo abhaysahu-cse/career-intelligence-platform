@@ -9,6 +9,9 @@ import sys
 import time
 from typing import Optional
 
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file (GEMINI_API_KEY, ELEVENLABS_API_KEY, etc.)
+
 import httpx
 import uvicorn
 from fastapi import BackgroundTasks, FastAPI, File, HTTPException, UploadFile
